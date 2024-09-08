@@ -1,0 +1,93 @@
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mt-0 header-title">Notifications</h4>
+            <div class="d-flex justify-content-between">
+                <h6>
+                    <button (click)="tableRefresh()" type="button" class="btn btn-primary waves-effect waves-light"><i
+                        class="fe-refresh-ccw me-1"></i> Refresh Table</button>
+                </h6>
+                <h6>
+                    <button (click)="addNewNotification()" type="button" class="btn btn-success waves-effect waves-light"><i
+                        class="fe-plus me-1"></i> Add Notification</button>
+                </h6>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>From</th>
+                            <th>Time</th>
+                            <th>Message</th>
+                            <th>Add By</th>
+                            <th>Forwatd To</th>
+                            <th>From</th>
+                            <th>Date Added</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <ng-container *ngIf="!isPaginating">
+                        <ng-container *ngIf="notification$ | async as LeadData; else loadingTemplate">
+                            <tbody>
+                                <tr *ngFor="let item of LeadData.result.data; let i=index">
+                                    <th scope="row">{{ i + 1 }}</th>
+                                    <td>{{ item.fromFirstName + ' ' + item.fromLastName }}</td>
+                                    <td>{{ item.time }}</td>
+                                    <td>{{ item.message }}</td> 
+                                    <td>{{ item.addBy }}</td>
+                                    <td>{{ item.forwardTo }}</td>
+                                    <td>{{ item.fromTime | date: 'short' }}</td>
+                                    <td>{{ item.dateAdded | date: 'short' }}</td>
+                                    <td>
+                                        <button (click)="editnotification(item)" type="button" class="btn btn-info waves-effect waves-light"><i
+                                            class="fe-edit-1 me-1"></i></button>
+                                    </td>
+                                    <td>
+                                        <button (click)="deletenotification(item.id)" type="button" class="btn btn-danger waves-effect waves-light"><i
+                                            class="fe-trash me-1"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-template #loadingTemplate>
+                        <tbody>
+                            <tr>
+                                <th scope="row" colspan="1">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </ng-template>
+
+                    <ng-container *ngIf="isPaginating">
+                        <tbody>
+                            <tr>
+                                <th scope="row" colspan="1">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </ng-container>
+                    
+                </table>
+
+                <ngb-pagination class="d-flex mt-3" style="overflow: auto;" [collectionSize]="totalData" [pageSize]="pageSize" [(page)]="page" (pageChange)="onPageChange($event)">
+                    <ng-template ngbPaginationPrevious>Prev</ng-template>
+                    <ng-template ngbPaginationNext>Next</ng-template>
+                </ngb-pagination>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

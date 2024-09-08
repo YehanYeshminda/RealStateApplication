@@ -1,0 +1,128 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="info-box">
+                    <button type="button" class="btn btn-block btn-info btn-flat" (click)="navigate()">
+                        <i class="fas fa-plus"> </i> &nbsp; Add Payment Schedule
+                    </button>
+                    <!-- /.info-box-content -->
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Payment Schedule</span>
+                        <span class="info-box-number">
+                            {{ (paymentScheduleInfo$ | async)?.result?.length }}
+
+                            <small>Payment Schedule</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Disactive Payment Schedule</span>
+                        <span class="info-box-number">
+                            {{ activeCount }}
+                            <small>Payment Schedule</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="data_table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+                <div class="col-sm-12 table-responsive">
+                    <table id="example1" class="table table-bordered table-striped dataTable dtr-inline"
+                        aria-describedby="data_table_info">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th class="sorting sorting_asc" tabindex="0" aria-controls="data_table" rowspan="1"
+                                    colspan="1" aria-sort="ascending">
+                                    Id
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Date
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Vender
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Reason
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Rxpaccount
+                                </th>
+
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Amount
+                                </th>
+
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    PaidOn
+                                </th>
+
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Renewevery
+                                </th>
+
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Renewstatus
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Status
+                                </th>
+
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container
+                                *ngIf="paymentScheduleInfo$ | async as paymentScheduleData; else loadingTemplate">
+                                <tr *ngFor="let grnH of paymentScheduleData.result; let i = index" #rowRef>
+                                    <td class="direct-chat-img-container">
+                                        <img src="assets/h.png" alt="" class="direct-chat-img" />
+                                    </td>
+                                    <td class="dtr-control sorting_1" tabindex="0">
+                                        {{ grnH.PaymentScheduleNo }}
+                                    </td>
+                                    <td>{{ grnH.Date | date : 'dd/MM/yyyy' }}</td>
+                                    <td>{{ grnH.SupplierName }}</td>
+                                    <td>{{ grnH.reason }}</td>
+                                    <td>{{ grnH.rxpaccount }}</td>
+                                    <td>{{ grnH.amount }}</td>
+                                    <td>{{ grnH.paidon | date : 'dd/MM/yyyy' }}</td>
+                                    <td>{{ grnH.renewevery }}</td>
+                                    <td>{{ grnH.renewstatus }}</td>
+                                    <td>{{ grnH.status }}</td>
+                                    <td>
+                                        <button class="btn btn-info input-response smaller-btn"
+                                            (click)="editGrnH(grnH)">
+                                            Edit
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+
+                            <ng-template #loadingTemplate>
+                                <ngx-spinner type="line-scale"></ngx-spinner>
+                            </ng-template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

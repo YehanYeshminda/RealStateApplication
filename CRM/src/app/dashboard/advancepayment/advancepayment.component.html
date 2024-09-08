@@ -1,0 +1,295 @@
+<section class="content">
+	<div class="card">
+		<div class="card-header">
+			<h3 class="card-title">Advance Payment</h3>
+		</div>
+		<div class="card-body">
+			<form [formGroup]="form">
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Invoice No</label>
+					<div class="col-sm-4">
+						<input
+							type="text"
+							class="form-control"
+							[formControlName]="isEditMode ? 'id' : 'advno'"
+							readonly
+						/>
+					</div>
+
+					<label class="col-sm-2 col-form-label">Date</label>
+					<div class="col-sm-4">
+						<div class="input-group mb-3">
+							<input type="date" class="form-control" formControlName="date"
+								[ngClass]="{'is-invalid': form.get('date')?.invalid && (form.get('date')?.dirty || form.get('date')?.touched)}"
+							>
+							<button class="input-group-text increase" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'date'">
+							  <i class="fa fa-plus"></i>
+							</button>
+							<button class="input-group-text decrease" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'date'">
+							  <i class="fa fa-minus"></i>
+							</button>
+							<div *ngIf="form?.get('date')?.hasError('required') && form?.get('date')?.touched" class="text-danger">
+								Date is required.
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label category-label" (click)="Navigateto(true)" style="color: blue;">Sales By</label>
+					<div class="col-sm-4">
+						<select
+							class="form-control"
+							formControlName="salesby"
+							*ngIf="salestype$ | async as items"
+							[ngClass]="{
+								'is-invalid':
+								form.get('salesby')?.invalid &&
+								(form.get('salesby')?.dirty || form.get('salesby')?.touched)
+							}"
+							>
+							<option *ngFor="let item of items" [value]="item.value">
+								{{ item.textValue }}
+							</option>
+						</select>
+						<div *ngIf="form?.get('salesby')?.hasError('required') && form?.get('salesby')?.touched" class="text-danger">
+							Sales by is required.
+						</div>
+					</div>
+
+                    <label class="col-sm-2 col-form-label">Customer Name</label>
+					<div class="col-sm-4">
+						<select
+							class="form-control"
+							formControlName="customer"
+							*ngIf="custtype$ | async as items"
+							[ngClass]="{
+								'is-invalid':
+								form.get('customer')?.invalid &&
+								(form.get('customer')?.dirty || form.get('customer')?.touched)
+							}"
+							>
+							<option *ngFor="let item of items" [value]="item.value">
+								{{ item.textValue }}
+							</option>
+						</select>
+						<div *ngIf="form?.get('customer')?.hasError('required') && form?.get('customer')?.touched" class="text-danger">
+							Customer is required.
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Address</label>
+					<div class="col-sm-4">
+                        <textarea 
+                            class="form-control"
+							formControlName="address"
+                            rows="4"
+							[ngClass]="{
+								'is-invalid':
+								form.get('address')?.invalid &&
+								(form.get('address')?.dirty || form.get('address')?.touched)
+							}"
+                        ></textarea>
+						<div *ngIf="form?.get('address')?.hasError('required') && form?.get('address')?.touched" class="text-danger">
+							Address is required.
+						</div>
+					</div>
+					
+                    <label
+						class="col-sm-2 col-form-label"
+                    >Description</label >
+                    <div class="col-sm-4">
+                        <textarea 
+                            class="form-control"
+							formControlName="description"
+                            rows="4"
+							[ngClass]="{
+								'is-invalid':
+								form.get('description')?.invalid &&
+								(form.get('description')?.dirty || form.get('description')?.touched)
+							}"
+                        ></textarea>
+						<div *ngIf="form?.get('description')?.hasError('required') && form?.get('description')?.touched" class="text-danger">
+							Description is required.
+						</div>
+                    </div>
+				</div>
+				
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Cash Paid</label>
+					<div class="col-sm-4">
+						<input
+							type="text"
+							class="form-control"
+							formControlName="cashpaid"
+							[ngClass]="{
+								'is-invalid':
+								form.get('cashpaid')?.invalid &&
+								(form.get('cashpaid')?.dirty || form.get('cashpaid')?.touched)
+							}"
+						/>
+						<div *ngIf="form?.get('cashpaid')?.hasError('required') && form?.get('cashpaid')?.touched" class="text-danger">
+							Cash paid is required.
+						</div>
+					</div>
+
+					
+					<label class="col-sm-2 col-form-label">Payment For</label
+					>
+					<div class="col-sm-4">
+						<select
+							class="form-control"
+							formControlName="paymentfor"
+							*ngIf="propreg$ | async as items"
+							[ngClass]="{
+								'is-invalid':
+								form.get('paymentfor')?.invalid &&
+								(form.get('paymentfor')?.dirty || form.get('paymentfor')?.touched)
+							}"
+							>
+							<option *ngFor="let item of items" [value]="item.value">
+								{{ item.textValue }}
+							</option>
+						</select>
+						<div *ngIf="form?.get('paymentfor')?.hasError('required') && form?.get('paymentfor')?.touched" class="text-danger">
+							Payment for is required.
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Cheque Paid</label>
+					<div class="col-sm-4">
+						<input
+							type="text"
+							class="form-control"
+							formControlName="chequepaid"
+							[ngClass]="{
+								'is-invalid':
+								form.get('chequepaid')?.invalid &&
+								(form.get('chequepaid')?.dirty || form.get('chequepaid')?.touched)
+							}"
+						/>
+						<div *ngIf="form?.get('chequepaid')?.hasError('required') && form?.get('chequepaid')?.touched" class="text-danger">
+							Cheque paid is required.
+						</div>
+					</div>
+
+					<label class="col-sm-2 col-form-label">Cheque No</label>
+					<div class="col-sm-4">
+						<select
+							class="form-control"
+							formControlName="chequeno"
+							*ngIf="reccheq$ | async as items"
+							[ngClass]="{
+								'is-invalid':
+								form.get('chequeno')?.invalid &&
+								(form.get('chequeno')?.dirty || form.get('chequeno')?.touched)
+							}"
+							>
+							<option *ngFor="let item of items" [value]="item.value">
+								{{ item.textValue }}
+							</option>
+						</select>
+						<div *ngIf="form?.get('chequeno')?.hasError('required') && form?.get('chequeno')?.touched" class="text-danger">
+							Cheque number is required.
+						</div>
+					</div>					
+				</div>
+
+
+				<div class="form-group row">
+					<label
+						class="col-sm-2 col-form-label"
+						>Card Paid</label
+					>
+					<div class="col-sm-4">
+						<input
+							type="text"
+							class="form-control"
+							formControlName="cardpaid"
+							[ngClass]="{
+								'is-invalid':
+								form.get('cardpaid')?.invalid &&
+								(form.get('cardpaid')?.dirty || form.get('cardpaid')?.touched)
+							}"
+						/>
+						<div *ngIf="form?.get('cardpaid')?.hasError('required') && form?.get('cardpaid')?.touched" class="text-danger">
+							Card paid is required.
+						</div>
+					</div>
+					<label						
+						class="col-sm-2 col-form-label"
+						>Card Bank</label
+					>
+					<div class="col-sm-4">
+						<select
+							class="form-control"
+							formControlName="cardbank"
+							*ngIf="accounttype$ | async as items"
+							[ngClass]="{
+								'is-invalid':
+								form.get('cardbank')?.invalid &&
+								(form.get('cardbank')?.dirty || form.get('cardbank')?.touched)
+							}"
+							>
+							<option *ngFor="let item of items" [value]="item.value.toString()">
+								{{ item.textValue }}
+							</option>
+						</select>
+						<div *ngIf="form?.get('cardbank')?.hasError('required') && form?.get('cardbank')?.touched" class="text-danger">
+							Card bank is required.
+						</div>
+					</div>
+				</div>
+
+
+				<div class="form-group row">					
+                    <label
+                        
+                        class="col-sm-2 col-form-label"
+                    >Total Amount</label >
+                    <div class="col-sm-4">
+						<input
+							type="text"
+							class="form-control"
+							formControlName="totalpaid"
+							readonly
+						/>
+                    </div>
+
+					<div class="col-sm-6"></div>
+				</div>
+
+                <div class="form-group row">
+                    <div class="col-sm-2"></div>
+    
+                    <div class="col-sm-2">
+						<button
+							type="submit" 
+							class="btn btn-block w-100"
+							style="background-color: #5f8286; color: white;"
+							[disabled]="!form.valid"
+							(click)="addEditItems()" 
+						> 
+						<i class="fa fa-save"></i> {{ isEditMode ? 'Update' : 'Save' }}
+						</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button
+                            type="submit" 
+                            class="btn btn-block w-100"
+                            style="background-color: #5f8286; color: white;"
+							routerLink="/dashboard/advancepaymentlist"
+                            >
+                            List
+                        </button>
+                    </div>
+    
+                </div>
+			</form>
+		</div>
+	</div>
+</section>

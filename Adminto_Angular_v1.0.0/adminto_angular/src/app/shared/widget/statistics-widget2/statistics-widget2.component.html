@@ -1,0 +1,17 @@
+<div class="card">
+    <div class="card-body">
+        <h4 class="header-title mt-0 mb-3">{{title}}</h4>
+
+        <div class="widget-box-2">
+            <div class="widget-detail-2 text-end">
+                <span class="badge bg-{{variant}} rounded-pill float-start mt-3">{{trendStats | number}}% <i
+                        class="mdi mdi-trending-{{trendIcon}}"></i>
+                </span>
+                <h2 class="fw-normal mb-1"> {{stats}} </h2>
+                <p class="text-muted mb-3">{{subTitle}}</p>
+            </div>
+            <ngb-progressbar [type]="variant" [value]="progress" class=" progress-bar-alt-{{variant}} progress-sm">
+            </ngb-progressbar>
+        </div>
+    </div>
+</div>

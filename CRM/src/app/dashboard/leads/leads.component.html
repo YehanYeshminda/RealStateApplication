@@ -1,0 +1,236 @@
+<section class="content">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">{{isEditMode ? 'Edit' : 'Add'}} {{isEditMode ? 'Existing' : 'New'}} Lead</h3>
+      <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+          <i class="fas fa-minus"></i>
+        </button>
+        <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Lead No</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" readonly formControlName="leadno" />
+          </div>
+
+          <div class="col-6"></div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label category-label" style="color: blue;"
+            (click)="NavigatetoSource(true)">Source No</label>
+          <ng-container *ngIf="sourceNos$ | async as data; else loadingComboTemplate">
+            <ng-container *ngIf="data.length > 0; else noBankTemplate">
+              <div class="col-sm-10">
+                <select class="form-control" formControlName="sourceid">
+                  <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                </select>
+              </div>
+            </ng-container>
+
+            <ng-template #noBankTemplate>
+              <div class="col-sm-10">
+                <select class="form-control">
+                  <option>No Sources...</option>
+                </select>
+              </div>
+            </ng-template>
+          </ng-container>
+
+          <ng-template #loadingComboTemplate>
+            <div class="col-sm-4">
+              <select class="form-control">
+                <option>Loading...</option>
+              </select>
+            </div>
+          </ng-template>
+
+          <ng-container *ngIf="isCampaign">
+            <label class="col-sm-2 col-form-label mt-3">Campaign No</label>
+            <ng-container *ngIf="campaignNos$ | async as data; else loadingComboTemplate">
+              <ng-container *ngIf="data.length > 0; else noBankTemplate">
+                <div class="col-sm-10 mt-3">
+                  <select class="form-control" formControlName="campainid">
+                    <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                  </select>
+                </div>
+              </ng-container>
+
+              <ng-template #noBankTemplate>
+                <div class="col-sm-10 mt-3">
+                  <select class="form-control">
+                    <option>No Source...</option>
+                  </select>
+                </div>
+              </ng-template>
+            </ng-container>
+          </ng-container>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Name</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control"
+              [ngClass]="{'is-invalid': form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)}"
+              formControlName="name" />
+            <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)"
+              class="invalid-feedback">
+              <div *ngIf="form.get('name')?.errors?.['required']">Name is required.</div>
+              <div *ngIf="form.get('name')?.errors?.['maxlength']">Maximum Character count
+                passed!</div>
+              <div *ngIf="form.get('name')?.errors?.['pattern']">Only numbers are possible!
+              </div>
+            </div>
+          </div>
+
+          <label class="col-sm-2 col-form-label">Phone No</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control"
+              [ngClass]="{'is-invalid': form.get('phone')?.invalid && (form.get('phone')?.dirty || form.get('phone')?.touched)}"
+              formControlName="phone" />
+            <div *ngIf="form.get('phone')?.invalid && (form.get('phone')?.dirty || form.get('phone')?.touched)"
+              class="invalid-feedback">
+              <div *ngIf="form.get('phone')?.errors?.['required']">Phone is required.</div>
+              <div *ngIf="form.get('phone')?.errors?.['maxlength']">Maximum Character count
+                passed!</div>
+              <div *ngIf="form.get('phone')?.errors?.['pattern']">Only numbers are possible!
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Email</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" formControlName="email"
+              [ngClass]="{'is-invalid': form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)}" />
+            <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)"
+              class="invalid-feedback">
+              <div *ngIf="form.get('email')?.errors?.['required']">Email is required.</div>
+              <div *ngIf="form.get('email')?.errors?.['email']">Invalid Email</div>
+              <div *ngIf="form.get('email')?.errors?.['pattern']">Only numbers are possible!
+              </div>
+            </div>
+          </div>
+
+          <label class="col-sm-2 col-form-label">Assigned To</label>
+          <ng-container *ngIf="staffNos$ | async as data; else loadingComboTemplate">
+            <ng-container *ngIf="data.length > 0; else noBankTemplate">
+              <div class="col-sm-4">
+                <select class="form-control" formControlName="assignedTo">
+                  <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                </select>
+              </div>
+            </ng-container>
+
+            <ng-template #noBankTemplate>
+              <div class="col-sm-4">
+                <select class="form-control">
+                  <option>No Staff...</option>
+                </select>
+              </div>
+            </ng-template>
+          </ng-container>
+        </div>
+
+        <div class="form-group row">
+          <ng-container *ngIf="isEditMode">
+            <label class="col-sm-2 col-form-label category-label" style="color: blue;"
+              (click)="Navigatetoleadstatus(true)">Lead Status</label>
+            <ng-container *ngIf="leadStatus$ | async as data; else loadingComboTemplate">
+              <ng-container *ngIf="data.length > 0; else noBankTemplate">
+                <div class="col-sm-4">
+                  <select class="form-control" formControlName="leadStatus">
+                    <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                  </select>
+                </div>
+              </ng-container>
+
+              <ng-template #noBankTemplate>
+                <div class="col-sm-4">
+                  <select class="form-control">
+                    <option>No Lead Status...</option>
+                  </select>
+                </div>
+              </ng-template>
+            </ng-container>
+          </ng-container>
+
+          <label class="col-sm-2 col-form-label category-label" style="color: blue;"
+            (click)="NavigatetoPreffered(true)">Prefered Contact Method</label>
+          <ng-container *ngIf="PreferedContactMethod$ | async as data; else loadingComboTemplate">
+            <ng-container *ngIf="data.length > 0; else noBankTemplate">
+              <div class="col-sm-4">
+                <select class="form-control"
+                  [ngClass]="{'is-invalid': form.get('contactMethod')?.invalid && (form.get('contactMethod')?.dirty || form.get('contactMethod')?.touched)}"
+                  formControlName="contactMethod">
+                  <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                </select>
+
+                <div
+                  *ngIf="form.get('contactMethod')?.invalid && (form.get('contactMethod')?.dirty || form.get('contactMethod')?.touched)"
+                  class="invalid-feedback">
+                  <div *ngIf="form.get('contactMethod')?.errors?.['required']">ContactMethod is required.</div>
+                  <div *ngIf="form.get('contactMethod')?.errors?.['contactMethod']">Invalid contactMethod</div>
+                  <div *ngIf="form.get('contactMethod')?.errors?.['pattern']">Only numbers are possible!
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+
+            <ng-template #noBankTemplate>
+              <div class="col-sm-4">
+                <select class="form-control">
+                  <option>No Contact Methods...</option>
+                </select>
+              </div>
+            </ng-template>
+          </ng-container>
+
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Client Profile</label>
+          <div class="col-sm-4">
+            <textarea class="form-control" formControlName="otherno" name="id"
+              [ngClass]="{'is-invalid': form.get('otherno')?.invalid && (form.get('otherno')?.dirty || form.get('otherno')?.touched)}"
+              rows="6"></textarea>
+            <div *ngIf="form.get('otherno')?.invalid && (form.get('otherno')?.dirty || form.get('otherno')?.touched)"
+              class="invalid-feedback">
+              <div *ngIf="form.get('otherno')?.errors?.['required']">Otherno is required.</div>
+              <div *ngIf="form.get('otherno')?.errors?.['otherno']">Invalid otherno</div>
+              <div *ngIf="form.get('otherno')?.errors?.['pattern']">Only numbers are possible!
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6"></div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-2">
+            <button type="submit" [disabled]="form.invalid || !(isAddAllowed$ | async)" class="btn btn-block w-100"
+              style="background-color: #5f8286; color: white;">
+              {{isEditMode ? 'Edit Existing Lead' : 'Insert Lead'}}
+            </button>
+          </div>
+          <div class="col-sm-2">
+            <a routerLink="/dashboard/leadslist" class="btn btn-block w-100"
+              style="background-color: #5f8286; color: white;">
+              List
+            </a>
+          </div>
+          <div class="col-sm-8"></div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</section>

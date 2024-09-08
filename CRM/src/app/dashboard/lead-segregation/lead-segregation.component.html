@@ -1,0 +1,205 @@
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Lead Segregation / Unassigned Leads</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-sm-4">
+                    <div class="grid-container">
+                        <div class="grid-body">
+                            <ng-container *ngIf="leadNo$ | async as data; else loadingTemplate">
+                                <ng-container *ngIf="data.length > 0; else noLeadData">
+                                    <div class="checkBoxContainer" *ngFor="let item of data">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox"
+                                                (click)="selectedLeads(item.value)" id="flexCheckDefault">
+                                            <label class="form-check-label">
+                                                {{ item.textValue }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                                <ng-template #noLeadData>
+                                    <div class="checkBoxContainer">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                No Unassigned Leads
+                                            </label>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ng-container>
+
+                            <ng-template #loadingTemplate>
+                                <div class="checkBoxContainer">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            Loading Leads...
+                                        </label>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+
+                    <div class="flex-container">
+                        <ng-container *ngIf="leadNo$ | async as data; else loadingCount">
+                            <div class="">
+                                Count: {{ data.length }}
+                            </div>
+                        </ng-container>
+
+                        <ng-template #loadingCount>
+                            <div class="">
+                                Loading Count...
+                            </div>
+                        </ng-template>
+
+                        <div class="">
+                            Selected Count: {{ selectedNo }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mt-3 mt-sm-0 col-sm-8">
+                    <form [formGroup]="form">
+                        <div class="form-group">
+                            <label class="col-sm-2 col-form-label">Staff</label>
+                            <ng-container *ngIf="staffNos$ | async as data; else loadingComboTemplate">
+                                <ng-container *ngIf="data.length > 0; else noBankTemplate">
+                                    <div class="col-sm-12">
+                                        <select
+                                            [ngClass]="{'is-invalid': form.get('staffid')?.invalid && (form.get('staffid')?.dirty || form.get('staffid')?.touched)}"
+                                            class="form-control" formControlName="staffid">
+                                            <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}
+                                            </option>
+                                        </select>
+
+                                        <div *ngIf="form.get('staffid')?.invalid && (form.get('staffid')?.dirty || form.get('staffid')?.touched)"
+                                            class="invalid-feedback">
+                                            <div *ngIf="form.get('staffid')?.errors?.['required']">Staff Id is required.
+                                            </div>
+                                            <div *ngIf="form.get('staffid')?.errors?.['staffid']">Invalid staffid</div>
+                                            <div *ngIf="form.get('staffid')?.errors?.['pattern']">Only numbers are
+                                                possible!
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                                <ng-template #noBankTemplate>
+                                    <div class="col-sm-12">
+                                        <select class="form-control">
+                                            <option>No Staff...</option>
+                                        </select>
+                                    </div>
+                                </ng-template>
+                            </ng-container>
+
+                            <ng-template #loadingComboTemplate>
+                                <div class="col-sm-12">
+                                    <select class="form-control">
+                                        <option>Loading...</option>
+                                    </select>
+                                </div>
+                            </ng-template>
+
+                            <label class="col-sm-2 col-form-label mt-4">Remark</label>
+                            <div class="col-sm-12">
+                                <textarea class="form-control" formControlName="remark"
+                                    [ngClass]="{'is-invalid': form.get('remark')?.invalid && (form.get('remark')?.dirty || form.get('remark')?.touched)}">
+                                </textarea>
+
+                                <div *ngIf="form.get('remark')?.invalid && (form.get('remark')?.dirty || form.get('remark')?.touched)"
+                                    class="invalid-feedback">
+                                    <div *ngIf="form.get('remark')?.errors?.['required']">Remark is required.
+                                    </div>
+                                    <div *ngIf="form.get('remark')?.errors?.['remark']">Invalid remark</div>
+                                    <div *ngIf="form.get('remark')?.errors?.['pattern']">Only numbers are
+                                        possible!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4"></div>
+                            <div class="col-4">
+                                <button class="btn btn-primary leadassign-btn" type="button"
+                                    [disabled]="form.invalid || selectedNo == 0 || !(isAddAllowedToAssign$ | async)"
+                                    (click)="assignLeads()">Assign Lead</button>
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-primary leadassign-btn" (click)="removeLeads()"
+                                    [disabled]="form.invalid || selectedNo == 0 || !(isAddAllowedToRemove$ | async)"
+                                    type="button">UnAssign Lead</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <ng-container *ngIf="leadMode">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Lead</th>
+                    <th scope="col">Staff</th>
+                    <th scope="col">Add by</th>
+                    <th scope="col">Add on</th>
+                    <th scope="col">Allocation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="leadsByStaff$ | async as data; else loadingLeads">
+                    <ng-container *ngIf="data.result.length > 0;else noLeadsAssigned">
+                        <tr *ngFor="let item of data.result">
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.lead }}</td>
+                            <td>{{ item.staff }}</td>
+                            <td>{{ item.addBy }}</td>
+                            <td>{{ item.addOn | date: 'short' }}</td>
+                            <td>
+                                <ng-container *ngIf="item.status === 1; else unAllocatedBtn">
+                                    <button class="btn btn-success w-50" type="button">Allocated</button>
+                                </ng-container>
+
+                                <ng-template #unAllocatedBtn>
+                                    <button class="btn btn-danger w-50" type="button">Not Allocated</button>
+                                </ng-template>
+                            </td>
+                        </tr>
+                    </ng-container>
+
+                    <ng-template #noLeadsAssigned>
+                        <tr>
+                            <td colspan="4">No Leads Assigned to this Staff...</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </ng-template>
+                </ng-container>
+
+                <ng-template #loadingLeads>
+                    <tr>
+                        <td colspan="4">Loading...</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </ng-template>
+            </tbody>
+        </table>
+    </ng-container>
+</section>

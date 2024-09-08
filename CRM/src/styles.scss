@@ -1,0 +1,26 @@
+
+* {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.main-content {
+    background-color: rgba(255, 255, 255, 0.824);
+}
+
+.responsive-btn {
+    width: 25%;
+}
+
+@media (max-width: 576px) {
+    .responsive-btn {
+        width: 100%;
+    }
+}
+
+td {
+    font-size: small;
+}
+
+th {
+    font-size: small;
+}

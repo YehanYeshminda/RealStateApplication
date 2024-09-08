@@ -1,0 +1,214 @@
+<section class="content">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Agreement Reminder</h3>
+        <div class="card-tools">
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="collapse"
+            title="Collapse"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="remove"
+            title="Remove"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="form">
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"
+                >No</label
+                >
+                <div class="col-sm-4">
+                    <input
+                        type="text"
+                        class="form-control"
+                        [formControlName]="isEditMode ? 'id' : 'agreeno'"
+                        readonly
+                    />
+                </div>
+                
+                <label  class="col-sm-2 col-form-label"
+                >Date</label
+                >
+                <div class="col-sm-4">
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" formControlName="date">
+                        <button class="input-group-text increase" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'date'">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                        <button class="input-group-text decrease" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'date'">
+                          <i class="fa fa-minus"></i>
+                        </button> 
+                        <div *ngIf="form?.get('date')?.hasError('required') && form?.get('date')?.touched" class="text-danger">
+                            Valid till date is required.
+                        </div>  
+                    </div>  
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-sm-2 col-form-label"
+                >Customer</label
+                >
+                <div class="col-sm-4">
+                    <select
+                        class="form-control"
+                        formControlName="custcode"
+                        *ngIf="cust$ | async as items"
+                        [ngClass]="{
+                            'is-invalid':
+                            form.get('custcode')?.invalid &&
+                            (form.get('custcode')?.dirty || form.get('custcode')?.touched)
+                        }"
+                        >
+                        <option *ngFor="let item of items" [value]="item.value">
+                            {{ item.textValue }}
+                        </option>
+                    </select>
+                    <div *ngIf="form?.get('custcode')?.hasError('required') && form?.get('custcode')?.touched" class="text-danger">
+                        Select the customer.
+                    </div>
+                </div>
+
+                <label  class="col-sm-2 col-form-label category-label" (click)="Navigateto(true)" style="color: blue;"
+                >Agreement Type</label
+                >
+                <div class="col-sm-4">
+                    <select
+                        class="form-control"
+                        formControlName="agreementtype"
+                        *ngIf="agreementype$ | async as items"
+                        [ngClass]="{
+                            'is-invalid':
+                            form.get('agreementtype')?.invalid &&
+                            (form.get('agreementtype')?.dirty || form.get('agreementtype')?.touched)
+                        }"
+                    >
+                        <option *ngFor="let item of items" [value]="item.value">
+                            {{ item.textValue }}
+                        </option>
+                    </select>
+                    <div *ngIf="form?.get('agreementtype')?.hasError('required') && form?.get('agreementtype')?.touched" class="text-danger">
+                        Agrrement type is required.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group row" style="margin-top: 15px;">
+                <label  class="col-sm-2 col-form-label"
+                >End Date</label
+                >
+                <div class="col-sm-4">
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" formControlName="enddate">
+                        <button class="input-group-text increase" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'enddate'">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                        <button class="input-group-text decrease" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'enddate'">
+                          <i class="fa fa-minus"></i>
+                        </button> 
+                        <div *ngIf="form?.get('enddate')?.hasError('required') && form?.get('enddate')?.touched" class="text-danger">
+                            Valid till date is required.
+                        </div>  
+                    </div>  
+                </div>
+                
+                <label  class="col-sm-2 col-form-label"
+                >Remind On</label
+                >
+                <div class="col-sm-4">
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" formControlName="remindon">
+                        <button class="input-group-text increase" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'remindon'">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                        <button class="input-group-text decrease" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'remindon'">
+                          <i class="fa fa-minus"></i>
+                        </button> 
+                        <div *ngIf="form?.get('remindon')?.hasError('required') && form?.get('remindon')?.touched" class="text-danger">
+                            Remind on date is required.
+                        </div>  
+                    </div>  
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"
+                >Remarks</label
+                >
+                <div class="col-sm-10">
+                    <textarea
+                        class="form-control"
+                        rows="4"
+                        formControlName="remarks"
+                        [ngClass]="{
+                            'is-invalid':
+                            form.get('remarks')?.invalid &&
+                            (form.get('remarks')?.dirty || form.get('remarks')?.touched)
+                        }">
+                    </textarea>
+                    <div *ngIf="form?.get('remarks')?.hasError('required') && form?.get('remarks')?.touched" class="text-danger">
+                        Remarks is required.
+                    </div>  
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-4" style="margin-top: 10px;">
+                    <div class="form-check">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            #status
+                            (change)="updateCheckboxValue('status', status.checked)"
+                            formControlName="status"
+                        />
+                        <label class="form-check-label" >Remove</label>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+
+                <div class="col-sm-2">
+                    <button
+                        type="submit" 
+                        class="btn btn-block w-100"
+                        style="background-color: #5f8286; color: white;"
+                        [disabled]="!form.valid"
+                        (click)="addEditItems()" 
+                    > 
+                    <i class="fa fa-save"></i> {{ isEditMode ? 'Update' : 'Save' }}
+                    </button>
+                </div>
+                <div class="col-sm-2">
+                    <button
+                        type="submit" 
+                        class="btn btn-block w-100"
+                        style="background-color: #5f8286; color: white;"
+                        routerLink="/dashboard/agreementreminderslist"
+                        >
+                        List
+                    </button>
+                </div>
+
+            </div>
+        </form>
+      </div>
+  
+    </div>
+  </section>
+  

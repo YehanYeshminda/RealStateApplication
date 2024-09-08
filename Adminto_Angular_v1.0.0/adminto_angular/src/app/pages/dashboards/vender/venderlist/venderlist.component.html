@@ -1,0 +1,97 @@
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mt-0 header-title">Venders</h4>
+            <div class="d-flex justify-content-between">
+                <button (click)="tableRefresh()" type="button" class="btn btn-primary waves-effect waves-light"><i
+                    class="fe-refresh-ccw me-1"></i> Refresh Table
+                </button>
+
+                <button class="btn btn-success" type="button" routerLink="/dashboard/vender">
+                    <i class="fe-plus"></i> Add New Vender
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th> Supplier Name </th>
+                            <th> Address </th>
+                            <th> Phone </th>
+                            <th> Fax </th>
+                            <th> Email </th>
+                            <th> Mobile </th>
+                            <th> Credit Period </th>
+                            <th> Staff </th>
+                            <th> Status </th>
+                            <th> Vat No </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <ng-container *ngIf="!isPaginating">
+                        <ng-container *ngIf="venderinfo$ | async as items; else loadingTemplate">
+                            <tbody>
+                                <tr *ngFor="let item of items.result.data; let i=index">
+                                    <th scope="row">{{ i + 1 }}</th>
+                                    <td>{{ item.supplierName }}</td>
+                                    <td>{{ item.address }}</td>
+                                    <td>{{ item.phone }}</td>
+                                    <td>{{ item.fax }}</td>
+                                    <td>{{ item.email }}</td>
+                                    <td>{{ item.mobile }}</td>
+                                    <td>{{ item.creditPeriod }}</td>
+                                    <td>{{ item.staff }}</td>
+                                    <td>{{ item.status }}</td>
+                                    <td>{{ item.vatNo }}</td>
+                                    <td>
+                                        <button (click)="editvender(item)" type="button" class="btn btn-info waves-effect waves-light"><i
+                                            class="fe-edit-1 me-1"></i></button>
+                                    </td>
+                                    <!-- <td>
+                                        <button (click)="deletevender(item.supplierId)" type="button" class="btn btn-danger waves-effect waves-light"><i
+                                            class="fe-trash me-1"></i></button>
+                                    </td> -->
+                                </tr>
+                            </tbody>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-template #loadingTemplate>
+                        <tbody>
+                            <tr>
+                                <th scope="row" colspan="1">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </ng-template>
+
+                    <ng-container *ngIf="isPaginating">
+                        <tbody>
+                            <tr>
+                                <th scope="row" colspan="1">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </ng-container>
+                    
+                </table>
+
+                <ngb-pagination class="d-flex mt-3" style="overflow: auto;" [collectionSize]="totalPages" [(page)]="page" (pageChange)="onPageChange($event)">
+                    <ng-template ngbPaginationPrevious>Prev</ng-template>
+                    <ng-template ngbPaginationNext>Next</ng-template>
+                </ngb-pagination>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

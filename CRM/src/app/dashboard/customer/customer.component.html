@@ -1,0 +1,344 @@
+  <section class="content">
+	<div class="card">
+		<div class="card-header">
+			<h3 class="card-title">Add Customer</h3>
+			<div class="card-tools"></div>
+		</div>
+		<div class="card-body">
+			<form [formGroup]="form">
+				
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Card Number</label>
+					<div class="col-sm-4">
+						<input 
+                            type="text" 
+                            formControlName="cardNo" 
+                            class="form-control" 
+							[ngClass]="{
+								'is-invalid':
+								form.get('cardNo')?.invalid &&
+								(form.get('cardNo')?.dirty || form.get('cardNo')?.touched)
+							}"
+						/>
+						<div *ngIf="form?.get('cardNo')?.hasError('required') && form?.get('cardNo')?.touched" class="text-danger">
+							Card Number is required.
+						</div>
+					</div>
+
+                    <label 
+                        class="col-sm-2 col-form-label"
+                    >Customer Name</label>
+					<div class="col-sm-4">
+						<input 
+                            type="text" 
+                            formControlName="custName" 
+                            class="form-control"
+							[ngClass]="{
+								'is-invalid':
+								form.get('custName')?.invalid &&
+								(form.get('custName')?.dirty || form.get('custName')?.touched)
+							}"
+						/>
+
+						<div *ngIf="form?.get('custName')?.hasError('required') && form?.get('custName')?.touched" class="text-danger">
+							Customer name is required.
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Address</label>
+					<div class="col-sm-4">
+                        <textarea 
+                            rows="4"
+                            class="form-control" 
+                            formControlName="custAddress"
+							[ngClass]="{
+								'is-invalid':
+								form.get('custAddress')?.invalid &&
+								(form.get('custAddress')?.dirty || form.get('custAddress')?.touched)
+							}"
+                        ></textarea>
+
+						<div *ngIf="form?.get('custAddress')?.hasError('required') && form?.get('custAddress')?.touched" class="text-danger">
+							Customer address is required.
+						</div>
+					</div>
+
+                    <label class="col-sm-2 col-form-label category-label" (click)="Navigateto(true)" style="color: blue;">State/Route</label>
+                    <div class="col-sm-4">
+                        <select
+                            class="form-control"
+                            formControlName="custCity"
+                            *ngIf="customertype$ | async as items"
+							[ngClass]="{
+								'is-invalid':
+								form.get('custCity')?.invalid &&
+								(form.get('custCity')?.dirty || form.get('custCity')?.touched)
+							}"
+                        >
+                            <option *ngFor="let item of items" [value]="item.textValue">{{ item.textValue }}</option>
+                        </select>
+                        <div *ngIf="form?.get('custCity')?.hasError('required') && form?.get('custCity')?.touched" class="text-danger">
+                            Please Select Type.
+                        </div>
+                    </div>
+				</div>
+
+				<div class="form-group row">
+					<label
+						for="phone"
+						class="col-sm-2 col-form-label"
+						>Phone</label
+					>
+					<div class="col-sm-4">
+						<input
+							type="text"
+							formControlName="custPhone"
+							class="form-control"
+							pattern="[0-9]{10}" 
+							[ngClass]="{
+								'is-invalid':
+								form.get('custPhone')?.invalid &&
+								(form.get('custPhone')?.dirty || form.get('custPhone')?.touched)
+							}"
+						/>
+
+                        <div *ngIf="form?.get('custPhone')?.hasError('required') && form?.get('custPhone')?.touched" class="text-danger">
+							Phone number is required.
+						</div>
+						<div *ngIf="form?.get('custPhone')?.hasError('pattern')" class="text-danger">
+							Please enter a valid 10-digit mobile number.
+						</div>
+					</div>
+                    
+					<label for="mobile" class="col-sm-2 col-form-label">Mobile(SMS)</label>
+					<div class="col-sm-4">
+						<input
+							type="text"
+							formControlName="custMobile"
+							class="form-control"
+							pattern="[0-9]{10}" 
+							title="Please enter a 10-digit mobile number" 
+							[ngClass]="{
+								'is-invalid':
+								form.get('custMobile')?.invalid &&
+								(form.get('custMobile')?.dirty || form.get('custMobile')?.touched)
+							}"
+						/>
+
+						<div *ngIf="form?.get('custMobile')?.hasError('required') && form?.get('custMobile')?.touched" class="text-danger">
+							Customer mobile number is required.
+						</div>
+
+						<div *ngIf="form?.get('custMobile')?.hasError('pattern')" class="text-danger">
+							Please enter a valid 10-digit mobile number.
+						</div>
+					</div>
+
+				</div>
+                
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Email</label>
+					<div class="col-sm-4">
+						<input 
+							type="email" 
+							formControlName="email" 
+							class="form-control"
+							pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+							[ngClass]="{
+								'is-invalid':
+								form.get('email')?.invalid &&
+								(form.get('email')?.dirty || form.get('email')?.touched)
+							}"
+						/>
+						<div *ngIf="form?.get('email')?.hasError('required') && form?.get('email')?.touched" class="text-danger">
+							Email is required.
+						</div>
+					
+						<div *ngIf="form?.get('email')?.hasError('pattern') && form?.get('email')?.touched" class="text-danger">
+							Please enter a valid email address.
+						</div>
+					</div>
+
+                    <label
+                        for="Contperson"
+                        class="col-sm-2 col-form-label"
+                        >Contact Person</label
+                    >
+                    <div class="col-sm-4">
+                        <input
+                            type="text"
+                            formControlName="contPerson"
+                            class="form-control"
+							[ngClass]="{
+								'is-invalid':
+								form.get('contPerson')?.invalid &&
+								(form.get('contPerson')?.dirty || form.get('contPerson')?.touched)
+							}"
+                        />
+
+                        <div *ngIf="form?.get('contPerson')?.hasError('required') && form?.get('contPerson')?.touched" class="text-danger">
+							Contact person is required.
+						</div>
+                    </div>
+				</div>
+
+				<div class="form-group row">
+                    <label
+                        for="Vatno"
+                        class="col-sm-2 col-form-label"
+                        >Vat Number</label
+                    >
+                    <div class="col-sm-4">
+                        <input
+                            type="text"
+                            formControlName="vatNo"
+                            class="form-control"
+							[ngClass]="{
+								'is-invalid':
+								form.get('vatNo')?.invalid &&
+								(form.get('vatNo')?.dirty || form.get('vatNo')?.touched)
+							}"
+                        />
+
+                        <div *ngIf="form?.get('vatNo')?.hasError('required') && form?.get('vatNo')?.touched" class="text-danger">
+							Vat number is required.
+						</div>
+                    </div>
+
+					<label
+						for="Contperson"
+						class="col-sm-2 col-form-label"
+						>Credit Period</label
+					>
+					<div class="col-sm-4">
+						<input
+							type="number"
+							formControlName="creditPeriod"
+							class="form-control"
+							[ngClass]="{
+								'is-invalid':
+								form.get('creditPeriod')?.invalid &&
+								(form.get('creditPeriod')?.dirty || form.get('creditPeriod')?.touched)
+							}"
+						/>
+
+                        <div *ngIf="form?.get('creditPeriod')?.hasError('required') && form?.get('creditPeriod')?.touched" class="text-danger">
+							Credit period is required.
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label
+						for="Climit"
+						class="col-sm-2 col-form-label"
+						>Credit Limit</label
+					>
+					<div class="col-sm-4">
+						<input
+							type="number"
+							formControlName="creditLimit"
+							class="form-control"
+							[ngClass]="{
+								'is-invalid':
+								form.get('creditLimit')?.invalid &&
+								(form.get('creditLimit')?.dirty || form.get('creditLimit')?.touched)
+							}"
+						/>
+
+                        <div *ngIf="form?.get('creditLimit')?.hasError('required') && form?.get('creditLimit')?.touched" class="text-danger">
+							Credit limit is required.
+						</div>
+					</div>
+
+					<label
+						for="Cdays"
+						class="col-sm-2 col-form-label"
+						>Credit Days</label
+					>
+					<div class="col-sm-4">
+						<input
+							type="number"
+							formControlName="creditDays"
+							class="form-control"
+							[ngClass]="{
+								'is-invalid':
+								form.get('creditDays')?.invalid &&
+								(form.get('creditDays')?.dirty || form.get('creditDays')?.touched)
+							}"
+						/>
+
+                        <div *ngIf="form?.get('creditDays')?.hasError('required') && form?.get('creditDays')?.touched" class="text-danger">
+							Credit days is required.
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label
+						for="Remark"
+						class="col-sm-2 col-form-label"
+						>Remarks</label
+					>
+					<div class="col-sm-4">
+                        <textarea 
+                            formControlName="remarks"
+                            class="form-control"
+                            rows="4"
+							[ngClass]="{
+								'is-invalid':
+								form.get('remarks')?.invalid &&
+								(form.get('remarks')?.dirty || form.get('remarks')?.touched)
+							}">
+                        </textarea>
+
+                        <div *ngIf="form?.get('remarks')?.hasError('required') && form?.get('remarks')?.touched" class="text-danger">
+							Remarks is required.
+						</div>
+					</div>
+                    <div class="col-sm-2" ></div>
+
+                    <div class="col-sm-2" style="margin-top: 10px;">
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                #status
+                                (change)="updateCheckboxValue('status', status.checked)"
+                                formControlName="status"
+                            />
+                            <label class="form-check-label" >Status</label>
+                        </div>
+                    </div>
+				</div>
+
+                <div class="form-group row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-2">
+                      <button
+                          type="submit" 
+                          class="btn btn-block w-100"
+                          style="background-color: #5f8286; color: white;"
+                          [disabled]="!form.valid"
+                          (click)="addEditItems()" 
+                      > 
+                      <i class="fa fa-save"></i> {{ isEditMode ? 'Update' : 'Save' }}
+                      </button>
+                    </div>
+                    <div class="col-sm-2">
+                       <button 
+                        class="btn btn-block w-100"
+                        style="background-color: #5f8286; color: white;"
+						routerLink="/dashboard/customerlist"
+                       >
+                        List
+                      </button>
+                    </div>
+                    <div class="col-sm-8"></div>
+                  </div>
+			</form>
+		</div>
+	</div>
+</section>

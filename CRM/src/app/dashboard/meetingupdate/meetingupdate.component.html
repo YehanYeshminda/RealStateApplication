@@ -1,0 +1,178 @@
+<section class="content">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Meeting Update</h3>
+          <div class="card-tools">
+            <button
+              type="button"
+              class="btn btn-tool"
+              data-card-widget="collapse"
+              title="Collapse"
+            >
+              <i class="fas fa-minus"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-tool"
+              data-card-widget="remove"
+              title="Remove"
+            >
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="form">
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Meeting No</label>
+              <div class="col-sm-8">
+                <input 
+                class="form-control"
+                formControlName="id"
+                type="text" 
+                readonly
+              />
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Name</label>
+              <div class="col-sm-8">
+                <input 
+                  class="form-control"
+                  formControlName="name"
+                  type="text" 
+                  readonly
+                />
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Conclusion</label>
+              <div class="col-sm-8">
+                <textarea 
+                  class="form-control"
+                  formControlName="conclusion"
+                  rows="2"></textarea>
+                  <div *ngIf="form?.get('conclusion')?.hasError('required') && form?.get('conclusion')?.touched" class="text-danger">
+                     Conclusion is required.
+                  </div>
+              </div>
+            </div>
+
+            <div class="form-group row" style="margin-top: 20px;">
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4">
+                <button
+                  type="submit" 
+                  class="btn btn-block w-100"
+                  style="background-color: #5f8286; color: white;"
+                  [disabled]="!form.valid"
+                  (click)="editupdatemeet()" 
+                > 
+                  Save
+                </button>
+              </div>
+              <div class="col-sm-4"></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+  <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Reschedule Meeting</h3>
+          <div class="card-tools">
+            <button
+              type="button"
+              class="btn btn-tool"
+              data-card-widget="collapse"
+              title="Collapse"
+            >
+              <i class="fas fa-minus"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-tool"
+              data-card-widget="remove"
+              title="Remove"
+            >
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="rform">
+            <div class="form-group row">
+              <input 
+                  class="form-control"
+                  formControlName="id"
+                  type="text" 
+                  hidden
+              />
+              <label class="col-sm-4 col-form-label">Date</label>
+              <div class="col-sm-8">
+                  <div class="input-group mb-3">
+                      <input type="date" class="form-control" formControlName="meetdate">
+                      <button class="input-group-text increase" style="background-color: #5f8286; color: white;" [dateTimeControls]="rform" [controlName]="'meetdate'">
+                        <i class="fa fa-plus"></i>
+                      </button>
+                      <button class="input-group-text decrease" style="background-color: #5f8286; color: white;" [dateTimeControls]="rform" [controlName]="'meetdate'">
+                        <i class="fa fa-minus"></i>
+                      </button> 
+                      <div *ngIf="rform?.get('meetdate')?.hasError('required') && form?.get('meetdate')?.touched" class="text-danger">
+                          Meeting date is required.
+                      </div>  
+                  </div>  
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Time</label>
+              <div class="col-sm-8">
+                <input 
+                  class="form-control"
+                  formControlName="meettime"
+                  type="time" />
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Venue</label>
+              <div class="col-sm-8">
+                <textarea 
+                  class="form-control"
+                  formControlName="venue"
+                  rows="2"></textarea>
+                  <div *ngIf="rform?.get('venue')?.hasError('required') && rform?.get('venue')?.touched" class="text-danger">
+                     Venue is required.
+                  </div>
+              </div>
+            </div>
+
+            <div class="form-group row" style="margin-top: 20px;">
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4">
+                <button
+                  type="submit" 
+                  class="btn btn-block w-100"
+                  style="background-color: #5f8286; color: white;"
+                  [disabled]="!rform.valid"
+                  (click)="reschedmeet()" 
+                > 
+                  Reschedule
+                </button>
+              </div>
+              <div class="col-sm-4"></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div> 
+</section>

@@ -1,0 +1,305 @@
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mt-0 header-title">Call List</h4>
+
+            <div class="d-flex w-100 justify-content-between">
+                <h6>
+                    <button (click)="tableRefresh()" type="button" class="btn btn-primary waves-effect waves-light"><i
+                        class="fe-refresh-ccw me-1"></i> Refresh Table</button>
+                </h6>
+
+                <h6>
+                    <button (click)="uploadContacts(staticBackdropModal)" type="button" class="btn btn-success waves-effect waves-light"><i
+                        class="fe-upload me-1"></i> Upload Contacts</button>
+                </h6>
+        </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Phone No 2</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <ng-container *ngIf="!isPaginating">
+                        <ng-container *ngIf="calllistinfo$ | async as LeadData; else loadingTemplate">
+                            <tbody>
+                                <tr *ngFor="let item of LeadData.result.data; let i=index">
+                                    <th scope="row">{{ i + 1 }}</th>
+                                    <td>{{ item.firstName }}</td>
+                                    <td>{{ item.lastName }}</td>
+                                    <td>{{ item.email }}</td>
+                                    <td>{{ item.phoneNo }}</td>
+                                    <td>{{ item.phoneNo2 }}</td>
+                                </tr>
+                            </tbody>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-template #loadingTemplate>
+                        <tbody>
+                            <tr>
+                                <th scope="row" colspan="1">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </ng-template>
+
+                    <ng-container *ngIf="isPaginating">
+                        <tbody>
+                            <tr>
+                                <th scope="row" colspan="1">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </ng-container>
+                    
+                </table>
+
+                <ngb-pagination class="d-flex mt-3" style="overflow: auto;" [collectionSize]="totalPages" [(page)]="page" (pageChange)="onPageChange($event)">
+                    <ng-template ngbPaginationPrevious>Prev</ng-template>
+                    <ng-template ngbPaginationNext>Next</ng-template>
+                </ngb-pagination>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<ng-template #staticBackdropModal let-modal>
+    <div class="col-xl-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="header-title mb-3">Upload contact list here</h4>
+          <ul class="nav-pills nav-justified bg-light form-wizard-header mb-3 nav" ng-reflect-active-id="1" role="tablist">
+            <li ng-reflect-_id="1" class="nav-item">
+              <a class="rounded-0 pt-2 pb-2 nav-link" [class.active]="activeWizard4 === 1" (click)="activeWizard4 = 1" role="tab" aria-selected="true" aria-disabled="false">
+                <i class="mdi mdi-upload-circle me-1"></i>
+                <span class="d-none d-sm-inline">Upload</span>
+              </a>
+            </li>
+            <li ng-reflect-_id="2" class="nav-item">
+              <a class="rounded-0 pt-2 pb-2 nav-link" [class.active]="activeWizard4 === 2" (click)="activeWizard4 = 2" role="tab" aria-selected="false" aria-disabled="false">
+                <i class="mdi mdi-face-selectcol me-1"></i>
+                <span class="d-none d-sm-inline">Select_Columns</span>
+              </a>
+            </li>
+            <li ng-reflect-_id="3" class="nav-item">
+              <a class="rounded-0 pt-2 pb-2 nav-link" [class.active]="activeWizard4 === 3" (click)="activeWizard4 = 3" role="tab" aria-selected="false" aria-disabled="false">
+                <i class="mdi mdi-face-match me-1"></i>
+                <span class="d-none d-sm-inline">Field_Mapping</span>
+              </a>
+            </li>
+            <li ng-reflect-_id="4" class="nav-item">
+              <a class="rounded-0 pt-2 pb-2 nav-link" [class.active]="activeWizard4 === 4" (click)="activeWizard4 = 4" role="tab" aria-selected="false" aria-disabled="false">
+                <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i>
+                <span class="d-none d-sm-inline">Finish</span>
+              </a>
+            </li>
+          </ul>
+  
+          <div id="progressWizard">
+            <ul ngbNav #progressWizard="ngbNav" [(activeId)]="activeWizard4"
+              class="nav-pills nav-justified bg-light form-wizard-header mb-3">
+                <li [ngbNavItem]="1" *ngIf="activeWizard4 === 1">
+                    <ng-template ngbNavContent>
+                    <div class="modal-body">
+                        <ng-container *ngIf="isuploading == false; else nowuploading">
+                        <div class="info-box">
+                            <div class="info-box-content text-center">
+                            <span class="info-box-text">
+                                <input type="file" (change)="onFileSelected($event)" accept=".xlsx, .xls" />
+                            </span>
+                            </div>
+                        </div>
+                        </ng-container>
+                    </div>
+                    </ng-template>
+                </li>
+    
+                <li [ngbNavItem]="2" *ngIf="activeWizard4 === 2">
+                    <ng-template ngbNavContent>
+                        <div class="container my-2">
+                        <h5 class="mb-4">Select the columns for Name, Email, Phone No for manual mapping.</h5>
+                        <div *ngIf="loadedFiledTitles$ | async as data; else loadingTitles">
+                            <div class="row">
+                            <div class="col-md-6">
+                                <h5>Available Columns:</h5>
+                                <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>               
+                                        <ng-container *ngFor="let item of data.result">
+                                            <tr>
+                                            <td (click)="toggleSelectedColumn(item)" style="cursor: pointer">
+                                                {{ item }}
+                                            </td>
+                                            </tr>
+                                        </ng-container>
+                                                                                                            
+                                    </tbody>
+                                </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Selected Columns:</h5>
+                                <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <ng-container *ngFor="let selectedColumn of selectedColumns | keyvalue">
+                                            <tr>
+                                            <td>{{ selectedColumn.key }}</td>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    
+                        <ng-template #loadingTitles>
+                            <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status"></div>
+                            </div>
+                        </ng-template>
+                        </div>
+                    </ng-template>
+                </li>
+
+                <li [ngbNavItem]="3" *ngIf="activeWizard4 === 3">
+                    <ng-template ngbNavContent>
+                      <div class="container my-2">
+                        <h5 class="mb-4">Map the columns to CRM fields</h5>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="table-responsive">
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>Header</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let header of selectedFileHeaders">
+                                    <td style="font-size: 12px;">{{ header }}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                      
+                          <div class="col-md-4">
+                            <div class="table-responsive">
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>Row 1</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let data of selectedFileFirstRow">
+                                    <td style="font-size: 12px;">{{ data }}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                      
+                          <div class="col-md-4">
+                            <div class="table-responsive">
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>CRM Fields</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let header of selectedFileHeaders; let i = index">
+                                    <td>
+                                      <div class="d-flex align-items-center">
+                                        <select [(ngModel)]="selectedColumnsheader[selectedFileHeadersnew[i]]" style="font-size: 12px;">
+                                          <option
+                                            *ngFor="let column of selectedFileHeadersnew"
+                                            [value]="column"
+                                            [disabled]="selectedColumnsheader[column] && selectedColumnsheader[column] !== undefined"
+                                            (click)="onColumnSelected(column)"
+                                          >
+                                            {{ column }}
+                                          </option>
+                                        </select>
+                                        <span (click)="clearSelection(selectedFileHeadersnew[i])" class="fe-x" style="color: red;"></span>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>                                                                                                                 
+                              </table>                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>                        
+                    </ng-template>
+                </li>
+  
+                <li [ngbNavItem]="4" *ngIf="activeWizard4 === 4">
+                    <ng-template ngbNavContent *ngIf="isUploadComplete == true; else nowuploading">
+                    <p>
+                        <ngb-progressbar type="success" [value]="100" [striped]="true" [animated]="true" class="mb-3"
+                        height="7px">
+                        </ngb-progressbar>
+                    </p>
+                    <div class="row">
+                        <div class="col-12">
+                        <div class="text-center">
+                            <h2 class="mt-0"><i class="mdi mdi-check-all"></i></h2>
+                            <h3 class="mt-0">Thank you !</h3>
+                            <h4 class="mt-0">Contacts Uploaded Successfully</h4>
+                        </div>
+                        </div>
+                    </div>
+                    </ng-template>
+                </li>
+            </ul>
+  
+            <div [ngbNavOutlet]="progressWizard" class="b-0 mb-0 pt-0"></div>
+            <ul class="list-inline mb-0 wizard">
+              <li class="previous list-inline-item">
+                <button class="btn btn-secondary" [disabled]="activeWizard4===1" (click)="activeWizard4=activeWizard4-1">Previous</button>
+              </li>
+              <li class="previous list-inline-item">
+                <button type="button" class="btn btn-light" [disabled]="isuploading" (click)="closethis(staticBackdropModal)">Close</button>
+              </li>
+              <li class="next list-inline-item float-end">
+                <button type="button" class="btn btn-secondary" *ngIf="activeWizard4 == 2" [disabled]="isuploading" (click)="activeWizard4=activeWizard4+1">Next</button>
+                <button type="button" class="btn btn-secondary" (click)="onUpload2()" *ngIf="activeWizard4 !=2 && activeWizard4 < 4" [disabled]="isuploading">Upload</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #nowuploading>
+      <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status"></div>
+      </div>
+    </ng-template>
+  </ng-template>
+  

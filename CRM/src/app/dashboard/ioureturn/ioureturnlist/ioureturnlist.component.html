@@ -1,0 +1,187 @@
+<div class="card">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-12 col-sm-6 col-md-4">
+				<div class="info-box">
+					<button
+						type="button"
+						class="btn btn-block btn-flat"
+                        style="background-color: #5f8286; color: white;"
+						(click)="navigate()"
+					>
+						<i class="fas fa-plus"> </i> &nbsp; Add IOU Return
+					</button>
+					<!-- /.info-box-content -->
+				</div>
+			</div>
+
+			<div class="col-12 col-sm-6 col-md-4">
+				<div class="info-box">
+					<div class="info-box-content">
+						<span class="info-box-text text-center">IOU RETURN DATA TABLE</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-sm-6 col-md-4">
+				<div class="info-box">
+					<button 
+					class="btn btn-block smaller-btn w-100"
+					style="background-color: #5f8286; color: white;"
+					(click)="printData()"
+					>
+						Print
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div
+			id="data_table_wrapper"
+			class="dataTables_wrapper dt-bootstrap4"
+		>
+			<div class="row">
+				<div class="col-sm-12 table-responsive">
+					<table
+						id="example1"
+						class="table table-bordered table-striped dataTable dtr-inline"
+						aria-describedby="data_table_info"
+					>
+						<thead>
+							<tr>
+								<th></th>
+								
+								<th
+									class="sorting sorting_asc"
+									tabindex="0"
+									aria-controls="data_table"
+									rowspan="1"
+									colspan="1"
+									aria-sort="ascending"
+								>
+                                Return Id
+								</th>
+
+								<th
+									class="sorting"
+									tabindex="0"
+									aria-controls="data_table"
+									rowspan="1"
+									colspan="1"
+								>
+								IOU Id
+								</th>
+
+								
+
+								<th
+									class="sorting"
+									tabindex="0"
+									aria-controls="data_table"
+									rowspan="1"
+									colspan="1"
+								>
+								Description
+								</th>
+
+								<th
+									class="sorting"
+									tabindex="0"
+									aria-controls="data_table"
+									rowspan="1"
+									colspan="1"
+								>
+								Return On
+                                </th>
+
+								<th
+									class="sorting"
+									tabindex="0"
+									aria-controls="data_table"
+									rowspan="1"
+									colspan="1"
+								>
+								Branch Id
+                                </th> 
+
+                                <th
+                                class="sorting"
+                                tabindex="0"
+                                aria-controls="data_table"
+                                rowspan="1"
+                                colspan="1"
+                                >Add On</th>
+
+                                <th
+                                class="sorting"
+                                tabindex="0"
+                                aria-controls="data_table"
+                                rowspan="1"
+                                colspan="1"
+                                >Add By</th>
+
+                                <th
+                                class="sorting"
+                                tabindex="0"
+                                aria-controls="data_table"
+                                rowspan="1"
+                                colspan="1"
+                                ></th>
+
+                                <th
+                                class="sorting"
+                                tabindex="0"
+                                aria-controls="data_table"
+                                rowspan="1"
+                                colspan="1"
+                                ></th>
+
+								
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngIf="iourtninfo$ | async as iou; else loadingTemplate">
+                                <tr *ngFor="let item of iou.result; let i = index">
+									<td class="direct-chat-img-container">
+                                        <img src="assets/h.png" alt="" class="direct-chat-img" />
+                                    </td>
+                                    <td
+                                        class="dtr-control sorting_1"
+                                        tabindex="0"
+                                    >
+                                        {{ item.rtnid}}
+                                    </td>
+                                    <td>{{ item.iouid}}</td>
+                                    <td>{{ item.desc}}</td>
+                                    <td>{{ item.retnon | date: 'MM-dd-yyyy' }}</td>
+                                    <td>{{ item.branchName}}</td>
+                                    <td>{{ item.addon  | date: 'MM-dd-yyyy'}}</td>
+                                    <td>{{ item.username}}</td>
+                                    <td>
+										<button class="btn btn-block smaller-btn" 
+											style="background-color: #5f8286; color: white;"
+											(click)="navigatenew(item)">
+										Edit
+										</button>
+									</td>
+									<td>
+										<button 
+											class="btn btn-block smaller-btn" 
+											style="background-color: #5f8286; color: white;"
+											(click)="printCellData(item.rtnid)">
+											Print
+										</button>
+									</td>
+								</tr>
+							</ng-container>
+                            <ng-template #loadingTemplate>
+                                <ngx-spinner type="line-scale"></ngx-spinner>
+                            </ng-template>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

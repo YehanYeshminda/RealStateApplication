@@ -1,0 +1,240 @@
+<section class="content">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Add New Staff</h3>
+        <div class="card-tools">
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="collapse"
+            title="Collapse"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="remove"
+            title="Remove"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="form">
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+            >UserName</label
+            >
+            <div class="col-sm-4">
+              <input
+                class="form-control"
+                type="text"
+                formControlName="name"
+                [ngClass]="{'is-invalid': form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)}"
+              />
+              <div *ngIf="form?.get('name')?.hasError('required') && form?.get('name')?.touched" class="text-danger">
+                UserName is required.
+              </div>
+            </div>
+            
+            <label class="col-sm-2 col-form-label category-label" (click)="Navigateto(true)" style="color: blue;">Designation</label
+            >
+            <div class="col-sm-4">
+              <select
+                  class="form-control"
+                  formControlName="designation"
+                  *ngIf="designationtype$ | async as items"
+                  [ngClass]="{'is-invalid': form.get('designation')?.invalid && (form.get('designation')?.dirty || form.get('designation')?.touched)}"
+              >
+                  <option *ngFor="let item of items" [value]="item.textValue">{{ item.textValue }}</option>
+              </select>
+              <div *ngIf="form?.get('designation')?.hasError('required') && form?.get('designation')?.touched" class="text-danger">
+                  Please Select.
+              </div>
+            </div>
+          </div>
+  
+          <div class="form-group row">
+            <label  class="col-sm-2 col-form-label"
+            >Mobile No</label
+            >
+            <div class="col-sm-4">
+              <input
+                class="form-control"
+                type="text"
+                formControlName="mobileno"
+                pattern="^[0-9]{10}$"
+                [ngClass]="{'is-invalid': form.get('mobileno')?.invalid && (form.get('mobileno')?.dirty || form.get('mobileno')?.touched)}"
+              />
+              <div *ngIf="form?.get('mobileno')?.hasError('required') && form?.get('mobileno')?.touched" class="text-danger">
+                Mobile number is required.
+              </div>
+              <div *ngIf="form?.get('mobileno')?.hasError('pattern') && form?.get('mobileno')?.touched" class="text-danger">
+                Please enter a valid 10-digit mobile number.
+              </div>
+            </div>
+            
+            <label class="col-sm-2 col-form-label"
+            >Parent</label
+            >
+            <div class="col-sm-4">
+              <select
+                  class="form-control"
+                  formControlName="parentid"
+                  *ngIf="parent$ | async as items"
+                  [ngClass]="{'is-invalid': form.get('parentid')?.invalid && (form.get('parentid')?.dirty || form.get('parentid')?.touched)}"
+              >
+                  <option *ngFor="let item of items" [value]="item.value">{{ item.textValue }}</option>
+              </select>
+              <div *ngIf="form?.get('parentid')?.hasError('required') && form?.get('parentid')?.touched" class="text-danger">
+                  Please Select.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label  class="col-sm-2 col-form-label"
+            >First Name</label
+            >
+            <div class="col-sm-4">
+              <input
+                class="form-control"
+                type="text"
+                formControlName="firstname"
+                [ngClass]="{'is-invalid': form.get('firstname')?.invalid && (form.get('firstname')?.dirty || form.get('firstname')?.touched)}"
+              />
+              <div *ngIf="form?.get('firstname')?.hasError('required') && form?.get('firstname')?.touched" class="text-danger">
+                First Name is required.
+              </div>
+            </div>
+            
+            <label class="col-sm-2 col-form-label"
+            >Last Name</label
+            >
+            <div class="col-sm-4">
+              <input
+                class="form-control"
+                type="text"
+                formControlName="lastname"
+                [ngClass]="{'is-invalid': form.get('lastname')?.invalid && (form.get('lastname')?.dirty || form.get('lastname')?.touched)}"
+              />
+              <div *ngIf="form?.get('lastname')?.hasError('required') && form?.get('lastname')?.touched" class="text-danger">
+                  Last Name is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label  class="col-sm-2 col-form-label"
+            >Email</label
+            >
+            <div class="col-sm-4">
+              <input
+                class="form-control"
+                type="text"
+                formControlName="email"
+                [ngClass]="{'is-invalid': form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)}"
+              />
+              <div *ngIf="form?.get('email')?.hasError('required') && form?.get('email')?.touched" class="text-danger">
+                Email is required.
+              </div>
+            </div>
+            
+            <label class="col-sm-2 col-form-label"
+            >Visa Issued Date</label
+            >
+            <div class="col-sm-4">
+              <input
+                class="form-control"
+                type="date"
+                formControlName="visaIssueDate"
+                [ngClass]="{'is-invalid': form.get('visaIssueDate')?.invalid && (form.get('visaIssueDate')?.dirty || form.get('visaIssueDate')?.touched)}"
+              />
+              <div *ngIf="form?.get('visaIssueDate')?.hasError('required') && form?.get('visaIssueDate')?.touched" class="text-danger">
+                Visa issued date is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label  class="col-sm-2 col-form-label"
+            >Password</label
+            >
+            <div class="col-sm-4">
+              <input
+                class="form-control"
+                type="password"
+                formControlName="password"
+                [ngClass]="{'is-invalid': form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)}"
+              />
+              <div *ngIf="form?.get('password')?.hasError('required') && form?.get('password')?.touched" class="text-danger">
+                Password is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label 
+              class="col-sm-2 col-form-label"
+            >Passport</label>
+            <div class="col-sm-2">
+              <input type="file" formControlName="passport" [ngClass]="{'is-invalid': form.get('passport')?.invalid && (form.get('passport')?.dirty || form.get('passport')?.touched)}"
+                (change)="onFileChange($event, 'passport')" />
+              <div *ngIf="form?.get('passport')?.hasError('required') && form?.get('passport')?.touched" class="text-danger">
+                Passport is required.
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <img [src]="imageUrlPassport" width="100" height="100" alt="Passport Image Preview" class="preview-image" *ngIf="imageUrlPassport" />
+            </div>
+          
+            
+            <label class="col-sm-2 col-form-label">User Image</label>
+            <div class="col-sm-2">
+              <input type="file" formControlName="userimage" [ngClass]="{'is-invalid': form.get('userimage')?.invalid && (form.get('userimage')?.dirty || form.get('userimage')?.touched)}"
+                (change)="onFileChange($event, 'userimage')" />
+              <div *ngIf="form?.get('userimage')?.hasError('required') && form?.get('userimage')?.touched" class="text-danger">
+                Userimage is required.
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <img [src]="imageUrlUserImage" width="100" height="100" alt="Passport Image Preview" class="preview-image" *ngIf="imageUrlUserImage" />
+            </div>           
+          </div>
+          
+        
+          <div class="form-group row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-2">
+              <button
+                  type="submit" 
+                  class="btn btn-block w-100"
+                  style="background-color: #5f8286; color: white;"
+                  [disabled]="!form.valid"
+                  (click)="addEditItems()" 
+              > 
+              <i class="fa fa-save"></i> {{ isEditMode ? 'Update' : 'Save' }}
+              </button>
+            </div>
+            <div class="col-sm-2">
+               <button 
+                class="btn btn-block w-100"
+                style="background-color: #5f8286; color: white;"
+                routerLink="/dashboard/stafflist"
+               >
+                List
+              </button>
+            </div>
+            <div class="col-sm-8"></div>
+          </div>
+        </form>
+      </div>
+  
+    </div>
+  </section>
+
+
+  

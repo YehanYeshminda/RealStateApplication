@@ -1,0 +1,49 @@
+<div id="message">
+    <div class="header">
+        <h4 class="page-title"><a class="icon circle-icon mdi mdi-close text-muted trigger-message-close"
+                (click)="handleMessageClose()"></a>Process<span class="grey">(6)</span></h4>
+        <p>From <a [routerLink]="['.']">You</a> to <a [routerLink]="['.']">Scott Waite</a>, started on <a
+                [routerLink]="['.']">March 2, 2014</a> at 2:14 pm
+            est.</p>
+    </div>
+    <div id="message-nano-wrapper" class="nano">
+        <ngx-simplebar class="nano-content h-100">
+            <ul class="message-container list-unstyled">
+                <!-- <li class="sent">
+                    <div class="details">
+                        <div class="left">You
+                            <div class="arrow"></div>
+                            {{ fromEmail }}
+                        </div>
+                        <div class="right">{{ time }}</div>
+                    </div>
+                    <div class="message">
+                        {{ body }}
+                    </div>
+                    <div class="tool-box"><a [routerLink]="['.']" class="circle-icon small mdi mdi-share"></a><a
+                            [routerLink]="['.']" class="circle-icon small red-hover mdi mdi-close"></a><a
+                            [routerLink]="['.']" class="circle-icon small red-hover mdi mdi-flag"></a>
+                    </div>
+                </li> -->
+                <li class="received">
+                    <div class="details">
+                        <div class="left">{{ fromEmail }}
+                            <div class="arrow orange"></div>
+                            You
+                        </div>
+                        <div class="right">DateTime: {{ time | date: 'short' }}</div>
+                    </div>
+                    <div class="message">
+                        {{ body }}
+                    </div>
+                    <div class="tool-box"><a [routerLink]="['.']" class="circle-icon small mdi mdi-share"></a><a
+                            [routerLink]="['.']" class="circle-icon small red-hover mdi mdi-close"></a><a
+                            [routerLink]="['.']" class="circle-icon small red-hover mdi mdi-flag"></a>
+                    </div>
+                </li>
+
+            </ul>
+
+        </ngx-simplebar>
+    </div>
+</div>

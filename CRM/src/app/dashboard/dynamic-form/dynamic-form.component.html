@@ -1,0 +1,71 @@
+<div class="container">
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">{{ dynamicField }}</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control form-control-sm" formControlName="catergoryName" [name]="dynamicField" />
+      </div>
+    </div>
+
+    <!-- <ng-container *ngIf="dynamicField === 'Sub Category'">
+      <div class="form-group row">
+        <label class="col-12 col-sm-12 col-md-2 text-start col-form-label col-form-label-sm">Catergory</label>
+        <div class="col-12 col-sm-12 col-md-10">
+          <select formControlName="mainCatergory" class="form-control form-control-sm responsive-select-width">
+            <ng-container *ngIf="dynamicDropDownValues$ | async as values">
+              <option *ngFor="let item of values" [value]="item.value">{{ item.textValue }}</option>
+            </ng-container>
+            <option *ngIf="(dynamicDropDownValues$ | async)?.length === 0">
+              No {{ dynamicField }} are present.
+            </option>
+          </select>
+        </div>
+      </div>
+    </ng-container> -->
+
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Remark</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control form-control-sm" formControlName="remark" />
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Status</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control form-control-sm" formControlName="status" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-2"></div>
+
+      <div class="col-6">
+        <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Add {{ dynamicField }}</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="container mt-4">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">{{ dynamicField }}</th>
+        <th scope="col">Remark</th>
+        <th scope="col">Status</th>
+        <th scope="col">CID</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="tableData$ | async as tableInfo">
+      <tr *ngFor="let item of tableInfo">
+        <th scope="row">{{ item.id }}</th>
+        <td>{{ item.dynamicField }}</td>
+        <td>{{ item.remark }}</td>
+        <td>{{ item.status }}</td>
+        <td>{{ item.cId }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="603fd819-eab3-4a94-9e76-71f981d50fa5" name="paramountcrm" url="http://167.86.86.17">
+        <fileTransfer rootFolder="/var/www/app1/" accessType="SFTP" host="167.86.86.17" port="22" sshConfigId="eb55ee1d-f2c7-45be-82a1-d2cacad2b1ec" sshConfig="root@167.86.86.17:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

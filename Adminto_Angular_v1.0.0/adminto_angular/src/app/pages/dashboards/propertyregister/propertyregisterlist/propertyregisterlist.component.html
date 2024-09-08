@@ -1,0 +1,115 @@
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mt-0 header-title">Property Registration</h4>
+            <div class="d-flex justify-content-between">
+                <button (click)="tableRefresh()" type="button" class="btn btn-primary waves-effect waves-light"><i
+                    class="fe-refresh-ccw me-1"></i> Refresh Table
+                </button>
+
+                <button class="btn btn-success" type="button" routerLink="/dashboard/propertyregister">
+                    <i class="fe-plus"></i> Add New Property
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th> Property Name </th>
+                            <th> Property Type </th>
+                            <th> Property Catergory </th>
+                            <th> Property SubCatergory </th>
+                            <th> Type Name </th>
+                            <th> Nationality </th>
+                            <th> Address </th>
+                            <th> Geolocation </th>
+                            <th> Supplier Name </th>
+                            <th> Cost Anually </th>
+                            <th> Selling Price </th>
+                            <th> Anual Cost for Buyer </th>
+                            <th> Deposit </th>
+                            <th> Date of purchase </th>
+                            <th> Renew date </th>
+                            <th> Vender payment date </th>
+                            <th> Addon </th>
+                            <th> Payment Scheduleno </th>
+                            <th> AddBy </th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+
+                    <ng-container *ngIf="!isPaginating">
+                        <ng-container *ngIf="ppropreginfo$ | async as items; else loadingTemplate">
+                            <tbody>
+                                <tr *ngFor="let item of items.result.data; let i=index">
+                                    <th scope="row">{{ i + 1 }}</th>
+                                    <td>{{ item.PropertyName }}</td>
+                                    <td>{{ item.PropertyType }}</td>
+                                    <td>{{ item.PropertyCatergory }}</td>
+                                    <td>{{ item.PropertySubCatergory }}</td>
+                                    <td>{{ item.TypeName }}</td>
+                                    <td>{{ item.Nationality }}</td>
+                                    <td>{{ item.Address }}</td>
+                                    <td>{{ item.geolocation }}</td>
+                                    <td>{{ item.SupplierName }}</td>
+                                    <td>{{ item.CostAnually }}</td>
+                                    <td>{{ item.Sellingprice }}</td>
+                                    <td>{{ item.Anualcostforbuyer }}</td>
+                                    <td>{{ item.Deposit }}</td>
+                                    <td>{{ item.Dateofpurchorrent | date: 'short' }}</td>
+                                    <td>{{ item.Renewdate | date: 'short' }}</td>
+                                    <td>{{ item.Venderpaymentdate | date: 'short' }}</td>
+                                    <td>{{ item.Addon | date: 'short' }}</td>
+                                    <td>{{ item.Paymentscheduleno }}</td>
+                                    <td>{{ item.AddBy }}</td>
+                                    <td>
+                                        <button (click)="editppropreg(item)" type="button" class="btn btn-info waves-effect waves-light"><i
+                                            class="fe-edit-1 me-1"></i></button>
+                                    </td>
+                                    <!-- <td>
+                                        <button (click)="deletevender(item.supplierId)" type="button" class="btn btn-danger waves-effect waves-light"><i
+                                            class="fe-trash me-1"></i></button>
+                                    </td> -->
+                                </tr>
+                            </tbody>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-template #loadingTemplate>
+                        <tbody>
+                            <tr>
+                                <th scope="row" colspan="1">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </ng-template>
+
+                    <ng-container *ngIf="isPaginating">
+                        <tbody>
+                            <tr>
+                                <th scope="row" colspan="1">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </ng-container>
+                    
+                </table>
+
+                <ngb-pagination class="d-flex mt-3" style="overflow: auto;" [collectionSize]="totalPages" [(page)]="page" (pageChange)="onPageChange($event)">
+                    <ng-template ngbPaginationPrevious>Prev</ng-template>
+                    <ng-template ngbPaginationNext>Next</ng-template>
+                </ngb-pagination>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

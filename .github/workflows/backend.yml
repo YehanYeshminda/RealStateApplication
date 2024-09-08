@@ -1,0 +1,24 @@
+
+name: Backend Upload 🚀
+
+on:
+  push:
+    branches:
+      - yehantv
+
+jobs:
+  Upload-to-SFTP:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Upload Backend
+        uses: actions/checkout@v2
+
+      - name: 📂 SFTP uploader
+        uses: wangyucode/sftp-upload-action@v2.0.2
+        with:
+          host: 167.86.86.17
+          username: root
+          password: 8yg8n0fDFPb61WZPOEhl
+          port: 22
+          localDir: 'API/'
+          remoteDir: '/var/www/api.cparamount.com/'

@@ -1,0 +1,176 @@
+<section class="content">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Property Assign</h3>
+        <div class="card-tools">
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="collapse"
+            title="Collapse"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="remove"
+            title="Remove"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="form">
+
+            <div class="form-group row"> 
+                <label class="col-sm-2 col-form-label category-label" (click)="Navigateto(true)" style="color: blue;"
+                >Sales Person</label
+                >
+                <div class="col-sm-4">
+                    <select
+                        class="form-control"
+                        formControlName="salesperson"
+                        *ngIf="salestype$ | async as items"
+                        [ngClass]="{'is-invalid': form.get('salesperson')?.invalid 
+                        && (form.get('salesperson')?.dirty || form.get('salesperson')?.touched)}"
+                        >
+                        <option *ngFor="let item of items" [value]="item.value">
+                            {{ item.textValue }}
+                        </option>
+                    </select>
+                    <div *ngIf="form?.get('salesperson')?.hasError('required') && form?.get('salesperson')?.touched" class="text-danger">
+                        Sales person is required.
+                    </div>
+                </div>
+
+                <label  class="col-sm-2 col-form-label"
+                >Date</label
+                >
+                <div class="col-sm-4">        
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" formControlName="date">
+                        <button class="input-group-text increase" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'date'">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                        <button class="input-group-text decrease" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'date'">
+                          <i class="fa fa-minus"></i>
+                        </button> 
+                        <div *ngIf="form?.get('date')?.hasError('required') && form?.get('date')?.touched" class="text-danger">
+                            Date is required.
+                        </div>  
+                    </div>  
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"
+                >Customer Code</label
+                >
+                <div class="col-sm-4">
+                    <select
+                        class="form-control"
+                        formControlName="customerid"
+                        *ngIf="custtype$ | async as items"
+                        [ngClass]="{'is-invalid': form.get('customerid')?.invalid 
+                        && (form.get('customerid')?.dirty || form.get('customerid')?.touched)}"
+                        >
+                        <option *ngFor="let item of items" [value]="item.value">
+                            {{ item.textValue }}
+                        </option>
+                    </select>
+                    <div *ngIf="form?.get('customerid')?.hasError('required') && form?.get('customerid')?.touched" class="text-danger">
+                        Customer is required.
+                    </div>
+                </div>
+
+                <label class="col-sm-2 col-form-label"
+                >Valid Till</label
+                >
+                <div class="col-sm-4">          
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" formControlName="validtill">
+                        <button class="input-group-text increase" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'validtill'">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                        <button class="input-group-text decrease" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'validtill'">
+                          <i class="fa fa-minus"></i>
+                        </button> 
+                        <div *ngIf="form?.get('validtill')?.hasError('required') && form?.get('validtill')?.touched" class="text-danger">
+                            Valid till date is required.
+                        </div>  
+                    </div>  
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"
+                >Description</label
+                >
+                <div class="col-sm-4">
+                    <textarea 
+                        class="form-control"
+                        rows="4"
+                        formControlName="description"
+                        [ngClass]="{'is-invalid': form.get('description')?.invalid 
+                        && (form.get('description')?.dirty || form.get('description')?.touched)}"
+                    ></textarea>
+                    <div *ngIf="form?.get('description')?.hasError('required') && form?.get('description')?.touched" class="text-danger">
+                        Description is required.
+                    </div>
+                </div>
+                
+                <label class="col-sm-2 col-form-label"
+                >Adv Note No</label
+                >
+                <div class="col-sm-4">
+                        <select
+                            class="form-control"
+                            formControlName="advnotno"
+                            *ngIf="advtype$ | async as items"
+                            [ngClass]="{'is-invalid': form.get('advnotno')?.invalid 
+                            && (form.get('advnotno')?.dirty || form.get('advnotno')?.touched)}"
+                            >
+                            <option *ngFor="let item of items" [value]="item.value">
+                                {{ item.textValue }}
+                            </option>
+                        </select>
+                        <div *ngIf="form?.get('advnotno')?.hasError('required') && form?.get('advnotno')?.touched" class="text-danger">
+                            Advance note number is required.
+                        </div>
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+
+                <div class="col-sm-2">
+                    <button
+                        type="submit" 
+                        class="btn btn-block w-100"
+                        style="background-color: #5f8286; color: white;"
+                        [disabled]="!form.valid"
+                        (click)="addEditItems()" 
+                    > 
+                    <i class="fa fa-save"></i> {{ isEditMode ? 'Update' : 'Save' }}
+                    </button>
+                </div>
+
+                <div class="col-sm-2">
+                    <button
+                        type="submit" 
+                        class="btn btn-block w-100"
+                        style="background-color: #5f8286; color: white;"
+                        routerLink="/dashboard/propertyassignlist"
+                        >
+                        List
+                    </button>
+                </div>
+            </div>
+        </form>
+      </div>
+  
+    </div>
+  </section>
+  

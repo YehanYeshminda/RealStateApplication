@@ -1,0 +1,184 @@
+<!-- <app-side-nav></app-side-nav> -->
+
+<!-- <div hidden>
+    <app-side-nav></app-side-nav>
+</div>
+
+<div class="particles-container">
+    <div id="particles-js" class="container-particles">
+    </div>
+    <div class="mb-5 pb-5"></div>
+    <div class="hold-transition d-flex justify-content-center align-items-center mt-5 pt-5">
+        <div class="login-box">
+            <div class="login-logo">
+                <a>
+                    <ng-container *ngIf="companies$ | async as company; else loadingCompanyTemplate">
+                        <b class="text-black">{{ company.companyName }}</b>
+                    </ng-container>
+
+                    <ng-template #loadingCompanyTemplate>
+                        <b>Loading...</b>
+                    </ng-template>
+                </a>
+            </div>
+            <div class="card">
+                <div class="card-body login-card-body">
+                    <p class="login-box-msg">Sign in to start your session</p>
+
+                    <form [formGroup]="loginForm" (ngSubmit)="login()">
+                        <select class="form-control" formControlName="branchId">
+                            <ng-container *ngIf="branches$ | async as branches; else loadingTemplate">
+                                <option *ngFor="let item of branches" [value]="item.brId">
+                                    {{ item.branchName }}
+                                </option>
+                            </ng-container>
+
+                            <ng-template #loadingTemplate>
+                                <option> Branches are loading... </option>
+                            </ng-template>
+                        </select>
+                        <span class="fas fa-brands"></span>
+                        <div class="input-group mb-3">
+                            <input type="text" formControlName="username" class="form-control" placeholder="Username" />
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="password" class="form-control" placeholder="Password"
+                                formControlName="password" />
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <button class="btn btn-primary btn-block"
+                                    [disabled]="loginForm.invalid || logginIn">Sign
+                                    In</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<ngx-spinner type="line-scale"></ngx-spinner>
+
+<div class="container-fluid">
+    <div class="d-flex full-height p-v-15 flex-column justify-content-between">
+        <div class="d-none d-md-flex p-h-40">
+            <img src="assets/customimg/logo.png" width="80px" alt="thinkview logo">
+        </div>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="m-t-20">Sign In</h2>
+                            <p class="m-b-30">Enter your credential to get access</p>
+                            <form [formGroup]="loginForm" (ngSubmit)="login()">
+                                <div class="form-group">
+                                    <label class="font-weight-semibold" for="userName">Branches:</label>
+                                    <div class="input-affix">
+                                        <i class="prefix-icon anticon anticon-branches"></i>
+                                        <select class="form-control" formControlName="branchId">
+                                            <ng-container *ngIf="branches$ | async as branches; else loadingTemplate">
+                                                <option *ngFor="let item of branches" [value]="item.brId">
+                                                    {{ item.branchName }}
+                                                </option>
+                                            </ng-container>
+
+                                            <ng-template #loadingTemplate>
+                                                <option> Branches are loading... </option>
+                                            </ng-template>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="font-weight-semibold" for="userName">Username:</label>
+                                    <div class="input-affix">
+                                        <i class="prefix-icon anticon anticon-user"></i>
+                                        <input type="text"
+                                            [ngClass]="{'is-invalid': loginForm.get('username')?.invalid && (loginForm.get('username')?.dirty || loginForm.get('username')?.touched)}"
+                                            formControlName="username" class="form-control" id="userName"
+                                            placeholder="Username">
+                                    </div>
+                                    <div *ngIf="loginForm.get('username')?.invalid && (loginForm.get('username')?.dirty || loginForm.get('username')?.touched)"
+                                        class="invalid-feedback">
+                                        <div *ngIf="loginForm.get('username')?.errors?.['required']">Username is
+                                            required.
+                                        </div>
+                                        <div *ngIf="loginForm.get('username')?.errors?.['maxlength']">Maximum
+                                            Character
+                                            count
+                                            passed!</div>
+                                        <div *ngIf="loginForm.get('username')?.errors?.['pattern']">Only numbers are
+                                            possible!
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="font-weight-semibold" for="password">Password:</label>
+                                    <!-- <a class="float-right font-size-13 text-muted" href="">Forget Password?</a> -->
+                                    <div class="input-affix m-b-10">
+                                        <i class="prefix-icon anticon anticon-lock"></i>
+                                        <input formControlName="password"
+                                            [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)}"
+                                            type="password" class="form-control" id="password" placeholder="Password">
+                                    </div>
+
+                                    <div *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)"
+                                        class="invalid-feedback">
+                                        <div *ngIf="loginForm.get('password')?.errors?.['required']">Password is
+                                            required.
+                                        </div>
+                                        <div *ngIf="loginForm.get('password')?.errors?.['maxlength']">Maximum
+                                            Character
+                                            count
+                                            passed!</div>
+                                        <div *ngIf="loginForm.get('password')?.errors?.['pattern']">Only numbers are
+                                            possible!
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <!-- <span class="font-size-13 text-muted">
+                                            Don't have an account?
+                                            <a class="small" href=""> Signup</a>
+                                        </span> -->
+                                        <button class="btn btn-primary w-100 customer-hover"
+                                            [disabled]="loginForm.invalid">Sign
+                                            In</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="offset-md-1 col-md-6 d-none d-md-block">
+                    <img class="" width="750px" src="assets/customimg/crm-login.png" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="d-none d-md-flex  p-h-40 justify-content-between">
+            <span class="">© Thinkview CO LLC</span>
+            <ul class="list-inline">
+                <li class="list-inline-item">
+                    <a class="text-dark text-link" routerLink="/">Legal</a>
+                </li>
+                <li class="list-inline-item">
+                    <a class="text-dark text-link" routerLink="/">Privacy</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

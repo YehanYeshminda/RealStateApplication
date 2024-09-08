@@ -1,0 +1,177 @@
+<div class="card">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-12 col-sm-6 col-md-4">
+				<div class="info-box">
+					<button
+						type="button"
+						class="btn btn-block btn-flat"
+                        style="background-color: #5f8286; color: white;"
+						(click)="navigate()"
+					>
+						<i class="fas fa-plus"> </i> &nbsp; Add Expense
+					</button>
+					<!-- /.info-box-content -->
+				</div>
+			</div>
+
+			<div class="col-12 col-sm-6 col-md-4">
+				<div class="info-box">
+					<div class="info-box-content">
+						<span class="info-box-text text-center">EXPENSES DATA TABLE</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-sm-6 col-md-4">
+				<div class="info-box">
+					<button 
+					class="btn btn-block smaller-btn w-100"
+					style="background-color: #5f8286; color: white;"
+					(click)="printData()"
+					>
+						Print
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div
+			id="data_table_wrapper"
+			class="dataTables_wrapper dt-bootstrap4"
+		>
+			<div class="row">
+				<div class="col-sm-12 table-responsive">
+					<table
+						id="example1"
+						class="table table-bordered table-striped dataTable dtr-inline"
+						aria-describedby="data_table_info"
+					>
+						<thead>
+							<tr>
+								<th></th>
+								
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Id
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    VDate
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Supplier
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Account
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    MainCat
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Subcat
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Description
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    CashPaid
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Cheque Paid
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Cheque No
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Status
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    AuthBy
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Receipt No
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    RDate 
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Total Value
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Vatp
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Vat
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Net Total
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Paid
+                                </th>
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    
+                                </th>                                
+								<th	class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngIf="expenseinfo$ | async as iou; else loadingTemplate">
+                                <tr *ngFor="let item of iou.result; let i = index">
+									<td class="direct-chat-img-container">
+                                        <img src="assets/h.png" alt="" class="direct-chat-img" />
+                                    </td>
+                                    <td
+                                        class="dtr-control sorting_1"
+                                        tabindex="0"
+                                    >
+                                        {{ item.id}}
+                                    </td>
+                                    <td>{{ item.vDate | date: 'MM-dd-yyyy' }}</td>
+                                    <td>{{ item.supplierName}}</td>
+                                    <td>{{ item.accountId}}</td>
+                                    <td>{{ item.mainCategory}}</td>
+                                    <td>{{ item.subCategory}}</td>
+                                    <td>{{ item.description}}</td>
+                                    <td>{{ item.cashPaid}}</td>
+                                    <td>{{ item.chequePaid}}</td>
+                                    <td>{{ item.chequeNo}}</td>
+                                    <td>{{ item.status}}</td>
+                                    <td>{{ item.username}}</td>
+                                    <td>{{ item.receiptNo}}</td>
+                                    <td>{{ item.rDate | date: 'MM-dd-yyyy' }}</td>
+                                    <td>{{ item.totalValue}}</td>
+                                    <td>{{ item.vatp}}</td>
+                                    <td>{{ item.vat}}</td>
+                                    <td>{{ item.netTotal}}</td>
+                                    <td>{{ item.paid}}</td>
+                                    <td>
+										<button class="btn btn-block smaller-btn" 
+											style="background-color: #5f8286; color: white;"
+											(click)="navigatenew(item)">
+										    Edit
+										</button>
+									</td>
+									<td>
+										<button 
+											class="btn btn-block smaller-btn" 
+											style="background-color: #5f8286; color: white;"
+											(click)="printCellData(item.id)">
+											Print
+										</button>
+									</td>
+								</tr>
+							</ng-container>
+
+                            <ng-template #loadingTemplate>
+                                <ngx-spinner type="line-scale"></ngx-spinner>
+                            </ng-template>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

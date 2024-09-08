@@ -1,0 +1,390 @@
+<section class="content">
+    <div class="card">
+        <!-- <div class="card-header">
+            <h3 class="card-title">Call Center</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div> -->
+        <div class="card-body ">
+            <div class="row">
+                <div class="col-md-10">
+                    <div
+                        style="width: 100%; border: 1px solid #000000; height: 550px;  margin: 5px; padding: 10px; box-sizing: border-box; overflow: auto;">
+                        <div class="card-header">
+                            <h3 class="card-title">Call List</h3>
+                        </div>
+
+                        <div class="card-body">
+                            <ng-container *ngIf="callInsignts$ | async as leadData; else loadingTemplate">
+                                <ng-container *ngIf="leadData.result.length > 0; else noLeadsTemplate">
+                                    <div class="lead-body" *ngFor="let item of leadData.result"
+                                        (click)="selectedCallInsignt(item)"
+                                        [ngClass]="{'selected-lead': item.id === selectedCallInsight}">
+                                        <div class="">
+                                            {{ item.id }} <br>Name: {{ item.firstName }}
+                                        </div>
+
+                                        <div class="make-justify-col">
+                                            <div class="add-margin-header">
+                                                <a href="tel:{{ item.phoneNo }}">
+                                                    <i class="fa fa-phone" aria-hidden="true" (click)="onCall('phone', item.phoneNo)"></i>
+                                                </a>
+                                            </div>
+    
+                                            <div class="add-margin-header">
+                                                <a href="https://wa.me/{{ item.phoneNo }}" (click)="onCall('whatsapp', item.phoneNo)" target="_blank">
+                                                    <img width="20px" src="assets/whatsapp.svg" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </ng-container>
+
+                                <ng-template #noLeadsTemplate>
+                                    <div class="lead-body">
+                                        No Calls to display
+                                    </div>
+                                </ng-template>
+                            </ng-container>
+
+                            <ng-template #loadingTemplate>
+                                <div class="lead-body">
+                                    Loading...
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- <div class="col-md-9">
+                    <form [formGroup]="form">
+                        <div
+                            style="width: 100%; border: 1px solid #000000; margin: 5px; padding: 10px; box-sizing: border-box;">
+                            <div class="card-header">
+                                <h3 class="card-title">Call Center</h3>
+                            </div>
+                            <div class="card-body">
+
+                                <ng-container *ngIf="selectedCallInsight != 0">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 col-form-label">Client Name</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly formControlName="clientName"
+                                                class="form-control" />
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-1"> -->
+                                        <!-- <button type="button" (click)="openModalWithComponent()"
+                                            class="btn btn-block w-100"
+                                            style="background-color: #5f8286; color: white;">
+                                            Call
+                                        </button> -->
+                                        <!-- <a href="tel:{{ selectedCallInsightPhoneNo }}" (click)="onCall()" class="btn btn-block w-100"
+                                            style="background-color: #5f8286; color: white;">
+                                            Call
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-block w-100"
+                                            style="background-color: #5f8286; color: white;">
+                                            Email
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-block w-100"
+                                            style="background-color: #5f8286; color: white;">
+                                            WhatsApp
+                                        </button>
+                                    </div>
+                                </div> -->
+                                <!-- <form [formGroup]="scheduleForm" (ngSubmit)="onSchedule()">
+                                    <fieldset style="border: 2px solid #ffffff; border-radius: 5px; padding: 10px;">
+                                        <legend>&nbsp;Schedule Call</legend>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Date</label>
+                                            <div class="col-sm-4">
+                                                <input type="date"
+                                                    [ngClass]="{'is-invalid': scheduleForm.get('ScheuledDate')?.invalid && (scheduleForm.get('ScheuledDate')?.dirty || scheduleForm.get('ScheuledDate')?.touched)}"
+                                                    class="form-control" formControlName="ScheuledDate" />
+
+                                                <div *ngIf="scheduleForm.get('ScheuledDate')?.invalid && (scheduleForm.get('ScheuledDate')?.dirty || scheduleForm.get('ScheuledDate')?.touched)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="scheduleForm.get('ScheuledDate')?.errors?.['required']">
+                                                        ScheuledDate is
+                                                        required.</div>
+                                                    <div
+                                                        *ngIf="scheduleForm.get('ScheuledDate')?.errors?.['ScheuledDate']">
+                                                        Invalid ScheuledDate
+                                                    </div>
+                                                    <div *ngIf="scheduleForm.get('ScheuledDate')?.errors?.['pattern']">
+                                                        Only
+                                                        numbers are
+                                                        possible!
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 col-form-label">Time</label>
+                                            <div class="col-sm-4">
+                                                <input type="time" class="form-control"
+                                                    [ngClass]="{'is-invalid': scheduleForm.get('ScheuledTime')?.invalid && (scheduleForm.get('ScheuledTime')?.dirty || scheduleForm.get('ScheuledTime')?.touched)}"
+                                                    formControlName="ScheuledTime" />
+
+                                                <div *ngIf="scheduleForm.get('ScheuledTime')?.invalid && (scheduleForm.get('ScheuledTime')?.dirty || scheduleForm.get('ScheuledTime')?.touched)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="scheduleForm.get('ScheuledTime')?.errors?.['required']">
+                                                        ScheuledTime is
+                                                        required.</div>
+                                                    <div
+                                                        *ngIf="scheduleForm.get('ScheuledTime')?.errors?.['ScheuledTime']">
+                                                        Invalid ScheuledTime
+                                                    </div>
+                                                    <div *ngIf="scheduleForm.get('ScheuledTime')?.errors?.['pattern']">
+                                                        Only
+                                                        numbers are
+                                                        possible!
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Description</label>
+                                            <div class="col-sm-10">
+                                                <textarea class="form-control"
+                                                    [ngClass]="{'is-invalid': scheduleForm.get('description')?.invalid && (scheduleForm.get('description')?.dirty || scheduleForm.get('description')?.touched)}"
+                                                    formControlName="description" name="id" rows="6"></textarea>
+
+                                                <div *ngIf="scheduleForm.get('description')?.invalid && (scheduleForm.get('description')?.dirty || scheduleForm.get('description')?.touched)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="scheduleForm.get('description')?.errors?.['required']">
+                                                        Description is
+                                                        required.</div>
+                                                    <div
+                                                        *ngIf="scheduleForm.get('description')?.errors?.['description']">
+                                                        Invalid description
+                                                    </div>
+                                                    <div *ngIf="scheduleForm.get('description')?.errors?.['pattern']">
+                                                        Only
+                                                        numbers are
+                                                        possible!
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Assign</label>
+                                            <ng-container *ngIf="staffNos$ | async as data; else loadingComboTemplate">
+                                                <ng-container *ngIf="data.length > 0; else noBankTemplate">
+                                                    <div class="col-sm-4">
+                                                        <select
+                                                            [ngClass]="{'is-invalid': scheduleForm.get('AssignedStaff')?.invalid && (scheduleForm.get('AssignedStaff')?.dirty || scheduleForm.get('AssignedStaff')?.touched)}"
+                                                            class="form-control" formControlName="AssignedStaff">
+                                                            <option *ngFor="let item of data" [value]="item.value">{{
+                                                                item.textValue }}</option>
+                                                        </select>
+
+                                                        <div *ngIf="scheduleForm.get('AssignedStaff')?.invalid && (scheduleForm.get('AssignedStaff')?.dirty || scheduleForm.get('AssignedStaff')?.touched)"
+                                                            class="invalid-feedback">
+                                                            <div
+                                                                *ngIf="scheduleForm.get('AssignedStaff')?.errors?.['required']">
+                                                                AssignedStaff is
+                                                                required.</div>
+                                                            <div
+                                                                *ngIf="scheduleForm.get('AssignedStaff')?.errors?.['AssignedStaff']">
+                                                                Invalid AssignedStaff
+                                                            </div>
+                                                            <div
+                                                                *ngIf="scheduleForm.get('AssignedStaff')?.errors?.['pattern']">
+                                                                Only
+                                                                numbers are
+                                                                possible!
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+
+                                                <ng-template #noBankTemplate>
+                                                    <div class="col-sm-4">
+                                                        <select class="form-control">
+                                                            <option>No Staff...</option>
+                                                        </select>
+                                                    </div>
+                                                </ng-template>
+                                            </ng-container>
+
+                                            <ng-template #loadingComboTemplate>
+                                                <div class="col-sm-4">
+                                                    <select class="form-control">
+                                                        <option>Loading...</option>
+                                                    </select>
+                                                </div>
+                                            </ng-template>
+
+                                            <div class="col-sm-4">
+                                                <button type="submit" class="btn btn-block w-100"
+                                                    style="background-color: #5f8286; color: white;"
+                                                    [disabled]="scheduleForm.invalid">
+                                                    Schedule
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                                <form>
+                                    <form [formGroup]="form"> -->
+                                        <!-- <fieldset style="border: 2px solid #ffffff; border-radius: 5px; padding: 10px;">
+                                            <legend>&nbsp; Lead</legend>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Lead Status</label>
+                                                <ng-container
+                                                    *ngIf="leadStatus$ | async as data; else loadingComboTemplate">
+                                                    <ng-container *ngIf="data.length > 0; else noBankTemplate">
+                                                        <div class="col-sm-8">
+                                                            <select class="form-control" formControlName="leadStatus">
+                                                                <option *ngFor="let item of data" [value]="item.value">
+                                                                    {{
+                                                                    item.textValue }}</option>
+                                                            </select>
+
+                                                            <div *ngIf="form.get('leadStatus')?.invalid && (form.get('leadStatus')?.dirty || form.get('leadStatus')?.touched)"
+                                                                class="invalid-feedback">
+                                                                <div
+                                                                    *ngIf="form.get('leadStatus')?.errors?.['required']">
+                                                                    Lead Status is required.</div>
+                                                                <div
+                                                                    *ngIf="form.get('leadStatus')?.errors?.['leadStatus']">
+                                                                    Invalid leadStatus</div>
+                                                                <div
+                                                                    *ngIf="form.get('leadStatus')?.errors?.['pattern']">
+                                                                    Only numbers are possible!
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+
+                                                    <ng-template #noBankTemplate>
+                                                        <div class="col-sm-8">
+                                                            <select class="form-control">
+                                                                <option>No Contact Methods...</option>
+                                                            </select>
+                                                        </div>
+                                                    </ng-template>
+                                                </ng-container>
+
+                                                <ng-template #loadingComboTemplate>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control">
+                                                            <option>Loading...</option>
+                                                        </select>
+                                                    </div>
+                                                </ng-template>
+                                                <div class="col-sm-2">
+                                                    <button type="submit" class="btn btn-block w-100"
+                                                        style="background-color: #5f8286; color: white;">
+                                                        End Call
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="col-sm-2"></div>
+                                                <div class="col-sm-2">
+                                                    <label class="col-form-label">Re Queue</label>
+                                                    <input type="checkbox" value="checked"
+                                                        style="margin-top: 20px; margin-left: 15px;">
+                                                </div>
+
+                                                <div class="col-sm-2"></div>
+
+                                                <div class="col-sm-2">
+                                                    <label class="col-form-label">Alert Call</label>
+                                                    <input type="checkbox" value="checked"
+                                                        style="margin-top: 20px; margin-left: 15px;">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Remark</label>
+                                                <div class="col-sm-10">
+                                                    <textarea class="form-control" name="id" rows="6"></textarea>
+                                                </div>
+                                            </div>
+                                        </fieldset> -->
+
+                                        <!-- <fieldset style="border: 2px solid #ffffff; border-radius: 5px; padding: 10px;">
+                                            <legend>&nbsp; History</legend>
+                                            <ng-container *ngIf="loadedLeads">
+                                                <div style="height: 300px; overflow-y: auto;">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Id</th>
+                                                                <th scope="col">Lead</th>
+                                                                <th scope="col">Log</th>
+                                                                <th scope="col">Add on</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <ng-container
+                                                                *ngIf="leadNoHistory$ | async as data; else loadingLeads">
+                                                                <ng-container
+                                                                    *ngIf="data.result.length > 0;else noLeadsAssigned">
+                                                                    <tr *ngFor="let item of data.result">
+                                                                        <td>{{ item.id }}</td>
+                                                                        <td>{{ item.leadid }}</td>
+                                                                        <td>{{ item.log }}</td>
+                                                                        <td>{{ item.addon | date: 'short' }}</td>
+                                                                    </tr>
+                                                                </ng-container>
+
+                                                                <ng-template #noLeadsAssigned>
+                                                                    <tr>
+                                                                        <td colspan="4">No data to show...
+                                                                        </td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                </ng-template>
+                                                            </ng-container>
+
+                                                            <ng-template #loadingLeads>
+                                                                <tr>
+                                                                    <td colspan="4">Loading...</td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </ng-template>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </ng-container>
+                                        </fieldset>
+                                    </form>
+                                </form>
+                            </div>
+                        </div>
+                    </form>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</section>

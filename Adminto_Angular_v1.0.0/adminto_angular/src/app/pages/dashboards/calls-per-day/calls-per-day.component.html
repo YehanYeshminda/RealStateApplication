@@ -1,0 +1,70 @@
+<div class="card">
+    <div class="card-header">Update Per Day</div>
+
+    <div class="card-body">
+        <form [formGroup]="form">
+            <div class="row">
+                <div class="mb-3 col-md-6">
+                    <label for="inputState" class="form-label">Type</label>
+                    <select id="inputState" formControlName="type" class="form-select"
+                    [ngClass]="{ 'is-valid': submitted && form1['type'].valid , 'is-invalid': submitted && form1['type'].invalid }">
+                        <ng-container *ngIf="listOfValues.length > 0 as data; else loadingSource">
+                            <option *ngFor="let item of listOfValues" [value]="item.value">{{ item.textValue }}</option>
+                        </ng-container>
+                        
+                        <ng-template #loadingSource>
+                            <option>Loading...</option>
+                        </ng-template>
+                        
+                    </select>
+    
+                    <div *ngIf="submitted && form1['type'].invalid" class="invalid-feedback">
+                        Please select a type.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="mb-3 col-md-6">
+                    <label for="inputState" class="form-label">Staff</label>
+                    <select id="inputState" formControlName="staffId" class="form-select"
+                    [ngClass]="{ 'is-valid': submitted && form1['staffId'].valid , 'is-invalid': submitted && form1['staffId'].invalid }">
+                        <ng-container *ngIf="staffNos$ | async as data; else loadingSource">
+                            <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                        </ng-container>
+                        
+                        <ng-template #loadingSource>
+                            <option>Loading...</option>
+                        </ng-template>
+                        
+                    </select>
+    
+                    <div *ngIf="submitted && form1['staffId'].invalid" class="invalid-feedback">
+                        Please select a type.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="mb-3 col-md-6">
+                    <label for="inputCity" class="form-label">Daily Count</label>
+                    <input type="number" formControlName="count" class="form-control" id="inputCity" placeholder="Enter enter a count"
+                    [ngClass]="{ 'is-valid': submitted && form1['count'].valid , 'is-invalid': submitted && form1['count'].invalid }">
+    
+                    <div *ngIf="submitted && form1['count'].hasError('required')" class="invalid-feedback">
+                        Please enter a count.
+                    </div>
+                    <div *ngIf="submitted && form1['count'].hasError('password')" class="invalid-feedback">
+                        Please enter a valid count.
+                    </div>
+                </div>
+            </div>
+         
+            <div class="row">
+                <div class="col-6 md-3">
+                    <button class="btn btn-primary w-100" [disabled]="form.invalid" (click)="updateDailyCount()">Update Count</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

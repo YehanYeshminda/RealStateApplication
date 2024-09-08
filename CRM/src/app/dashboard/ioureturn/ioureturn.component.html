@@ -1,0 +1,121 @@
+<section class="content">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">IOU Return</h3>
+        <div class="card-tools">
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="collapse"
+            title="Collapse"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="remove"
+            title="Remove"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="form">
+
+            <div class="form-group row">                
+                <label  class="col-sm-2 col-form-label"
+                >Return On</label
+                >
+                <div class="col-sm-4">
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" formControlName="retnon">
+                        <button class="input-group-text increase" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'retnon'">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                        <button class="input-group-text decrease" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'retnon'">
+                          <i class="fa fa-minus"></i>
+                        </button> 
+                        <div *ngIf="form?.get('retnon')?.hasError('required') && form?.get('retnon')?.touched" class="text-danger">
+                            Please enter the date.
+                        </div>
+                    </div>  
+                </div>
+
+                <label  class="col-sm-2 col-form-label"
+                >IOU Number</label
+                >
+                <div class="col-sm-4">
+                    <select
+                        class="form-control"
+                        formControlName="iouid"
+                        *ngIf="iou$ | async as items"
+                        [ngClass]="{
+                            'is-invalid':
+                                form.get('iouid')?.invalid &&
+                                (form.get('iouid')?.dirty || form.get('iouid')?.touched)
+                        }"
+                    >
+                        <option *ngFor="let item of items" [value]="item.value">{{ item.textValue }}</option>
+                    </select>
+                    <div *ngIf="form?.get('iouid')?.hasError('required') && form?.get('iouid')?.touched" class="text-danger">
+                        Please Select iou number.
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"
+                >Description</label
+                >
+                <div class="col-sm-10">
+                    <textarea
+                        class="form-control"
+                        formControlName="desc"
+                        rows="2"
+                        [ngClass]="{
+                            'is-invalid':
+                                form.get('desc')?.invalid &&
+                                (form.get('desc')?.dirty || form.get('desc')?.touched)
+                        }">
+                    </textarea>
+                    <div *ngIf="form?.get('desc')?.hasError('required') && form?.get('desc')?.touched" class="text-danger">
+                        Please enter the description.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+
+                <div class="col-sm-2">
+                    <button
+                        type="submit" 
+                        class="btn btn-block w-100"
+                        style="background-color: #5f8286; color: white;"
+                        [disabled]="!form.valid"
+                        (click)="addEditItems()" 
+                    > 
+                    <i class="fa fa-save"></i> {{ isEditMode ? 'Update' : 'Return' }}
+                    </button>
+                </div>
+                <div class="col-sm-2">
+                    <button
+                        type="submit" 
+                        class="btn btn-block w-100"
+                        style="background-color: #5f8286; color: white;"
+                        routerLink="/dashboard/ioureturnlist"
+                        >
+                        List
+                    </button>
+                </div>
+
+            </div>
+        </form>
+      </div>
+  
+    </div>
+  </section>
+  

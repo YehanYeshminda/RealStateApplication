@@ -1,0 +1,281 @@
+<div class="card">
+    <div class="card-header">
+        {{ isEditMode ? "Edit Existing Staff" : "Add New Staff" }}
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="form">
+            <div class="row">
+                <div class="mb-3 col-md-6">
+                    <label for="inputCity" class="form-label">First Name</label>
+                    <input type="text" formControlName="firstname" class="form-control" id="inputCity" placeholder="Firstname"
+                    [ngClass]="{ 'is-valid': submitted && form1['firstname'].valid , 'is-invalid': submitted && form1['firstname'].invalid }">
+    
+                    <div *ngIf="submitted && form1['firstname'].invalid" class="invalid-feedback">
+                        Please enter firstname.
+                    </div>
+                </div>
+                <div class="mb-3 col-md-6">
+                    <label for="inputCity" class="form-label">Last Name</label>
+                    <input type="text" formControlName="lastname" class="form-control" id="inputCity" placeholder="Lastname"
+                    [ngClass]="{ 'is-valid': submitted && form1['lastname'].valid , 'is-invalid': submitted && form1['lastname'].invalid }">
+    
+                    <div *ngIf="submitted && form1['lastname'].invalid" class="invalid-feedback">
+                        Please enter lastname.
+                    </div>
+                </div>
+            </div>
+    
+            <div class="row">
+                <div class="mb-3 col-md-6">
+                    <label for="inputCity" class="form-label">Mobile Number</label>
+                    <input type="text" formControlName="mobileno" class="form-control" id="inputCity" placeholder="Mobile No"
+                    [ngClass]="{ 'is-valid': submitted && form1['mobileno'].valid , 'is-invalid': submitted && form1['mobileno'].invalid }">
+    
+                    <div *ngIf="submitted && form1['mobileno'].hasError('required')" class="invalid-feedback">
+                        Please enter mobile number.
+                    </div>
+                    <div *ngIf="submitted && form1['mobileno'].hasError('pattern')" class="invalid-feedback">
+                        Please enter a valid phone number.
+                    </div>
+                </div>
+                <div class="mb-3 col-md-6">
+                    <label for="inputState" (click)="uploadContacts(staticBackdropModal)" class="form-label text-blue">Designation</label>
+                    <select id="inputState" formControlName="designation" class="form-select"
+                    [ngClass]="{ 'is-valid': submitted && form1['designation'].valid , 'is-invalid': submitted && form1['designation'].invalid }">
+                        <ng-container *ngIf="designationtype$ | async as data; else loadingSource">
+                            <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                        </ng-container>
+                        
+                        <ng-template #loadingSource>
+                            <option>Loading...</option>
+                        </ng-template>
+                        
+                    </select>
+    
+                    <div *ngIf="submitted && form1['designation'].invalid" class="invalid-feedback">
+                        Please select a designation.
+                    </div>
+                </div>
+            </div>
+    
+            <div class="row">
+                <div class="mb-3 col-md-6">
+                    <label for="inputCity" class="form-label">Username</label>
+                    <input type="text" formControlName="name" class="form-control" id="inputCity" placeholder="Username"
+                    [ngClass]="{ 'is-valid': submitted && form1['name'].valid , 'is-invalid': submitted && form1['name'].invalid }">
+    
+                    <div *ngIf="submitted && form1['name'].invalid" class="invalid-feedback">
+                        Please enter username.
+                    </div>
+                </div>
+
+                <div class="mb-3 col-md-6">
+                    <label for="inputCity" class="form-label">Email</label>
+                    <input type="email" formControlName="email" class="form-control" id="inputCity" placeholder="Email"
+                    [ngClass]="{ 'is-valid': submitted && form1['email'].valid , 'is-invalid': submitted && form1['email'].invalid }">
+    
+                    <div *ngIf="submitted && form1['email'].hasError('required')" class="invalid-feedback">
+                        Please enter a email.
+                    </div>
+                    <div *ngIf="submitted && form1['email'].hasError('email')" class="invalid-feedback">
+                        Please enter a valid email.
+                    </div>
+                </div>
+            </div>
+    
+            <div class="row">
+
+                <div class="mb-3 col-md-6">
+                    <label for="inputCity" class="form-label">Visa Issue Date</label>
+                    <input type="date" formControlName="visaIssueDate" class="form-control" id="inputCity" placeholder="Visa Issue Date"
+                    [ngClass]="{ 'is-valid': submitted && form1['visaIssueDate'].valid , 'is-invalid': submitted && form1['visaIssueDate'].invalid }">
+    
+                    <div *ngIf="submitted && form1['visaIssueDate'].invalid" class="invalid-feedback">
+                        Please enter a visa issue date.
+                    </div>
+                </div>
+
+                <div class="mb-3 col-md-6">
+                    <label for="inputState" class="form-label">Parent</label>
+                    <select id="inputState" formControlName="parentid" class="form-select"
+                    [ngClass]="{ 'is-valid': submitted && form1['parentid'].valid , 'is-invalid': submitted && form1['parentid'].invalid }">
+                        <ng-container *ngIf="parent$ | async as data; else loadingSource">
+                            <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                        </ng-container>
+                        
+                        <ng-template #loadingSource>
+                            <option>Loading...</option>
+                        </ng-template>
+                        
+                    </select>
+    
+                    <div *ngIf="submitted && form1['parentid'].invalid" class="invalid-feedback">
+                        Please select a parent.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="mb-3 col-md-6" *ngIf="isEditMode">
+                    <label for="inputCity" class="form-label">Password</label>
+                    <input type="password" formControlName="password" class="form-control" id="inputCity" placeholder="Password"
+                    [ngClass]="{ 'is-valid': submitted && form1['password'].valid , 'is-invalid': submitted && form1['password'].invalid }">
+    
+                    <div *ngIf="submitted && form1['password'].hasError('required')" class="invalid-feedback">
+                        Please enter a password.
+                    </div>
+                    <div *ngIf="submitted && form1['password'].hasError('password')" class="invalid-feedback">
+                        Please enter a valid password.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="mb-3 col-md-6">
+                    <ngx-dropzone *ngIf="!selectedOnImagePassport" (change)="onSelect($event)" class="dropzone" style="height: auto !important;"
+                    accept="image/jpeg,image/jpg,image/png,image/gif">
+                        <ngx-dropzone-label>
+                            <i class="h1 text-muted dripicons-cloud-upload"></i>
+                            <h3>Click to upload passport image</h3>
+                        </ngx-dropzone-label>
+                    </ngx-dropzone>
+                     <div class="dropzone-previews mt-3" id="file-previews">
+                        <div id="uploadPreviewTemplate" *ngFor="let f of files">
+                            <div class="card mt-1 mb-0 shadow-none border">
+                                <div class="p-2">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <img class="avatar-sm rounded bg-light" [alt]="f.name"
+                                                [src]="getPreviewUrl(f)">
+                                        </div>
+                                        <div class="col ps-0">
+                                            <a href="javascript:void(0);" class="text-muted fw-bold">{{f.name}}</a>
+                                            <p class="mb-0">{{getSize(f)}}</p>
+                                        </div>
+                                        <div class="col-auto">
+                                            <a href="javascript:void(0)" class="btn btn-link btn-lg text-muted"
+                                                (click)="onRemove($event)">
+                                                <i class="dripicons-cross"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3 col-md-6">
+                    <ngx-dropzone *ngIf="!selectedOnImageUser" (change)="onSelectUser($event)" class="dropzone" style="height: auto !important;"
+                    accept="image/jpeg,image/jpg,image/png,image/gif">
+                        <ngx-dropzone-label>
+                            <i class="h1 text-muted dripicons-cloud-upload"></i>
+                            <h3>Click to upload user image</h3>
+                        </ngx-dropzone-label>
+                    </ngx-dropzone>
+                     <div class="dropzone-previews mt-3" id="file-previews">
+                        <div id="uploadPreviewTemplate" *ngFor="let f of files2">
+                            <div class="card mt-1 mb-0 shadow-none border">
+                                <div class="p-2">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <img class="avatar-sm rounded bg-light" [alt]="f.name"
+                                                [src]="getPreviewUrlUser(f)">
+                                        </div>
+                                        <div class="col ps-0">
+                                            <a href="javascript:void(0);" class="text-muted fw-bold">{{f.name}}</a>
+                                            <p class="mb-0">{{getSizeUser(f)}}</p>
+                                        </div>
+                                        <div class="col-auto">
+                                            <a href="javascript:void(0)" class="btn btn-link btn-lg text-muted"
+                                                (click)="onRemoveUser($event)">
+                                                <i class="dripicons-cross"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <ng-container *ngIf="!addingStaff">
+                        <button class="btn btn-primary" type="button" (click)="addstaff()">{{ isEditMode ? "Edit Staff" :"Add Staff" }}</button>
+                    </ng-container>
+                    
+                    <ng-container *ngIf="addingStaff">
+                        <button class="btn btn-primary" type="button">Processing...</button>
+                    </ng-container> 
+                </div>
+                <div class="mb-3 col-md-10"></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<ng-template #staticBackdropModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel">New Designation</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="designationForm">
+            <div class="mb-3 col-md-12">
+                <label for="inputCity" class="form-label">Designation Name</label>
+                <input type="text" formControlName="catergoryName" class="form-control" id="inputCity" placeholder="Enter new designation"
+                [ngClass]="{ 'is-valid': submitted2 && form1['catergoryName'].valid , 'is-invalid': submitted2 && form1['catergoryName'].invalid }">
+    
+                <div *ngIf="submitted2 && form1['catergoryName'].hasError('required')" class="invalid-feedback">
+                    Please enter Designation name.
+                </div>
+            </div>
+    
+            <div class="mb-3 col-md-12">
+                <label for="inputCity" class="form-label">Remark</label>
+                <input type="text" formControlName="remark" class="form-control" id="inputCity" placeholder="Enter a remark"
+                [ngClass]="{ 'is-valid': submitted2 && form1['remark'].valid , 'is-invalid': submitted2 && form1['remark'].invalid }">
+    
+                <div *ngIf="submitted2 && form1['remark'].hasError('required')" class="invalid-feedback">
+                    Please enter a remark.
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        <button type="button" (click)="addNewDesignation()" class="btn btn-primary">Insert</button>
+    </div>
+
+    <ng-template #nowUploading>
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status"></div>
+        </div>
+    </ng-template>
+
+</ng-template>
+
+
+
+<ng-template #addedStaffPassword let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel">The staff will get a email.</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="form-control">
+                <p for="">Check you email: <b>{{ selectedEmailSent }}</b></p>
+                <p for="">This email contains the password for the staff please check.</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>

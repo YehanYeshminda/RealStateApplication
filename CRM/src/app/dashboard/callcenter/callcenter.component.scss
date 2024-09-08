@@ -1,0 +1,21 @@
+.lead-body {
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-between;
+}
+
+.selected-lead {
+  background-color: lightblue;
+}
+
+.add-margin-header {
+  margin-top: 10px;
+}
+
+.make-justify-col {
+  display: flex;
+  justify-content: space-around;
+  width: 100px;
+}

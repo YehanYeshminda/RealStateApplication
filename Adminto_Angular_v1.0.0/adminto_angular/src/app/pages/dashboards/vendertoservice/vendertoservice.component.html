@@ -1,0 +1,108 @@
+<div class="card">
+    <div class="card-header">
+        {{ isEditMode ? "Edit Existing Vender" : "Add Vender" }}
+    </div>
+    <div class="card-body">
+	    <form [formGroup]="form">
+
+			<div class="row">
+				<div class="mb-3 col-md-6">
+                    <label class="form-label">Vendor</label>
+                    <select class="form-select" formControlName="venderid" *ngIf="supplier$ | async as items"
+                        [ngClass]="{ 'is-valid': submitted && form1['venderid'].valid , 'is-invalid': submitted && form1['venderid'].invalid }"
+                    >
+                        <option *ngFor="let item of items" [value]="item.value">{{ item.textValue }}</option>
+                    </select>            
+                    <div *ngIf="submitted && form1['venderid'].invalid" class="invalid-feedback">
+                        Please select the vendor.
+                    </div>
+                </div>
+                
+				<div class="mb-3 col-md-6">
+                    <label (click)="uploaddata(staticBackdropModal)" class="form-label text-blue">Service</label>
+                    <select formControlName="serviceid" class="form-select"
+                    [ngClass]="{ 'is-valid': submitted && form1['serviceid'].valid , 'is-invalid': submitted && form1['serviceid'].invalid }">
+                        <ng-container *ngIf="servicetype$ | async as data; else loadingSource">
+                            <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                        </ng-container>
+                        
+                        <ng-template #loadingSource>
+                            <option>Loading...</option>
+                        </ng-template>
+                        
+                    </select>
+                    <div *ngIf="submitted && form1['serviceid'].invalid" class="invalid-feedback">
+                        Please select the service.
+                    </div>
+                </div>
+			</div>
+
+
+			<div class="row">
+				<div class="mb-3 col-md-6"></div>
+				<div class="mb-3 col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" [checked]="isEditMode && editvtsInfo?.Status == 1" type="checkbox" #status
+                            (change)="updateCheckboxValue('status', status.checked)" formControlName="status" />
+                        <label class="form-check-label">Status</label>
+                    </div>
+                </div>
+			</div>
+
+
+            <div class="row">
+				<div class="mb-3 col-md-2">
+                    <button type="button" class="btn btn-primary w-100" 
+                        (click)="addEditItems()">
+                        {{ isEditMode ? 'Update' : 'Save'  }}
+                    </button>
+                </div>
+                <div class="mb-3 col-md-10"></div>
+			</div>          
+		</form>
+    </div>    
+</div>
+
+
+
+<ng-template #staticBackdropModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel">New Service</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="typeForm">
+            <div class="mb-3 col-md-12">
+                <label for="inputCity" class="form-label">Service Name</label>
+                <input type="text" formControlName="catergoryName" class="form-control" id="inputCity" placeholder="Enter new type"
+                [ngClass]="{ 'is-valid': submitted2 && form1['catergoryName'].valid , 'is-invalid': submitted2 && form1['catergoryName'].invalid }">
+    
+                <div *ngIf="submitted2 && form1['catergoryName'].hasError('required')" class="invalid-feedback">
+                    Please enter Service name.
+                </div>
+            </div>
+    
+            <div class="mb-3 col-md-12">
+                <label for="inputCity" class="form-label">Remark</label>
+                <input type="text" formControlName="remark" class="form-control" id="inputCity" placeholder="Enter a remark"
+                [ngClass]="{ 'is-valid': submitted2 && form1['remark'].valid , 'is-invalid': submitted2 && form1['remark'].invalid }">
+    
+                <div *ngIf="submitted2 && form1['remark'].hasError('required')" class="invalid-feedback">
+                    Please enter a remark.
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        <button type="button" (click)="addNewservice()" class="btn btn-primary">Insert</button>
+    </div>
+
+    <ng-template #nowUploading>
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status"></div>
+        </div>
+    </ng-template>
+
+</ng-template>

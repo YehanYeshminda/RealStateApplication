@@ -1,0 +1,15 @@
+<div class="card">
+    <div class="card-body">
+
+        <h4 class="header-title mt-0">{{ chartName }}</h4>
+
+        <div dir="ltr">
+            <apx-chart class="apex-charts mt-2" [series]="chartOptions.series!" [chart]="chartOptions.chart!"
+                [dataLabels]="chartOptions.dataLabels!" [plotOptions]="chartOptions.plotOptions!"
+                [fill]="chartOptions.fill!" [grid]="chartOptions.grid!" [xaxis]="chartOptions.xaxis!"
+                [yaxis]="chartOptions.yaxis!" [stroke]="chartOptions.stroke!" [tooltip]="chartOptions.tooltip!"
+                [colors]="chartOptions.colors!"></apx-chart>
+        </div>
+
+    </div>
+</div>

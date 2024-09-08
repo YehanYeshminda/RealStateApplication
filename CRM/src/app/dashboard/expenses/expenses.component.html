@@ -1,0 +1,364 @@
+<section class="content">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Expenses</h3>
+        <div class="card-tools">
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="collapse"
+            title="Collapse"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="remove"
+            title="Remove"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="form">
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Branch</label>
+              <div class="col-sm-10">
+                <select
+                  class="form-control"
+                  formControlName="brid"
+                  *ngIf="branchtype$ | async as items"
+                  [ngClass]="{
+                      'is-invalid':
+                      form.get('brid')?.invalid &&
+                      (form.get('brid')?.dirty || form.get('brid')?.touched)
+                  }"
+                >
+                  <option *ngFor="let item of items" [value]="item.value">
+                    {{ item.textValue }}
+                  </option>
+                </select>
+                <div *ngIf="form?.get('brid')?.hasError('required') && form?.get('brid')?.touched" class="text-danger">
+                    Branch id is required.
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Voucher Number</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" formControlName="id" readonly />
+                <div *ngIf="form?.get('id')?.hasError('required') && form?.get('id')?.touched" class="text-danger">
+                    Voucher number is required.
+                </div>
+              </div>
+          
+              <label class="col-sm-2 col-form-label">Date</label>
+              <div class="col-sm-4">
+                  <div class="input-group mb-3">
+                      <input type="date" class="form-control" formControlName="vDate"
+                      [ngClass]="{
+                          'is-invalid':
+                          form.get('vDate')?.invalid &&
+                          (form.get('vDate')?.dirty || form.get('vDate')?.touched)
+                      }">
+                      <button class="input-group-text increase" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'vDate'">
+                        <i class="fa fa-plus"></i>
+                      </button>
+                      <button class="input-group-text decrease" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'vDate'">
+                        <i class="fa fa-minus"></i>
+                      </button>
+                      <div *ngIf="form?.get('vDate')?.hasError('required') && form?.get('vDate')?.touched" class="text-danger">
+                          Date is required.
+                      </div>
+                  </div>
+              </div>
+            </div>
+          
+            <div class="form-group row">
+              <label  class="col-sm-2 col-form-label">Supplier</label>
+              <div class="col-sm-10">
+                <select
+                  class="form-control"
+                  formControlName="supplierId"
+                  *ngIf="vendertype$ | async as items"
+                  [ngClass]="{
+                      'is-invalid':
+                      form.get('supplierId')?.invalid &&
+                      (form.get('supplierId')?.dirty || form.get('supplierId')?.touched)
+                  }"
+                >
+                  <option *ngFor="let item of items" [value]="item.value">
+                    {{ item.textValue }}
+                  </option>
+                </select>
+                <div *ngIf="form?.get('supplierId')?.hasError('required') && form?.get('supplierId')?.touched" class="text-danger">
+                    Supplier is required.
+                </div>
+              </div>
+            </div>
+          
+            <div class="form-group row">
+              <label  class="col-sm-2 col-form-label category-label" (click)="Navigateto(true)" style="color: blue;">Expense Account</label>
+              <div class="col-sm-10">
+                <select
+                  class="form-control"
+                  formControlName="accountId"
+                  *ngIf="expensetype$ | async as vender"
+                  [ngClass]="{
+                      'is-invalid':
+                      form.get('accountId')?.invalid &&
+                      (form.get('accountId')?.dirty || form.get('accountId')?.touched)
+                  }"
+                >
+                  <option *ngFor="let item of vender" [value]="item.value">
+                    {{ item.textValue }}
+                  </option>
+                </select>
+                <div *ngIf="form?.get('accountId')?.hasError('required') && form?.get('accountId')?.touched" class="text-danger">
+                    Expense account is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label category-label" (click)="NavigateMainto(true)" style="color: blue;">Main Category</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" formControlName="mainCatId" readonly />
+                </div>
+            </div>
+              
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label category-label" (click)="NavigateSubto(true)" style="color: blue;">Sub Category</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" formControlName="subcatId" readonly />
+                </div>
+            </div>
+              
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Receipt Number</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" formControlName="receiptNo" 
+                  [ngClass]="{
+                      'is-invalid':
+                      form.get('receiptNo')?.invalid &&
+                      (form.get('receiptNo')?.dirty || form.get('receiptNo')?.touched)
+                  }"/>
+                  <div *ngIf="form?.get('receiptNo')?.hasError('required') && form?.get('receiptNo')?.touched" class="text-danger">
+                      Reciept number is required.
+                  </div>
+                </div>
+              
+                <label class="col-sm-2 col-form-label">Description</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" formControlName="description" 
+                  [ngClass]="{
+                      'is-invalid':
+                      form.get('description')?.invalid &&
+                      (form.get('description')?.dirty || form.get('description')?.touched)
+                  }"/>
+                  <div *ngIf="form?.get('description')?.hasError('required') && form?.get('description')?.touched" class="text-danger">
+                      Description is required.
+                  </div>
+                </div>
+            </div>
+              
+            <div class="form-group row">
+                <label  class="col-sm-2 col-form-label">Total Amount</label>
+                <div class="col-sm-4">
+                  <input type="number" class="form-control" formControlName="totalValue" 
+                  [ngClass]="{
+                      'is-invalid':
+                      form.get('totalValue')?.invalid &&
+                      (form.get('totalValue')?.dirty || form.get('totalValue')?.touched)
+                  }"/>
+                  <div *ngIf="form?.get('totalValue')?.hasError('required') && form?.get('totalValue')?.touched" class="text-danger">
+                      Total value is required.
+                  </div>
+                </div>
+              
+                <label class="col-sm-2 col-form-label">VAT Paid</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" formControlName="vatp" 
+                  [ngClass]="{
+                      'is-invalid':
+                      form.get('vatp')?.invalid &&
+                      (form.get('vatp')?.dirty || form.get('vatp')?.touched)
+                  }"/>
+                  <div *ngIf="form?.get('vatp')?.hasError('required') && form?.get('vatp')?.touched" class="text-danger">
+                      Vat paid is required.
+                  </div>
+                </div>
+            </div>
+              
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Net Amount</label>
+                <div class="col-sm-4">
+                  <input type="number" class="form-control" formControlName="netTotal" 
+                  [ngClass]="{
+                      'is-invalid':
+                      form.get('netTotal')?.invalid &&
+                      (form.get('netTotal')?.dirty || form.get('netTotal')?.touched)
+                  }"/>
+                  <div *ngIf="form?.get('netTotal')?.hasError('required') && form?.get('netTotal')?.touched" class="text-danger">
+                      Net total is required.
+                  </div>
+                </div>
+              
+                <label class="col-sm-2 col-form-label">VAT</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" formControlName="vat" 
+                  [ngClass]="{
+                      'is-invalid':
+                      form.get('vat')?.invalid &&
+                      (form.get('vat')?.dirty || form.get('vat')?.touched)
+                  }"/>
+                  <div *ngIf="form?.get('vat')?.hasError('required') && form?.get('vat')?.touched" class="text-danger">
+                      Vat is required.
+                  </div>
+                </div>
+            </div>
+              
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Cash Paid</label>
+                <div class="col-sm-4">
+                  <input type="number" class="form-control" formControlName="cashPaid" 
+                  [ngClass]="{
+                      'is-invalid':
+                      form.get('cashPaid')?.invalid &&
+                      (form.get('cashPaid')?.dirty || form.get('cashPaid')?.touched)
+                  }"/>
+                  <div *ngIf="form?.get('cashPaid')?.hasError('required') && form?.get('cashPaid')?.touched" class="text-danger">
+                      Cash paid is required.
+                  </div>
+                </div>
+              
+                <label class="col-sm-2 col-form-label">Cheque Number</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" formControlName="chequeNo" 
+                  [ngClass]="{
+                      'is-invalid':
+                      form.get('chequeNo')?.invalid &&
+                      (form.get('chequeNo')?.dirty || form.get('chequeNo')?.touched)
+                  }"/>
+                  <div *ngIf="form?.get('chequeNo')?.hasError('required') && form?.get('chequeNo')?.touched" class="text-danger">
+                      Cheque number is required.
+                  </div>
+                </div>
+            </div>
+              
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Cheque Paid</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" formControlName="chequePaid" 
+                  [ngClass]="{
+                      'is-invalid':
+                      form.get('chequePaid')?.invalid &&
+                      (form.get('chequePaid')?.dirty || form.get('chequePaid')?.touched)
+                  }"/>
+                  <div *ngIf="form?.get('chequePaid')?.hasError('required') && form?.get('chequePaid')?.touched" class="text-danger">
+                      Cheque paid is required.
+                  </div>
+                </div>
+              
+                <label class="col-sm-2 col-form-label">Used</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" formControlName="used" 
+                  [ngClass]="{
+                      'is-invalid':
+                      form.get('used')?.invalid &&
+                      (form.get('used')?.dirty || form.get('used')?.touched)
+                  }"/>
+                  <div *ngIf="form?.get('used')?.hasError('required') && form?.get('used')?.touched" class="text-danger">
+                      Used is required.
+                  </div>
+                </div>
+            </div>
+              
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Cheque Balance</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" formControlName="chequebal" 
+                  [ngClass]="{
+                      'is-invalid':
+                      form.get('chequebal')?.invalid &&
+                      (form.get('chequebal')?.dirty || form.get('chequebal')?.touched)
+                  }"/>
+                  <div *ngIf="form?.get('chequebal')?.hasError('required') && form?.get('chequebal')?.touched" class="text-danger">
+                      Cheque balance is required.
+                  </div>
+                </div>
+              
+                <label class="col-sm-2 col-form-label">Due Balance</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" formControlName="duebal" 
+                  [ngClass]="{
+                      'is-invalid':
+                      form.get('duebal')?.invalid &&
+                      (form.get('duebal')?.dirty || form.get('duebal')?.touched)
+                  }"/>
+                  <div *ngIf="form?.get('duebal')?.hasError('required') && form?.get('duebal')?.touched" class="text-danger">
+                      Due balance is required.
+                  </div>
+                </div>
+            </div>
+              
+         
+          
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Approved By</label>
+                <div class="col-sm-10">
+                    <select
+                      class="form-control"
+                      formControlName="authBy"
+                      *ngIf="usertype$ | async as items"
+                      [ngClass]="{
+                          'is-invalid':
+                          form.get('authBy')?.invalid &&
+                          (form.get('authBy')?.dirty || form.get('authBy')?.touched)
+                      }"
+                    >
+                      <option *ngFor="let item of items" [value]="item.value">
+                        {{ item.textValue }}
+                      </option>
+                    </select>
+                    <div *ngIf="form?.get('authBy')?.hasError('required') && form?.get('authBy')?.touched" class="text-danger">
+                        Approved by is required.
+                    </div>
+                </div>
+            </div>
+          
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+
+                <div class="col-sm-2">
+                  <button
+                      type="submit" 
+                      class="btn btn-block w-100"
+                      style="background-color: #5f8286; color: white;"
+                      [disabled]="!form.valid"
+                      (click)="addEditItems()" 
+                  > 
+                  <i class="fa fa-save"></i> {{ isEditMode ? 'Update' : 'Save' }}
+                  </button>
+                </div>
+                <div class="col-sm-2">
+                    <button
+                        type="submit" 
+                        class="btn btn-block w-100"
+                        style="background-color: #5f8286; color: white;"
+                        routerLink="/dashboard/expenselist"
+                        >
+                        List
+                    </button>
+                </div>
+
+            </div>
+        </form>
+      </div>
+  
+    </div>
+  </section>
+  

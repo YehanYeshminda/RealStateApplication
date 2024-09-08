@@ -1,0 +1,278 @@
+<section class="content">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Schedule Meeting</h3>
+        <div class="card-tools">
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="collapse"
+            title="Collapse"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="remove"
+            title="Remove"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="form">
+
+          <div class="form-group row">
+            <label  class="col-sm-2 col-form-label"
+            >Meeting Name</label
+            >
+            <div class="col-sm-4">
+                <input
+                    class="form-control"
+                    formControlName="name"
+                    type="text"
+                />
+                <div *ngIf="form?.get('name')?.hasError('required') && form?.get('name')?.touched" class="text-danger">
+                  Name is required.
+                </div>
+            </div>
+            
+            <label  class="col-sm-2 col-form-label"
+            >Date</label
+            >
+            <div class="col-sm-4">
+                <div class="input-group mb-3">
+                    <input type="date" class="form-control" formControlName="date">
+                    <button class="input-group-text increase" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'date'">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                    <button class="input-group-text decrease" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'date'">
+                      <i class="fa fa-minus"></i>
+                    </button> 
+                    <div *ngIf="form?.get('date')?.hasError('required') && form?.get('date')?.touched" class="text-danger">
+                      Please select the date .
+                    </div>
+                </div>  
+            </div>
+          </div>
+
+          
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+            >Staff</label
+            >
+            <div class="col-sm-4">
+              <select
+                    class="form-control"
+                    formControlName="staffid"
+                    *ngIf="staff$ | async as items"
+                    [ngClass]="{
+                        'is-invalid':
+                            form.get('staffid')?.invalid &&
+                            (form.get('staffid')?.dirty || form.get('staffid')?.touched)
+                    }"
+                >
+                    <option *ngFor="let item of items" [value]="item.value">{{ item.textValue }}</option>
+              </select>
+
+              <div *ngIf="form?.get('staffid')?.hasError('required') && form?.get('staffid')?.touched" class="text-danger">
+                Please Select Type.
+              </div>
+            </div>
+
+            <label class="col-sm-2 col-form-label"
+            >Customer</label
+            >
+            <div class="col-sm-4">
+                <select
+                  class="form-control"
+                  formControlName="custid"
+                  *ngIf="cust$ | async as items"
+                  [ngClass]="{
+                      'is-invalid':
+                          form.get('custid')?.invalid &&
+                          (form.get('custid')?.dirty || form.get('custid')?.touched)
+                  }"
+                >
+                  <option *ngFor="let item of items" [value]="item.value">{{ item.textValue }}</option>
+                </select>
+                <div *ngIf="form?.get('custid')?.hasError('required') && form?.get('custid')?.touched" class="text-danger">
+                  Please select the customer id .
+                </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+            >Reason</label>
+            <div class="col-sm-10">
+                <textarea 
+                    class="form-control"
+                    formControlName="reason"
+                    rows="2"
+                >
+                </textarea>
+                <div *ngIf="form?.get('reason')?.hasError('required') && form?.get('reason')?.touched" class="text-danger">
+                  Reason is required.
+                </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+            >Meeting Date</label
+            >
+            <div class="col-sm-4">
+                <div class="input-group mb-3">
+                    <input type="date" class="form-control" formControlName="meetdate">
+                    <button class="input-group-text increase" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'meetdate'">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                    <button class="input-group-text decrease" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'meetdate'">
+                      <i class="fa fa-minus"></i>
+                    </button> 
+                    <div *ngIf="form?.get('meetdate')?.hasError('required') && form?.get('meetdate')?.touched" class="text-danger">
+                        Please select the Meeting date.
+                    </div>
+                </div>  
+            </div>
+            
+            <label  class="col-sm-2 col-form-label"
+            >Meeting Time</label
+            >
+            <div class="col-sm-4">
+                <input
+                    class="form-control"
+                    formControlName="meettime"
+                    type="time"
+                />
+                <div *ngIf="form?.get('meettime')?.hasError('required') && form?.get('meettime')?.touched" class="text-danger">
+                  Please select the Meeting time.
+                </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label"
+            >Venue</label
+            >
+            <div class="col-sm-10">
+                <input
+                    class="form-control"
+                    formControlName="venue"
+                    type="text"
+                />
+                <div *ngIf="form?.get('venue')?.hasError('required') && form?.get('venue')?.touched" class="text-danger">
+                  Please enter the Venue.
+                </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+              <label class="col-sm-2 col-form-label"
+              >Remarks</label
+              >
+              <div class="col-sm-4">
+                <textarea 
+                  class="form-control"
+                  formControlName="remarks"
+                  rows="4"
+                ></textarea>
+                <div *ngIf="form?.get('remarks')?.hasError('required') && form?.get('remarks')?.touched" class="text-danger">
+                  Please enter the Venue.
+                </div>
+              </div>
+
+              <label  class="col-sm-2 col-form-label"
+                >Other Support Staff</label
+              >
+              <div class="col-sm-4">
+                <div class="grid-container">
+                  <div class="grid-body">
+                      <ng-container *ngIf="StaffNo$ | async as data; else loadingTemplate">
+                          <ng-container *ngIf="data.length > 0; else noLeadData">
+                              <div class="checkBoxContainer" *ngFor="let item of data">
+                                  <div class="form-check">
+                                      <input class="form-check-input" type="checkbox"
+                                          (click)="selectedstaff(item.value)" id="flexCheckDefault">
+                                      <label class="form-check-label">
+                                          {{ item.textValue }}
+                                      </label>
+                                  </div>
+                              </div>
+                          </ng-container>
+
+                          <ng-template #noLeadData>
+                              <div class="checkBoxContainer">
+                                  <div class="form-check">
+                                      <label class="form-check-label">
+                                        No Unassigned Leads
+                                      </label>
+                                  </div>
+                              </div>
+                          </ng-template>
+                      </ng-container>
+
+                      <ng-template #loadingTemplate>
+                          <div class="checkBoxContainer">
+                              <div class="form-check">
+                                  <label class="form-check-label">
+                                      Loading Leads...
+                                  </label>
+                              </div>
+                          </div>
+                      </ng-template>
+                  </div>
+                </div>
+                <div class="flex-container">
+                    <ng-container *ngIf="StaffNo$ | async as data; else loadingCount">
+                        <div class="">
+                            Count: {{ data.length }}
+                        </div>
+                    </ng-container>
+
+                    <ng-template #loadingCount>
+                        <div class="">
+                            Loading Count...
+                        </div>
+                    </ng-template>
+
+                    <div class="">
+                        Selected Count: {{ selectedNo }}
+                    </div>
+                </div>
+              </div>
+          </div>
+          
+          <div class="form-group row" style="margin-top: 20px;">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-2">
+              <button
+                type="submit" 
+                class="btn btn-block w-100"
+                style="background-color: #5f8286; color: white;"
+                [disabled]="!form.valid"
+                (click)="addEditItems()" 
+              > 
+                <i class="fa fa-save"></i> {{ isEditMode ? 'Update' : 'Save' }}
+              </button>
+            </div>
+            <div class="col-sm-2">
+               <button 
+                class="btn btn-block w-100"
+                style="background-color: #5f8286; color: white;"
+                routerLink="/dashboard/meetingschedulelist"
+               >
+                List
+              </button>
+            </div>
+            <div class="col-sm-8"></div>
+          </div>
+        </form>
+      </div>
+  
+    </div>
+  </section>
+  

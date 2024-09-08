@@ -1,0 +1,260 @@
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Property Development</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="form">
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Code</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" formControlName="id" type="text" readonly />
+                    </div>
+
+                    <label class="col-sm-2 col-form-label">Date</label>
+                    <div class="col-sm-4">
+                        <div class="input-group mb-3">
+                            <input
+                                [ngClass]="{'is-invalid': form.get('date')?.invalid && (form.get('date')?.dirty || form.get('date')?.touched)}"
+                                type="date" class="form-control" formControlName="date">
+                            <button class="input-group-text increase" style="background-color: #5f8286; color: white;"
+                                [dateTimeControls]="form" [controlName]="'date'">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                            <button class="input-group-text decrease" style="background-color: #5f8286; color: white;"
+                                [dateTimeControls]="form" [controlName]="'date'">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <div *ngIf="form?.get('date')?.hasError('required') && form?.get('date')?.touched"
+                                class="text-danger">
+                                Date is required.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Vender</label>
+                    <div class="col-sm-4">
+                        <select class="form-control"
+                            [ngClass]="{'is-invalid': form.get('vender')?.invalid && (form.get('vender')?.dirty || form.get('vender')?.touched)}"
+                            formControlName="vender" *ngIf="vendertype$ | async as items">
+                            <option *ngFor="let item of items" [value]="item.value">
+                                {{ item.textValue }}
+                            </option>
+                        </select>
+                        <div *ngIf="form?.get('vender')?.hasError('required') && form?.get('vender')?.touched"
+                            class="text-danger">
+                            Vender is required.
+                        </div>
+                    </div>
+
+
+                    <label class="col-sm-2 col-form-label">Expenses Account</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" formControlName="expenseaccount"
+                            *ngIf="expensetype$ | async as items"
+                            [ngClass]="{'is-invalid': form.get('expenseaccount')?.invalid && (form.get('expenseaccount')?.dirty || form.get('expenseaccount')?.touched)}">
+                            <option *ngFor="let item of items" [value]="item.value">
+                                {{ item.textValue }}
+                            </option>
+                        </select>
+                        <div *ngIf="form?.get('expenseaccount')?.hasError('required') && form?.get('expenseaccount')?.touched"
+                            class="text-danger">
+                            Expenses account is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Property No</label>
+                    <div class="col-sm-4">
+                        <select
+                            [ngClass]="{'is-invalid': form.get('propertyno')?.invalid && (form.get('propertyno')?.dirty || form.get('propertyno')?.touched)}"
+                            class="form-control" formControlName="propertyno" *ngIf="propregno$ | async as items">
+                            <option *ngFor="let item of items" [value]="item.value">
+                                {{ item.value }}
+                            </option>
+                        </select>
+                        <div *ngIf="form?.get('propertyno')?.hasError('required') && form?.get('propertyno')?.touched"
+                            class="text-danger">
+                            Property number is required.
+                        </div>
+                    </div>
+
+                    <label class="col-sm-2 col-form-label">Property Name</label>
+                    <div class="col-sm-4">
+                        <input class="form-control"
+                            [ngClass]="{'is-invalid': form.get('propname')?.invalid && (form.get('propname')?.dirty || form.get('propname')?.touched)}"
+                            formControlName="propname" type="text" />
+                        <div *ngIf="form?.get('propname')?.hasError('required') && form?.get('propname')?.touched"
+                            class="text-danger">
+                            Property name is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Description</label>
+                    <div class="col-sm-4">
+                        <textarea class="form-control"
+                            [ngClass]="{'is-invalid': form.get('description')?.invalid && (form.get('description')?.dirty || form.get('description')?.touched)}"
+                            formControlName="description" rows="4">
+                    </textarea>
+                        <div *ngIf="form?.get('description')?.hasError('required') && form?.get('description')?.touched"
+                            class="text-danger">
+                            Description is required.
+                        </div>
+                    </div>
+
+                    <label class="col-sm-2 col-form-label">Amount</label>
+                    <div class="col-sm-4">
+                        <input class="form-control"
+                            [ngClass]="{'is-invalid': form.get('amount')?.invalid && (form.get('amount')?.dirty || form.get('amount')?.touched)}"
+                            formControlName="amount" type="text" />
+                        <div *ngIf="form?.get('amount')?.hasError('required') && form?.get('amount')?.touched"
+                            class="text-danger">
+                            Amount is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Cash Paid</label>
+                    <div class="col-sm-4">
+                        <input class="form-control"
+                            [ngClass]="{'is-invalid': form.get('cashpaid')?.invalid && (form.get('cashpaid')?.dirty || form.get('cashpaid')?.touched)}"
+                            formControlName="cashpaid" type="text" />
+                        <div *ngIf="form?.get('cashpaid')?.hasError('required') && form?.get('cashpaid')?.touched"
+                            class="text-danger">
+                            cashpaid is required.
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6"></div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Bank Transfer</label>
+                    <div class="col-sm-4">
+                        <input class="form-control"
+                            [ngClass]="{'is-invalid': form.get('banktransfer')?.invalid && (form.get('banktransfer')?.dirty || form.get('banktransfer')?.touched)}"
+                            formControlName="banktransfer" type="text" />
+                        <div *ngIf="form?.get('banktransfer')?.hasError('required') && form?.get('banktransfer')?.touched"
+                            class="text-danger">
+                            Bank transfer is required.
+                        </div>
+                    </div>
+
+
+                    <label class="col-sm-2 col-form-label">Bank Account</label>
+                    <div class="col-sm-4">
+                        <select class="form-control"
+                            [ngClass]="{'is-invalid': form.get('bankid')?.invalid && (form.get('bankid')?.dirty || form.get('bankid')?.touched)}"
+                            formControlName="bankid" *ngIf="accounttype$ | async as items">
+                            <option *ngFor="let item of items" [value]="item.value">
+                                {{ item.textValue }}
+                            </option>
+                        </select>
+                        <div *ngIf="form?.get('bankid')?.hasError('required') && form?.get('bankid')?.touched"
+                            class="text-danger">
+                            Bank account is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Cheque Paid</label>
+                    <div class="col-sm-4">
+                        <input class="form-control"
+                            [ngClass]="{'is-invalid': form.get('chequepaid')?.invalid && (form.get('chequepaid')?.dirty || form.get('chequepaid')?.touched)}"
+                            formControlName="chequepaid" type="text" />
+                        <div *ngIf="form?.get('chequepaid')?.hasError('required') && form?.get('chequepaid')?.touched"
+                            class="text-danger">
+                            Cheque paid is required.
+                        </div>
+                    </div>
+
+
+                    <label class="col-sm-2 col-form-label">Cheque Account</label>
+                    <div class="col-sm-4">
+                        <select class="form-control"
+                            [ngClass]="{'is-invalid': form.get('chequeid')?.invalid && (form.get('chequeid')?.dirty || form.get('chequeid')?.touched)}"
+                            formControlName="chequeid" *ngIf="accounttype$ | async as items">
+                            <option *ngFor="let item of items" [value]="item.value">
+                                {{ item.textValue }}
+                            </option>
+                        </select>
+                        <div *ngIf="form?.get('chequeid')?.hasError('required') && form?.get('chequeid')?.touched"
+                            class="text-danger">
+                            Cheque account is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Total Paid</label>
+                    <div class="col-sm-4">
+                        <input class="form-control"
+                            [ngClass]="{'is-invalid': form.get('totalpaid')?.invalid && (form.get('totalpaid')?.dirty || form.get('totalpaid')?.touched)}"
+                            formControlName="totalpaid" type="text" readonly />
+                        <div *ngIf="form?.get('totalpaid')?.hasError('required') && form?.get('totalpaid')?.touched"
+                            class="text-danger">
+                            Total paid is required.
+                        </div>
+                        <div *ngIf="form?.get('totalpaid')?.hasError('required') && form?.get('totalpaid')?.touched"
+                            class="text-danger">
+                            Total paid is required.
+                        </div>
+                    </div>
+
+
+                    <label class="col-sm-2 col-form-label">Approved By</label>
+                    <div class="col-sm-4">
+                        <select class="form-control"
+                            [ngClass]="{'is-invalid': form.get('approvedby')?.invalid && (form.get('approvedby')?.dirty || form.get('approvedby')?.touched)}"
+                            formControlName="approvedby" *ngIf="user$ | async as items">
+                            <option *ngFor="let item of items" [value]="item.value">
+                                {{ item.textValue }}
+                            </option>
+                        </select>
+                        <div *ngIf="form?.get('approvedby')?.hasError('required') && form?.get('approvedby')?.touched"
+                            class="text-danger">
+                            Approved By is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-2"></div>
+
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-block w-100"
+                            style="background-color: #5f8286; color: white;" [disabled]="!form.valid"
+                            (click)="addEditItems()">
+                            <i class="fa fa-save"></i> {{ isEditMode ? 'Update' : 'Save' }}
+                        </button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-block w-100"
+                            style="background-color: #5f8286; color: white;"
+                            routerLink="/dashboard/propertydevelopmentlist">
+                            List
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>

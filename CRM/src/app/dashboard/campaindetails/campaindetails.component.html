@@ -1,0 +1,302 @@
+<section class="content">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Campain Details</h3>
+        <div class="card-tools">
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="collapse"
+            title="Collapse"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="remove"
+            title="Remove"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="form">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"
+                >Campaign No</label
+                >
+                <div class="col-sm-4">
+                    <input
+                        class="form-control"
+                        formControlName = "no"
+                        type="text"
+                        readonly
+                    />
+                </div>
+                
+                <label  class="col-sm-2 col-form-label"
+                >Date</label
+                >
+                <div class="col-sm-4">
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" formControlName="date">
+                        <button class="input-group-text increase" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'date'">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                        <button class="input-group-text decrease" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'date'">
+                          <i class="fa fa-minus"></i>
+                        </button>
+                        <div *ngIf="form?.get('date')?.hasError('required') && form?.get('date')?.touched" class="text-danger">
+                            Date is required.
+                        </div>
+                    </div>   
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label  class="col-sm-2 col-form-label"
+                >Name</label
+                >
+                <div class="col-sm-10">
+                    <input
+                        class="form-control"
+                        formControlName = "name"
+                        type="text"
+                        [ngClass]="{
+                            'is-invalid':
+                            form.get('name')?.invalid &&
+                            (form.get('name')?.dirty || form.get('name')?.touched)
+                        }"
+                    />
+                    <div *ngIf="form?.get('name')?.hasError('required') && form?.get('name')?.touched" class="text-danger">
+                        Name is required.
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label category-label" (click)="Navigate(true)" style="color: blue;">
+                    Media
+                </label>
+                <div class="col-sm-4">
+                    <div class="grid-container">
+                      <div class="grid-body">
+                            <ng-container *ngIf="MediaNo$ | async as data; else loadingTemplate">
+                                <ng-container *ngIf="data.length > 0; else noLeadData">
+                                    <div class="checkBoxContainer" *ngFor="let item of data">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox"
+                                                (click)="selectedstaff(item.value)" id="flexCheckDefault">
+                                            <label class="form-check-label">
+                                                {{ item.textValue }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </ng-container>
+    
+                                <ng-template #noLeadData>
+                                    <div class="checkBoxContainer">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                No Unassigned Leads
+                                            </label>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ng-container>
+    
+                            <ng-template #loadingTemplate>
+                                <div class="checkBoxContainer">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            Loading Leads...
+                                        </label>
+                                    </div>
+                                </div>
+                            </ng-template>
+                      </div>
+                    </div>
+                    <div class="flex-container">
+                        <ng-container *ngIf="MediaNo$ | async as data; else loadingCount">
+                            <div class="">
+                                Count: {{ data.length }}
+                            </div>
+                        </ng-container>
+    
+                        <ng-template #loadingCount>
+                            <div class="">
+                                Loading Count...
+                            </div>
+                        </ng-template>
+    
+                        <div class="">
+                            Selected Count: {{ selectedNo }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6"></div>
+            </div>
+            
+            <div class="form-group row" style="margin-top: 15px;">
+                <label  class="col-sm-2 col-form-label"
+                >Date From</label
+                >
+                <div class="col-sm-4">
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" formControlName="datefrom">
+                        <button class="input-group-text increase" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'datefrom'">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                        <button class="input-group-text decrease" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'datefrom'">
+                          <i class="fa fa-minus"></i>
+                        </button>
+                        <div *ngIf="form?.get('datefrom')?.hasError('required') && form?.get('datefrom')?.touched" class="text-danger">
+                            Date from is required.
+                        </div>
+                    </div>   
+                </div>
+                
+                <label  class="col-sm-2 col-form-label"
+                >Date To</label
+                >
+                <div class="col-sm-4">
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" formControlName="dateto">
+                        <button class="input-group-text increase" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'dateto'">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                        <button class="input-group-text decrease" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'dateto'">
+                          <i class="fa fa-minus"></i>
+                        </button>
+                        <div *ngIf="form?.get('dateto')?.hasError('required') && form?.get('dateto')?.touched" class="text-danger">
+                            Date to is required.
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"
+                >Description about Campain</label
+                >
+                <div class="col-sm-10">
+                    <textarea
+                        class="form-control"
+                        formControlName = "description"
+                        rows="4"
+                        [ngClass]="{
+                            'is-invalid':
+                            form.get('description')?.invalid &&
+                            (form.get('description')?.dirty || form.get('description')?.touched)
+                        }">
+                    </textarea>
+                    <div *ngIf="form?.get('description')?.hasError('required') && form?.get('description')?.touched" class="text-danger">
+                        Description to is required.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Media links</label>
+                
+                <div class="col-sm-4">
+                    <input
+                        class="form-control"
+                        type="text"
+                        formControlName="medialink"
+                    />
+                </div>
+                
+                
+                <label class="col-sm-2 col-form-label"
+                >Total Cost</label
+                >
+                <div class="col-sm-4">
+                    <input
+                        class="form-control"
+                        formControlName = "totalcost"
+                        type="text"
+                        [ngClass]="{
+                            'is-invalid':
+                            form.get('totalcost')?.invalid &&
+                            (form.get('totalcost')?.dirty || form.get('totalcost')?.touched)
+                        }"
+                    />
+                    <div *ngIf="form?.get('totalcost')?.hasError('required') && form?.get('totalcost')?.touched" class="text-danger">
+                        Total cost to is required.
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class="form-group row">
+                
+                <label class="col-sm-2 col-form-label"
+                >Remarks</label>
+                <div class="col-sm-4">
+                    <input
+                        class="form-control"
+                        formControlName = "remarks"
+                        type="text"
+                        [ngClass]="{
+                            'is-invalid':
+                            form.get('remarks')?.invalid &&
+                            (form.get('remarks')?.dirty || form.get('remarks')?.touched)
+                        }"
+                    />
+                    <div *ngIf="form?.get('remarks')?.hasError('required') && form?.get('remarks')?.touched" class="text-danger">
+                        Remarks to is required.
+                    </div>
+                </div>
+
+                <div class="col-sm-4" style="margin-top: 10px;">
+                    <div class="form-check">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            #status
+                            (change)="updateCheckboxValue('status', status.checked)"
+                            formControlName="status"
+                        />
+                        <label class="form-check-label" >Status</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-2"></div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+
+                <div class="col-sm-2">
+                    <button
+                        type="submit" 
+                        class="btn btn-block w-100"
+                        style="background-color: #5f8286; color: white;"
+                        [disabled]="!form.valid"
+                        (click)="addEditItems()" 
+                    > 
+                        <i class="fa fa-save"></i> {{ isEditMode ? 'Update' : 'Save' }}
+                    </button>
+                </div>
+                <div class="col-sm-2">
+                    <button
+                        type="submit" 
+                        class="btn btn-block w-100"
+                        style="background-color: #5f8286; color: white;"
+                        routerLink="/dashboard/campaindetailslist"
+                        >
+                        List
+                    </button>
+                </div>
+
+            </div>
+        </form>
+      </div>
+  
+    </div>
+  </section>
+  

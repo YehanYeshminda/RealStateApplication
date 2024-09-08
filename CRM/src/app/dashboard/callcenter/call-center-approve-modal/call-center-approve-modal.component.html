@@ -1,0 +1,49 @@
+<!-- <div>
+    <tabset>
+      <tab heading="Interested" id="tab1">
+        <div class="container make-center">
+            <form [formGroup]="form">
+                <textarea  cols="30" rows="10" formControlName="remark"></textarea>
+                <button type="button" (click)="onScheduleViewing()" class="btn btn-primary">Scheduled View</button>
+                <button type="button" (click)="onCallback()" class="btn btn-danger">Call Back</button>
+            </form>
+        </div>
+      </tab>
+      <tab heading="Not interested">
+        <div class="container make-center">
+            <button class="btn btn-primary">No Answered</button>
+            <button class="btn btn-primary">DND</button>
+        </div>
+      </tab>
+    </tabset>
+</div> -->
+  
+
+<ul class="nav nav-tabs nav-justified" id="myTabJustified" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="home-tab-justified" data-toggle="tab" href="#home-justified" role="tab" aria-controls="home-justified" aria-selected="true">Interested</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="profile-tab-justified" data-toggle="tab" href="#profile-justified" role="tab" aria-controls="profile-justified" aria-selected="false">Not Interested</a>
+    </li>
+</ul>
+<div class="tab-content m-t-15" id="myTabContentJustified">
+    <div class="tab-pane fade show active" id="home-justified" role="tabpanel" aria-labelledby="home-tab-justified">
+        <form [formGroup]="form" class="d-flex flex-column make-center">
+            <div class="">
+                <textarea placeholder="Enter Remark" class="form-control"  cols="30" rows="5" formControlName="remark"></textarea>
+            </div>
+
+            <div class="d-flex flex-column">
+                <button type="button" (click)="onScheduleViewing()" class="btn btn-primary">Scheduled View</button>
+                <button type="button" (click)="onCallback()" class="btn btn-danger mt-2 mb-2">Call Back</button>
+            </div>
+        </form>
+    </div>
+    <div class="tab-pane fade" id="profile-justified" role="tabpanel" aria-labelledby="profile-tab-justified">
+        <div class="container my-4 make-center">
+            <button class="btn btn-primary" (click)="notanswer()">No Answered</button>
+            <button class="btn btn-danger" (click)="onDND()">DND</button>
+        </div>
+    </div>
+</div>

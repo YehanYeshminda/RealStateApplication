@@ -1,0 +1,225 @@
+<div class="row">
+    <!-- <button (click)="open()">open</button> -->
+
+    <div class="col-xl-4 col-md-6">
+        <ng-container *ngIf="callsLeftStatisticsData$ | async as data; else loadingLeadData">
+            <app-statistics-widget1 title="Total Assigned Calls" [stats]="data.result.convertedLeadsCount" subTitle="Calls left" color="#f05050"
+            [progress]="data.result.convertedLeadsCount"></app-statistics-widget1>
+        </ng-container>
+
+        <ng-template #loadingLeadData>
+            <app-statistics-widget1 title="Loading..." [stats]="0" subTitle="Loading..." color="grey"
+            [progress]="0"></app-statistics-widget1>
+        </ng-template>
+    </div>
+
+    <div class="col-xl-4 col-md-6">
+        <ng-container *ngIf="callsStatisticsData$ | async as data; else loadingStatistics">
+            <app-statistics-widget2 title="Dialed Calls" [stats]="data.result.convertedLeadsCount" subTitle="Total calls made" [trendStats]="data.result.conversionPercentage"
+            trendIcon="up" variant="success" [progress]="data.result.conversionPercentage"></app-statistics-widget2>
+        </ng-container>
+        
+        <ng-template #loadingStatistics>
+            <app-statistics-widget2 title="Loading..." [stats]="0" subTitle="Loading..." [trendStats]="0"
+            trendIcon="up" variant="dark" [progress]="77"></app-statistics-widget2>
+        </ng-template>
+    </div>
+
+    <div class="col-xl-4 col-md-6">
+        <ng-container *ngIf="leadsStatisticsData$ | async as data; else loadingLeadData">
+            <app-statistics-widget1 title="Total Leads Converted" [stats]="data.result.convertedLeadsCount" subTitle="Leads Today" color="#f05050"
+            [progress]="data.result.conversionPercentage"></app-statistics-widget1>
+        </ng-container>
+
+        <ng-template #loadingLeadData>
+            <app-statistics-widget1 title="Loading..." [stats]="0" subTitle="Loading..." color="grey"
+            [progress]="0"></app-statistics-widget1>
+        </ng-template>
+        
+    </div>
+<!-- 
+    <div class="col-xl-2 col-md-6">
+
+        <ng-container *ngIf="getTodayYesterdayPerformance$ | async as data; else loadingLeadData">
+            <app-statistics-widget1 title="Call Insignts" [stats]="data.result.percentageChange" [subTitle]="'Yesterday: ' + data.result.yesterCalls + ' Today: ' +data.result.todaysCalls" color="#f05050"
+            [progress]="data.result.percentageChange"></app-statistics-widget1>
+        </ng-container>
+
+        <ng-template #loadingLeadData>
+            <app-statistics-widget1 title="Loading..." [stats]="0" subTitle="Loading..." color="grey"
+            [progress]="0"></app-statistics-widget1>
+        </ng-template>
+
+    </div> -->
+<!-- 
+    <div class="col-xl-2 col-md-6">
+
+        <ng-container *ngIf="lostLeadStatisticsData$ | async as data; else loadingLeadData">
+            <app-statistics-widget1 title="Dummy data" [stats]="data.result.convertedLeadsCount" subTitle="dummy data" color="#f05050"
+            [progress]="data.result.conversionPercentage"></app-statistics-widget1>
+        </ng-container>
+
+        <ng-template #loadingLeadData>
+            <app-statistics-widget1 title="Loading..." [stats]="0" subTitle="Loading..." color="grey"
+            [progress]="0"></app-statistics-widget1>
+        </ng-template>
+
+    </div> -->
+
+    <!-- <div class="col-xl-2 col-md-6">
+
+        <ng-container *ngIf="lostLeadStatisticsData$ | async as data; else loadingLeadData">
+            <app-statistics-widget1 title="Dummy data" [stats]="data.result.convertedLeadsCount" subTitle="dummy data" color="#f05050"
+            [progress]="data.result.conversionPercentage"></app-statistics-widget1>
+        </ng-container>
+
+        <ng-template #loadingLeadData>
+            <app-statistics-widget1 title="Loading..." [stats]="0" subTitle="Loading..." color="grey"
+            [progress]="0"></app-statistics-widget1>
+        </ng-template>
+
+    </div> -->
+</div>
+
+<div class="row">
+    <div class="col-xl-4">
+        <ng-container *ngIf="chartDataList$ | async as data; else loadingChartData">
+            <app-sales-chart [chartTitle]="'Cold Call Conversions'" [chartData]="
+                [data.result.callsToMake,
+                data.result.assignedCallsButCalled,
+                data.result.conversions]">
+            </app-sales-chart>
+        </ng-container>
+        
+        <ng-template #loadingChartData>
+            <app-sales-chart [chartData]="[0,0,0]">
+        </app-sales-chart>
+        </ng-template>
+        
+    </div>
+    <div class="col-xl-8">
+        <div class="card">
+            <div class="card-body">
+                <!-- <h4 class="header-title mb-4">Call time Summary (Today)</h4> -->
+                <div id="bar-chart-stacked">
+                    <apx-chart class="apex-charts" [series]="barChartOptions2.series!" [chart]="barChartOptions2.chart!"
+                        [colors]="barChartOptions2.colors!" [plotOptions]="barChartOptions2.plotOptions!"
+                        [xaxis]="barChartOptions2.xaxis!" [stroke]="barChartOptions2.stroke!"
+                        [fill]="barChartOptions2.fill!" [yaxis]="barChartOptions2.yaxis!"
+                        [tooltip]="barChartOptions2.tooltip!" [legend]="barChartOptions2.legend!"
+                        [states]="barChartOptions2.states!" [grid]="barChartOptions2.grid!"></apx-chart>
+                </div>
+            </div>
+
+            <!-- [series]="barChartOptions2.series!" [chart]="barChartOptions2.chart!"
+                        [colors]="barChartOptions2.colors!" [plotOptions]="barChartOptions2.plotOptions!"
+                        [xaxis]="barChartOptions2.xaxis!" [stroke]="barChartOptions2.stroke!"
+                        [fill]="barChartOptions2.fill!" [yaxis]="barChartOptions2.yaxis!"
+                        [tooltip]="barChartOptions2.tooltip!" [legend]="barChartOptions2.legend!"
+                        [states]="barChartOptions2.states!" [grid]="barChartOptions2.grid!" -->
+            <!-- end card body-->
+        </div>        
+    </div>
+    <!-- <div class="col-xl-4">
+
+        <ng-container *ngIf="barChartData$ | async as data; else loadBarChart">
+            <ng-container *ngIf="callsAssigned$ | async as data2; else loadBarChart">
+                <app-revenue-chart
+                [conversions]="[data.result.Monday, data.result.Tuesday, data.result.Wednesday, data.result.Thursday, data.result.Friday, data.result.Saturday, data.result.Sunday]"
+                [assignedCalls]="[data2.result.Monday, data2.result.Tuesday, data2.result.Wednesday, data2.result.Thursday, data2.result.Friday, data2.result.Saturday, data2.result.Sunday]"
+                ></app-revenue-chart>
+            </ng-container>            
+        </ng-container>
+
+        <ng-template #loadBarChart>
+            <app-revenue-chart 
+            [conversions]="[0, 0, 0, 0, 0, 0, 0]"
+            [assignedCalls]="[0, 0, 0, 0, 0, 0, 0]"
+            ></app-revenue-chart>
+        </ng-template>
+    </div> -->
+</div>
+
+<div class="card">
+    <div class="card-body h-50">
+        <div id="calendar">
+            <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+        </div>
+    </div>
+
+</div>
+
+<!-- <div class="row">
+
+    <div class="col-xl-3 col-md-6">
+        <app-widget-user-card name="Chadengle" email="coderthemes@gmail.com" avatar="assets/images/users/user-3.jpg"
+            designation="Admin" variant="warning"></app-widget-user-card>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <app-widget-user-card name="Michael Zenaty" email="coderthemes@gmail.com"
+            avatar="assets/images/users/user-2.jpg" designation="Support Lead" variant="pink"></app-widget-user-card>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <app-widget-user-card name="Stillnotdavid" email="coderthemes@gmail.com" avatar="assets/images/users/user-1.jpg"
+            designation="Designer" variant="success"></app-widget-user-card>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <app-widget-user-card name="Tomaslau" email="coderthemes@gmail.com" avatar="assets/images/users/user-10.jpg"
+            designation="Developer" variant="info"></app-widget-user-card>
+    </div>
+</div>
+
+-->
+
+<div class="row">
+    <div class="col-xl-4">
+        <ng-container *ngIf="loadedEmails; else loadingEmails">
+            <app-dashboard-inbox [messages]="messages"></app-dashboard-inbox>
+        </ng-container>
+        
+
+        <ng-template #loadingEmails>
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status"></div>
+            </div>
+        </ng-template>
+    </div>
+    <div class="col-xl-8">
+        <!-- <app-dashboard-projects [recentProjects]="recentProjects"></app-dashboard-projects> -->
+    </div>
+</div> 
+
+<ng-template #standardModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel">Update Old Password?</h4>
+        <button type="button" class="btn-close" (click)="cancelUpdate()">
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="oldPasswordForm">
+            <div class="row">
+                <div class="col-xl-12 mb-3">
+                    <label for="inputEmail4" class="form-label">Old Password</label>
+                    <input type="password" class="form-control" id="inputEmail4" formControlName="oldPassword" placeholder="Old Password" [ngClass]="{ 'is-valid': submitted && form['oldPassword'].valid , 'is-invalid': submitted && form['oldPassword'].invalid }">
+    
+                    <div *ngIf="submitted && form['oldPassword'].hasError('required')" class="invalid-feedback">
+                        Please enter old password
+                    </div>
+                </div>
+    
+                <div class="ccol-xl-12 mb-3">
+                    <label for="inputEmail4" class="form-label">New Password</label>
+                    <input type="password" class="form-control" id="inputEmail4" formControlName="password" placeholder="Password" [ngClass]="{ 'is-valid': submitted && form['password'].valid , 'is-invalid': submitted && form['password'].invalid }">
+    
+                    <div *ngIf="submitted && form['password'].hasError('required')" class="invalid-feedback">
+                        Please enter new password.
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="cancelUpdate()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="updatePassword()">Update</button>
+    </div>
+</ng-template>

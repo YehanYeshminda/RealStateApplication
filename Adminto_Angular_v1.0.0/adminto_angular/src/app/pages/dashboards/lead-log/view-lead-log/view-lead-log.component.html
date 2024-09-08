@@ -1,0 +1,75 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Lead Information</h4>
+                <p class="text-muted font-13">Enter Leads No</p>
+
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="inputEmail4" class="form-label">Lead No</label>
+                            <input type="text" formControlName="leadNo" class="form-control" id="inputEmail4">
+                        </div>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary waves-effect waves-light">Search Log</button>
+                </form>
+
+            </div>
+
+
+            <ng-container *ngIf="loaded">
+                <ng-container *ngIf="leadLogs$ | async as data; else loadingTemplateLeads">
+                    <ng-container *ngIf="data.result.length > 0;">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Lead No</th>
+                                        <th>Log</th>
+                                        <th>AddBy</th>
+                                        <th>AddOn</th>
+                                    </tr>
+                                </thead>
+            
+                                    <ng-container *ngIf="leadLogs$ | async as data; else loadingTemplate">
+                                        <tbody>
+                                            <tr *ngFor="let item of data.result; let i=index">
+                                                <th scope="row">{{ i + 1 }}</th>
+                                                <td>{{ item.leadid }}</td>
+                                                <td>{{ item.log }}</td>
+                                                <td>{{ item.addby }}</td>
+                                                <td>{{ item.addon | date: "short" }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </ng-container>
+            
+                                <ng-template #loadingTemplate>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row" colspan="1">
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="spinner-border" role="status"></div>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </ng-template>
+                                
+                            </table>
+                        </div>
+                    </ng-container>
+                </ng-container>
+    
+                <ng-template #loadingTemplateLeads>
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status"></div>
+                    </div>
+                </ng-template>
+            </ng-container>
+        </div> 
+    </div> 
+</div>

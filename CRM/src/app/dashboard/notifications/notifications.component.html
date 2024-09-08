@@ -1,0 +1,155 @@
+<section class="content">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Notifications</h3>
+        <div class="card-tools">
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="collapse"
+            title="Collapse"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="remove"
+            title="Remove"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="form">
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Notify To</label>
+              <div class="col-sm-10">
+                <select
+                  class="form-control"
+                  formControlName="notify"
+                  *ngIf="stafftype$ | async as items"
+                  [ngClass]="{'is-invalid': form.get('notify')?.invalid 
+                  && (form.get('notify')?.dirty || form.get('notify')?.touched)}"
+                  
+                >
+                  <option *ngFor="let item of items" [value]="item.value">
+                    {{ item.textValue }}
+                  </option>
+                </select>
+                <div *ngIf="form?.get('notify')?.hasError('required') && form?.get('notify')?.touched" class="text-danger">
+                   Select the person.
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Date</label>
+                <div class="col-sm-4">
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" formControlName="date">
+                        <button class="input-group-text increase" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'date'">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                        <button class="input-group-text decrease" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'date'">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <div *ngIf="form?.get('date')?.hasError('required') && form?.get('date')?.touched" class="text-danger">
+                            Date is required.
+                        </div>
+                    </div>
+                </div>
+
+                <label class="col-sm-2 col-form-label">Time</label>
+                <div class="col-sm-4">
+                    <input type="time" class="form-control" formControlName="time" 
+                    [ngClass]="{'is-invalid': form.get('time')?.invalid 
+                    && (form.get('time')?.dirty || form.get('time')?.touched)}"
+                    />
+                    <div *ngIf="form?.get('time')?.hasError('required') && form?.get('time')?.touched" class="text-danger">
+                        Time is required.
+                    </div>
+                </div>
+            </div>     
+              
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Message</label>
+                <div class="col-sm-4">
+                  <textarea class="form-control" formControlName="message" rows="4"
+                  [ngClass]="{'is-invalid': form.get('message')?.invalid 
+                  && (form.get('message')?.dirty || form.get('message')?.touched)}"
+                  ></textarea>
+                  <div *ngIf="form?.get('message')?.hasError('required') && form?.get('message')?.touched" class="text-danger">
+                      Message is required.
+                  </div>
+                </div>
+              
+                <label class="col-sm-2 col-form-label">Priority</label>
+                <div class="col-sm-4">
+                  <input type="number" class="form-control" formControlName="priorityid" 
+                  [ngClass]="{'is-invalid': form.get('priorityid')?.invalid 
+                  && (form.get('priorityid')?.dirty || form.get('priorityid')?.touched)}"
+                  />
+                  <div *ngIf="form?.get('priorityid')?.hasError('required') && form?.get('priorityid')?.touched" class="text-danger">
+                      Priority number is required.
+                  </div>
+                  
+                </div>
+            </div>
+              
+            <div class="form-group row">
+                <label  class="col-sm-2 col-form-label">Forward To</label>
+                <div class="col-sm-4">
+                  <select
+                    class="form-control"
+                    formControlName="forwardto"
+                    *ngIf="forwardtype$ | async as items"
+                    [ngClass]="{'is-invalid': form.get('forwardto')?.invalid 
+                    && (form.get('forwardto')?.dirty || form.get('forwardto')?.touched)}"
+                    
+                    >
+                    <option *ngFor="let item of items" [value]="item.value">
+                        {{ item.textValue }}
+                    </option>
+                  </select>
+                  <div *ngIf="form?.get('forwardto')?.hasError('required') && form?.get('forwardto')?.touched" class="text-danger">
+                      Forwarded to is required.
+                  </div>
+                </div>
+              
+                <div class="col-sm-6"></div>
+            </div>
+              
+            <div class="form-group row">
+                <div class="col-sm-2"></div>
+
+                <div class="col-sm-2">
+                  <button
+                      type="submit" 
+                      class="btn btn-block w-100"
+                      style="background-color: #5f8286; color: white;"
+                      [disabled]="!form.valid"
+                      (click)="addEditItems()" 
+                  > 
+                  <i class="fa fa-save"></i> {{ isEditMode ? 'Update' : 'Save' }}
+                  </button>
+                </div>
+                <div class="col-sm-2">
+                    <button
+                        type="submit" 
+                        class="btn btn-block w-100"
+                        style="background-color: #5f8286; color: white;"
+                        routerLink="/dashboard/notificationslist"
+                        >
+                        List
+                    </button>
+                </div>
+
+            </div>
+        </form>
+      </div>
+  
+    </div>
+  </section>
+  

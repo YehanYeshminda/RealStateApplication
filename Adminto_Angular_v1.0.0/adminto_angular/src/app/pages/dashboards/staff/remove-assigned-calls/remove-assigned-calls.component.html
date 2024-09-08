@@ -1,0 +1,130 @@
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mt-0 header-title">Leads</h4>
+            <h6>
+                <button (click)="tableRefresh()" type="button" class="btn btn-primary waves-effect waves-light"><i
+                    class="fe-refresh-ccw me-1"></i> Remove Filters</button>
+            </h6>
+            <div class="row">
+                <div class="col-xl-3 col-md-12">
+                    <form [formGroup]="leadGroup">
+                        <label for="inputState" class="form-label mt-3">Staff</label>
+                        <select id="inputState" class="form-select" formControlName="staffId">
+                            <ng-container *ngIf="staffNos$ | async as data;  else loadingSource">
+                                <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                            </ng-container>
+    
+                            <ng-template #loadingSource>
+                                <option>Loading...</option>
+                            </ng-template>
+                        </select>
+
+                        <label for="inputCity" class="form-label mt-2">Count</label>
+                        <input type="number" formControlName="count" class="form-control" id="inputCity" placeholder="Lead Name"
+                        [ngClass]="{ 'is-valid': submitted && form['count'].valid , 'is-invalid': leadGroup && form['count'].invalid }">
+
+                        <div *ngIf="submitted && form['count'].hasError('required')" class="invalid-feedback">
+                            Please enter a count.
+                        </div>
+
+                        <div *ngIf="submitted && form['count'].hasError('min')" class="invalid-feedback">
+                            Minimum 1 required.
+                        </div>
+
+
+                        <button class="btn btn-primary mt-2" (click)="removeCalls()">
+                            Remove Assigned Calls
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="table-responsive mt-3">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Phone No</th>
+                            <th>Assigned To</th>
+                            <th>Call Status</th>
+                        </tr>
+                    </thead>
+
+                    <ng-container *ngIf="!isPaginating">
+                        <ng-container *ngIf="allStaffCalls$ | async as LeadData; else loadingTemplate">
+                            <ng-container *ngIf="LeadData.result.data.length > 0; else emptyCallsResult">
+                                <tbody>
+                                    <tr *ngFor="let item of LeadData.result.data; let i = index" >
+                                        <th scope="row">{{ i + 1 }}</th>
+                                        <td>{{ item.firstName }}</td>
+                                        <td>{{ item.lastName }}</td>
+                                        <td>{{ item.phoneNo }}</td>
+                                        <td>{{ item.assignedTo }}</td>
+                                        <td>
+                                            <ng-container *ngIf="item.callEndedOn != null; else notCalledTemplate">
+                                                <span class="badge bg-success">Called</span>
+                                            </ng-container>
+
+                                            <ng-template #notCalledTemplate>
+                                                <span class="badge bg-danger">Not Called</span>
+                                            </ng-template>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </ng-container>
+
+                            <ng-template #emptyCallsResult>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row" colspan="6">
+                                            <div class="d-flex justify-content-center">
+                                                <p>No Calls Found</p>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </ng-template>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-template #loadingTemplate>
+                        <tbody>
+                            <tr>
+                                <th scope="row" colspan="1">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </ng-template>
+
+                    <ng-container *ngIf="isPaginating">
+                        <tbody>
+                            <tr>
+                                <th scope="row" colspan="1">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </ng-container>
+                    
+                </table>
+
+                <ngb-pagination class="d-flex mt-3" style="overflow: auto;" [collectionSize]="totalData" [pageSize]="pageSize" [(page)]="page" (pageChange)="onPageChange($event)">
+                    <ng-template ngbPaginationPrevious>Prev</ng-template>
+                    <ng-template ngbPaginationNext>Next</ng-template>
+                </ngb-pagination>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+

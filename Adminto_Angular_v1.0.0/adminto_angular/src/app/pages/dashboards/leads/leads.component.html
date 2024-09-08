@@ -1,0 +1,218 @@
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mt-0 header-title">Leads</h4>
+            <h6>
+                <button (click)="tableRefresh()" type="button" class="btn btn-primary waves-effect waves-light"><i
+                    class="fe-refresh-ccw me-1"></i> Remove Filters</button>
+            </h6>
+            <div class="row">
+                <div class="col-xl-3 col-md-12">
+                    <form [formGroup]="leadGroup">
+                        <label for="inputState" class="form-label mt-2">Filter Leads</label>
+                        <select id="inputState" class="form-select" formControlName="leadStatus">
+                            <ng-container *ngIf="leadStatus$; else loadingSource">
+                                <option *ngFor="let item of leadStatus$" [value]="item.value">{{ item.textValue }}</option>
+                            </ng-container>
+    
+                            <ng-template #loadingSource>
+                                <option>Loading...</option>
+                            </ng-template>
+                        </select>
+
+                        <label for="inputState" class="form-label mt-3">Staff</label>
+                        <select id="inputState" class="form-select" formControlName="staffId">
+                            <ng-container *ngIf="staffNos$ | async as data;  else loadingSource">
+                                <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                            </ng-container>
+    
+                            <ng-template #loadingSource>
+                                <option>Loading...</option>
+                            </ng-template>
+                        </select>
+                    </form>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Source</th>
+                            <th>Campaign</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Lead Status</th>
+                            <th>Called</th>
+                            <th>Contact Method</th>
+                            <th>Comment</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <ng-container *ngIf="!isPaginating">
+                        <ng-container *ngIf="leads$ | async as LeadData; else loadingTemplate">
+                            <tbody>
+                                <tr *ngFor="let item of LeadData.result.data; let i = index" >
+                                    <th scope="row" (click)="openmodel(staticBackdropModal, item.LeadNo)">{{ i + 1 }}</th>
+                                    <td (click)="openmodel(staticBackdropModal, item.LeadNo)">{{ item.Source }}</td>
+                                    <td (click)="openmodel(staticBackdropModal, item.LeadNo)">{{ item.Campaign }}</td>
+                                    <td (click)="openmodel(staticBackdropModal, item.LeadNo)">{{ item.name }}</td>
+                                    <td (click)="openmodel(staticBackdropModal, item.LeadNo)">{{ item.phone }}</td>
+                                    <td (click)="openmodel(staticBackdropModal, item.LeadNo)">{{ item.email }}</td>
+                                    <td>
+                                        <select (click)="isClicked(i)" (change)="onSelectChange($event,item.LeadNo, i)" id="inputState" class="form-select">
+                                            <ng-container *ngIf="leadStatus$ as data; else loadingSource">
+                                                <option *ngFor="let loaded of data" [value]="loaded.value">{{ index == i && isDropDownClicked ? loaded.textValue : item.leadstatus }}</option>
+                                            </ng-container>
+                                            
+                                            <ng-template #loadingSource>
+                                                <option>Loading...</option>
+                                            </ng-template>
+                                        </select>
+                                    </td>
+                                    <ng-container *ngIf="item.called == 1; else notCalled">
+                                        <span class="badge bg-success" style="margin-top:14px">Called</span>
+                                    </ng-container>
+                                    
+                                    <ng-template #notCalled>
+                                        <span class="badge bg-danger" style="margin-top:14px">Not Called</span>
+                                    </ng-template> 
+                                    <td>{{ item.contactMethod }}</td>
+                                    <td>{{ item.comment }}</td>
+                                    <td>
+                                        <a target="_self" href="tel:{{ item.phone }}" class="btn input-group-text btn-primary waves-effect waves-light ms-1 me-1" type="button">
+                                            <i class="fe-phone-call me-1"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <button (click)="editLead(item)" type="button" class="btn btn-info waves-effect waves-light"><i
+                                            class="fe-edit-1 me-1"></i></button>
+                                    </td>
+                                    <td>
+                                        <button (click)="deleteLead(item.LeadNo)" type="button" class="btn btn-danger waves-effect waves-light"><i
+                                            class="fe-trash me-1"></i></button>
+                                    </td>
+                                    
+                                </tr>
+                            </tbody>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-template #loadingTemplate>
+                        <tbody>
+                            <tr>
+                                <th scope="row" colspan="1">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </ng-template>
+
+                    <ng-container *ngIf="isPaginating">
+                        <tbody>
+                            <tr>
+                                <th scope="row" colspan="1">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </ng-container>
+                    
+                </table>
+
+                <ngb-pagination class="d-flex mt-3" style="overflow: auto;" [collectionSize]="totalData" [pageSize]="pageSize" [(page)]="page" (pageChange)="onPageChange($event)">
+                    <ng-template ngbPaginationPrevious>Prev</ng-template>
+                    <ng-template ngbPaginationNext>Next</ng-template>
+                </ngb-pagination>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<ng-template #staticBackdropModal let-modal>
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body"> 
+                <h4 class="header-title mb-3">Add new logs here</h4>
+                <div class="table-responsive">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">                
+                                <div class="table-responsive">
+                                    <table class="table table-bordered mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Leads Number</th>
+                                                <td>{{ selectedLeadNo }}</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>Logs</th>
+                                                <td>
+                                                    <ul class="list-styled">
+                                                        <li *ngFor="let logItem of selectedLeadLog">{{ logItem }}</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>                
+                            </div>                
+                        </div>                
+                    </div>
+                </div>      
+                
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" [(ngModel)]="logText"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-xl-6">        
+                                                <button type="button" class="btn btn-primary" (click)="closethis(staticBackdropModal)">Close</button>     
+                                            </div>                                
+                                            <div class="col-xl-6">
+                                                <button type="button" class="btn btn-success waves-effect" style="float: right;" (click)="addlog(staticBackdropModal)">Save</button>
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+
+    <ng-template #nowuploading>
+      <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status"></div>
+      </div>
+    </ng-template>
+</ng-template>
+  
+
+

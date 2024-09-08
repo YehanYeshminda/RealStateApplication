@@ -1,0 +1,125 @@
+<div class="card">
+    <div class="card-header">
+        {{ isEditMode ? "Edit Existing Vender" : "Add Vender" }}
+    </div>
+    <div class="card-body">
+	    <form [formGroup]="form">
+
+			<div class="row">
+				<div class="mb-3 col-md-6">
+                    <label class="form-label">Supplier Name</label>
+                    
+                        <input type="text" class="form-control"
+                            formControlName="supplierName" placeholder="Enter supplier's name"
+                            [ngClass]="{ 'is-valid': submitted && form1['supplierName'].valid , 'is-invalid': submitted && form1['supplierName'].invalid }">            
+                        <div *ngIf="submitted && form1['supplierName'].invalid" class="invalid-feedback">
+                            Please enter Supplier's name.
+                        </div>
+                </div>
+                
+				<div class="mb-3 col-md-6">
+                    <label class="form-label">Vat No</label>                    
+                        <input type="text"
+                            class="form-control" formControlName="vatNo" pattern="[0-9]+" placeholder="Enter vat number"
+                            [ngClass]="{ 'is-valid': submitted && form1['vatNo'].valid , 'is-invalid': submitted && form1['vatNo'].invalid }">            
+                        <div *ngIf="submitted && form1['vatNo'].invalid" class="invalid-feedback">
+                            Please enter vat number.
+                        </div>
+                        <div *ngIf="submitted && form1['vatNo'].hasError('pattern')" class="invalid-feedback">
+                            Please enter a valid Vat Number (numbers only).
+                        </div>
+                </div>
+			</div>
+
+
+			<div class="row">
+				<div class="mb-3 col-md-6">
+                    <label  class="form-label">Phone</label>                    
+                        <input type="text" class="form-control"
+                            formControlName="phone" pattern="" placeholder="Enter supplier's phone number"
+                            [ngClass]="{ 'is-valid': submitted && form1['phone'].valid , 'is-invalid': submitted && form1['phone'].invalid }">            
+                        <div *ngIf="submitted && form1['phone'].hasError('required')" class="invalid-feedback">
+                            Please enter phone number.
+                        </div>
+                        <div *ngIf="submitted && form1['phone'].hasError('pattern')" class="invalid-feedback">
+                            Please enter a valid phone Number (numbers only).
+                        </div>
+                </div>
+				<div class="mb-3 col-md-6">
+                    <label class="form-label">Mobile</label>
+                    
+                        <input type="text"
+                            class="form-control" formControlName="mobile" pattern="^[0-9]{10}$" placeholder="Enter supplier's mobile number"
+                            [ngClass]="{ 'is-valid': submitted && form1['mobile'].valid , 'is-invalid': submitted && form1['mobile'].invalid }">            
+                        <div *ngIf="submitted && form1['mobile'].invalid" class="invalid-feedback">
+                            Please enter mobile number.
+                        </div>
+                        <div *ngIf="submitted && form1['mobile'].hasError('pattern')" class="invalid-feedback">
+                            Please enter a valid mobile number (numbers only).
+                        </div>
+                </div>
+			</div>
+
+			<div class="row">
+				<div class="mb-3 col-md-6">
+                    <label class="form-label">Email</label>
+                        <input type="email"
+                            class="form-control" formControlName="email" placeholder="Enter supplier's email address"
+                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" 
+                            [ngClass]="{ 'is-valid': submitted && form1['email'].valid , 'is-invalid': submitted && form1['email'].invalid }">            
+                        <div *ngIf="submitted && form1['email'].invalid" class="invalid-feedback">
+                            Please enter email address.
+                        </div>
+                        <div *ngIf="submitted && form1['email'].hasError('pattern')" class="invalid-feedback">
+                            Please enter a valid email address.
+                        </div>
+                </div>
+				<div class="mb-3 col-md-6">
+                    <label class="form-label">Fax</label>
+                    
+                        <input type="text" class="form-control"
+                            formControlName="fax" placeholder="Enter supplier's fax"
+                            [ngClass]="{ 'is-valid': submitted && form1['fax'].valid , 'is-invalid': submitted && form1['fax'].invalid }">            
+                        <div *ngIf="submitted && form1['fax'].invalid" class="invalid-feedback">
+                            Please enter fax number.
+                        </div>
+                    
+                </div>
+			</div>
+
+			<div class="row">
+				<div class="mb-3 col-md-6">
+                    <label class="form-label">Credit Period</label>
+                    
+                        <input
+                            type="text" class="form-control" formControlName="creditPeriod" placeholder="Enter credit period"
+                            [ngClass]="{ 'is-valid': submitted && form1['creditPeriod'].valid , 'is-invalid': submitted && form1['creditPeriod'].invalid }">            
+                        <div *ngIf="submitted && form1['creditPeriod'].invalid" class="invalid-feedback">
+                            Please enter credit period.
+                        </div>
+                    
+                </div>
+				<div class="mb-3 col-md-6">
+                    <label class="form-label">Address</label>
+                        <textarea 
+                        class="form-control" formControlName="address" placeholder="Enter supplier's address" rows="5" 
+                        [ngClass]="{ 'is-valid': submitted && form1['address'].valid , 'is-invalid': submitted && form1['address'].invalid }"></textarea>
+                        <div *ngIf="submitted && form1['address'].invalid" class="invalid-feedback">
+                            Please enter address
+                        </div>
+                    
+                </div>
+			</div>
+
+            <div class="row">
+				<div class="mb-3 col-md-2">
+                    <button type="button" class="btn btn-primary w-100" 
+                        (click)="addEditItems()">
+                        {{ isEditMode ? 'Update Vendor' : 'Save Vendor' }}
+                    </button>
+                </div>
+                <div class="mb-3 col-md-10"></div>
+			</div>          
+		</form>
+    </div>    
+</div>

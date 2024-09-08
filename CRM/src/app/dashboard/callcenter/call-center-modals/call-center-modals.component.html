@@ -1,0 +1,71 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Call Information</h4>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Lead Name</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" formControlName="leadName" readonly />
+            </div>
+
+            <label class="col-sm-2 col-form-label">Source</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" formControlName="source" readonly />
+            </div>
+
+            <label class="col-sm-2 col-form-label mt-2">Recevied On</label>
+            <div class="col-sm-4 mt-2">
+                <input type="date" class="form-control" formControlName="receivedOn" readonly />
+            </div>
+
+            <label class="col-sm-2 col-form-label category-label mt-2">Lead Status</label>
+            <ng-container *ngIf=" leadStatus$ | async as data; else loadingComboTemplate">
+                <ng-container *ngIf="data.length > 0; else noBankTemplate">
+                    <div class="col-sm-4 mt-2">
+                        <select class="form-control" formControlName="leadStatus">
+                            <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                        </select>
+                    </div>
+                </ng-container>
+
+                <ng-template #noBankTemplate>
+                    <div class="col-sm-4 mt-2">
+                        <select class="form-control">
+                            <option>No Lead Status...</option>
+                        </select>
+                    </div>
+                </ng-template>
+            </ng-container>
+
+            <ng-template #loadingComboTemplate>
+                <div class="col-sm-4 mt-2">
+                    <select class="form-control">
+                        <option>Loading...</option>
+                    </select>
+                </div>
+            </ng-template>
+
+            <label class="col-sm-2 col-form-label">Remark</label>
+            <textarea placeholder="Enter Information of Lead" class="form-control" formControlName="remark" name="id"
+                [ngClass]="{'is-invalid': form.get('remark')?.invalid && (form.get('remark')?.dirty || form.get('remark')?.touched)}"
+                rows="6"></textarea>
+
+            <div *ngIf="form.get('remark')?.invalid && (form.get('remark')?.dirty || form.get('remark')?.touched)"
+                class="invalid-feedback">
+                <div *ngIf="form.get('remark')?.errors?.['required']">Remark is required.</div>
+                <div *ngIf="form.get('remark')?.errors?.['remark']">Invalid remark</div>
+                <div *ngIf="form.get('remark')?.errors?.['pattern']">Only numbers are possible!
+                </div>
+            </div>
+        </div>
+
+        <ng-template #loadCallCenterInfo>
+            Loading...
+        </ng-template>
+
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" [disabled]="form.invalid" (click)="endCall()">End Call</button>
+</div>

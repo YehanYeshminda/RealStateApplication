@@ -1,0 +1,124 @@
+<div class="content">
+  <div class="card">
+    <div class="card-title mt-3" style="text-align: center; font-weight: bold;">Welcome to CRM</div>
+    <hr>
+    <div class="card-body image-body">
+      <div class="row">
+
+        <!-- <div class="col-md-2 text-center mb-3" routerLink="/dashboard/advancepaymentlist">
+          <img class="img-thumbnail image-resize" src="assets\svg\financial.svg" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Advance Payment</label></div>
+        </div> -->
+
+        <!-- <div class="col-md-2 text-center mb-4" routerLink="/dashboard/agreementreminderslist">
+          <img class="img-thumbnail image-resize" src="assets\svg\reminder.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Agreement Reminders</label></div>
+        </div> -->
+
+        <div class="col-md-2 text-center mb-4" *ngIf="isCallCenterAllowed$" routerLink="/dashboard/callcenter">
+          <img class="img-thumbnail image-resize" src="assets\svg\customer-service.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Call Center</label></div>
+        </div>
+
+        <!-- <div class="col-md-2 text-center mb-4" routerLink="/dashboard/campaindetailslist">
+          <img class="img-thumbnail image-resize" src="assets\svg\campaign.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Campain Details</label></div>
+        </div> -->
+        
+        <div class="col-md-2 text-center mb-4" *ngIf="isCallCenterAllowed$" routerLink="/dashboard/contactlists">
+          <img class="img-thumbnail image-resize" src="assets\svg\list.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Contact Lists</label></div>
+        </div>
+
+        <div class="col-md-2 text-center mb-4" *ngIf="isCallInsigntAllowed$" routerLink="/dashboard/callinsight">
+          <img class="img-thumbnail image-resize" src="assets\svg\split.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Call Segregation</label></div>
+        </div>
+
+        <!-- <div class="col-md-2 text-center mb-4" routerLink="/dashboard/creditpayment">
+          <img class="img-thumbnail image-resize" src="assets\svg\atm-card.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Credit Payment</label></div>
+        </div> -->
+ 
+        <!-- <div class="col-md-2 text-center mb-4" routerLink="/dashboard/customerlist">
+          <img class="img-thumbnail image-resize" src="assets\svg\people.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Customer</label></div>
+        </div>
+
+        <div class="col-md-2 text-center mb-4" routerLink="/dashboard/expenselist">
+          <img class="img-thumbnail image-resize" src="assets\svg\budget.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Expenses</label></div>
+        </div> -->
+
+        <!-- <div class="col-md-2 text-center mb-4" routerLink="/dashboard/ioulist">
+          <img class="img-thumbnail image-resize" src="assets\svg\salary.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">IOU</label></div>
+        </div>
+
+        <div class="col-md-2 text-center mb-4" routerLink="/dashboard/ioureturnlist">
+          <img class="img-thumbnail image-resize" src="assets\svg\money.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">IOU Return</label></div>
+        </div> -->
+
+        <div class="col-md-2 text-center mb-4" *ngIf="isLeadAllowed$" routerLink="/dashboard/leadslist">
+          <img class="img-thumbnail image-resize" src="assets\svg\user-engagement.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Leads</label></div>
+        </div>
+
+        <div class="col-md-2 text-center mb-4" *ngIf="isLeadForwardAllowed$" routerLink="/dashboard/leadsforwardlist">
+          <img class="img-thumbnail image-resize" src="assets\svg\conversion-rate.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Leads Forward</label></div>
+        </div>
+
+        <!-- <div class="col-md-2 text-center mb-4" routerLink="/dashboard/meetingschedulelist">
+          <img class="img-thumbnail image-resize" src="assets\svg\meeting.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Meeting Schedule</label></div>
+        </div>
+
+        <div class="col-md-2 text-center mb-4" routerLink="/dashboard/meetingupdatelist">
+          <img class="img-thumbnail image-resize" src="assets\svg\business.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Meeting Update</label></div>
+        </div>
+
+        <div class="col-md-2 text-center mb-4" routerLink="/dashboard/notificationslist">
+          <img class="img-thumbnail image-resize" src="assets\svg\notification.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Notification</label></div>
+        </div> -->
+
+        <!-- <div class="col-md-2 text-center mb-4" routerLink="/dashboard/paymentschedule-list">
+          <img class="img-thumbnail image-resize" src="assets\svg\web.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Payment Schedule</label></div>
+        </div> -->
+
+        <!-- <div class="col-md-2 text-center mb-4" routerLink="/dashboard/propertyassignlist">
+          <img class="img-thumbnail image-resize" src="assets\svg\assets.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Property Assign</label></div>
+        </div>
+
+        <div class="col-md-2 text-center mb-4" routerLink="/dashboard/propertydevelopmentlist">
+          <img class="img-thumbnail image-resize" src="assets\svg\property.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Property Development</label></div>
+        </div>
+
+        <div class="col-md-2 text-center mb-4" routerLink="/dashboard/propertyregistrationlist">
+          <img class="img-thumbnail image-resize" src="assets\svg\rights.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Property Registration</label></div>
+        </div> -->
+
+        <div class="col-md-2 text-center mb-4" *ngIf="isStaffAllowed$" routerLink="/dashboard/stafflist">
+          <img class="img-thumbnail image-resize" src="assets\svg\staff.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Staff</label></div>
+        </div>
+
+        <!-- <div class="col-md-2 text-center mb-4" routerLink="/dashboard/venderregisterlist">
+          <img class="img-thumbnail image-resize" src="assets\svg\inventory.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Vender Register</label></div>
+        </div>
+
+        <div class="col-md-2 text-center mb-4" routerLink="/dashboard/vendertoservicelist">
+          <img class="img-thumbnail image-resize" src="assets\svg\teamwork.png" style="width: 25%;" />
+          <div><label style="font-size: 12px;">Vender To Service</label></div>
+        </div> -->
+      </div>
+    </div>
+  </div>

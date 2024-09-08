@@ -1,0 +1,88 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Lead Forward Info</h4>
+                <p class="text-muted font-13">Enter Lead forward Information</p>
+
+                <form [formGroup]="leadsForwardFormControl" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="mb-3 position-relative col-md-6" id="datepicker1">
+                            <label class="form-label">Date</label>
+                            <input type="date" class="form-control" placeholder="Select a date" formControlName="date" name="datepicker1" [ngClass]="{ 'is-valid': submitted && form['date'].valid , 'is-invalid': submitted && form['date'].invalid }">
+                        </div>
+
+                        <div *ngIf="submitted && form['date'].invalid" class="invalid-feedback">
+                            Please select a date.
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="inputState" class="form-label">Lead No</label>
+                            <select id="inputState" class="form-select" formControlName="leadid" [ngClass]="{ 'is-valid': submitted && form['leadid'].valid , 'is-invalid': submitted && form['leadid'].invalid }">
+                                <ng-container *ngIf="leadNos$ | async as data; else loadingSource">
+                                    <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                                </ng-container>
+                            </select>
+
+                            <ng-template #loadingSource>
+                                <option>Loading...</option>
+                            </ng-template>
+
+                            <div *ngIf="submitted && form['leadid'].invalid" class="invalid-feedback">
+                                Please select a lead id.
+                            </div>
+                        </div>
+
+                        <!-- <div class="mb-3 col-md-6">
+                            <label for="inputCity" class="form-label">Lead Name</label>
+                            <input type="text" formControlName="leadName" class="form-control" id="inputCity" placeholder="Lead leadName"
+                            [ngClass]="{ 'is-valid': submitted && form['leadName'].valid , 'is-invalid': submitted && form['leadName'].invalid }">
+
+                            <div *ngIf="submitted && form['leadName'].invalid" class="invalid-feedback">
+                                Please enter Lead Name.
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="inputEmail4" class="form-label">Log</label>
+                            <textarea type="text" formControlName="leadLog" [ngClass]="{ 'is-valid': submitted && form['leadLog'].valid , 'is-invalid': submitted && form['leadLog'].invalid }" readonly class="form-control" id="inputEmail4" rows="5"></textarea>
+                        </div>
+
+                        <div *ngIf="submitted && form['leadLog'].invalid" class="invalid-feedback">
+                            Please enter a lead log.
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="inputState" class="form-label">Forward To</label>
+                            <select id="inputState" class="form-select" formControlName="forwardstaffid" [ngClass]="{ 'is-valid': submitted && form['forwardstaffid'].valid , 'is-invalid': submitted && form['forwardstaffid'].invalid }">
+                                <ng-container *ngIf="staffNos$ | async as data; else loadingSource">
+                                    <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                                </ng-container>
+                            </select>
+
+                            <ng-template #loadingSource>
+                                <option>Loading...</option>
+                            </ng-template>
+
+                            <div *ngIf="submitted && form['forwardstaffid'].invalid" class="invalid-feedback">
+                                Please select forward to person.
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <!-- <button type="submit" [disabled]="!(isAddAllowed$ | async)" class="btn btn-primary waves-effect waves-light">{{ isEditMode ? "Edit Lead Forward" : "Insert Lead Forward" }}</button> -->
+                    <button type="submit" class="btn btn-primary waves-effect waves-light">{{ isEditMode ? "Edit Lead Forward" : "Insert Lead Forward" }}</button>
+
+                </form>
+
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>

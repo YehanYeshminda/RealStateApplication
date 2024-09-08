@@ -1,0 +1,328 @@
+<section class="content">
+	<div class="card">
+		<div class="card-header">
+			<h3 class="card-title">Bulk Credit Payments</h3>
+		</div>
+		<div class="card-body">
+			<form>
+				<div class="form-group row">
+					<input type="number" hidden class="form-control"/>
+				</div>
+
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Sales From</label>
+                    <div class="col-sm-4">
+                        <select
+                            class="form-control"
+                        >
+                            <ng-container>
+                                <option
+                                ></option>	
+                        
+                            </ng-container>
+                        </select>
+                    </div>
+                    <label class="col-sm-2 col-form-label">Sales Ref</label>
+
+              
+                    <div class="col-sm-4">
+                        <select
+                            class="form-control"
+                        >
+                            <ng-container>
+                                <option></option>	
+                            </ng-container>
+                        </select>
+                    </div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Voucher Number</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" formControlName="voucherNumber" readonly />
+					</div>
+                    
+                    <label class="col-sm-2 col-form-label">Date</label>
+					<div class="col-sm-4">
+                        <div class="input-group mb-3">
+                            <input type="date" class="form-control">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                                <span class="input-group-text"><i class="fas fa-minus"></i></span>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+
+
+                <div class="form-group row">
+					<label class="col-sm-2 col-form-label">Customer Code</label>
+                    <!-- <div class="col-sm-4 form-group">
+                    <input
+                        type="text"
+                        list="supplier_list"
+                        autocomplete="off"
+                        class="form-control"
+                        formControlName="customerCode"
+                        [ngClass]="{'is-invalid': form.get('customerCode')?.invalid && (form.get('customerCode')?.dirty || form.get('customerCode')?.touched)}"/>
+                            <ng-container *ngIf="customerCode$ | async as suppliers; else loadingTemplate">
+                            <datalist id="supplier_list">
+                                <option *ngFor="let supplier of suppliers" [value]="supplier.value">
+                                {{ supplier.value }} with {{ supplier.textValue }}
+                                </option>
+                            </datalist>
+                            </ng-container>
+
+                        <ng-template #loadingTemplate>
+                            <option>
+                            Loading Customer Codes...
+                            </option>
+                        </ng-template>
+                    </div> -->
+                    <div class="col-sm-4">
+                        <select
+                            class="form-control"
+                        >
+                            <ng-container>
+                                <option
+                                ></option>	
+                        
+                            </ng-container>
+                        </select>
+                    </div>         
+                    
+                    <div class="col-sm-6"></div>
+				</div>
+
+
+				<div class="form-group row">
+                    
+
+                    <label class="col-sm-2 col-form-label">Total Credit</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" formControlName="credit"/>
+                    </div>
+
+                    <label class="col-sm-2 col-form-label">Invoice Nos</label>
+
+                    <div class="col-sm-4">
+                        <select class="form-control">
+                            <ng-container >
+                                <option >
+                                      Select
+                                </option>
+                            </ng-container>
+                        </select>
+                    </div>		
+				</div>
+			</form>
+		</div>
+	</div>
+</section>
+<div class="card">
+	<form >
+	  <div class="card-body">
+		<table class="table table-bordered" id="myTable">
+			<thead>
+			  <tr>
+				<th scope="col">Invoice No</th>
+				<th scope="col">Inv Date</th>
+				<th scope="col">NetTotal</th>
+				<th scope="col">Credit</th>
+				<th scope="col">Cash</th>
+				<th scope="col">Cheque</th>
+				<th scope="col">Card</th>
+				<th scope="col">Advanced</th>
+				<th scope="col">Return</th>
+				<th scope="col">Balance</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <!-- <ng-container *ngIf="allInvoices$ | async as invoices">
+				<tr *ngFor="let invoice of invoices; let i = index" [formGroup]="tableForm" >
+				  <th #refElement scope="row">{{ invoice.invoiceNo }}</th>
+				  <td>{{ invoice.invDate | date }}</td>
+				  <td>{{ invoice.nettTotal }}</td>
+				  <td>{{ invoice.credit }}</td>
+				  <td ><input formControlName="cash" class="form-control small-input" type="number"  (input)="calculateBalance($event,  i)"/></td>
+				  <td><input formControlName="cheque" class="form-control small-input" type="number"(input)="calculateBalance($event,  i)" /></td>
+				  <td><input formControlName="returnVal" class="form-control small-input" type="number" (input)="calculateBalance($event,  i)"/></td>
+				  <td><input formControlName="card" class="form-control small-input" type="number"(input)="calculateBalance($event,  i)" /></td>
+				  <td><input formControlName="advance" class="form-control small-input" type="number"(input)="calculateBalance($event,  i)" /></td>
+				  <td><input type="text" class="form-control" formControlName="balance" [ngModel]="invoice.cashBalance" /></td>
+				</tr>
+			  </ng-container>  -->
+			</tbody>
+		  </table>
+		  
+	  </div>
+	</form>
+  </div>
+
+
+<section class="content">
+	<div class="card">
+		
+		<div class="card-body">
+			<form>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Cash Paid</label>
+
+					<div class="col-sm-4">
+						<input type="text" class="form-control" formControlName="cashPaid"/>
+					</div>
+
+					<div class="col-sm-6"> </div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Cheque Paid</label>
+
+					<div class="col-sm-4">
+						<input type="number" class="form-control" formControlName="chqPaid" />
+					</div>
+					<div class="col-sm-6">
+                        <div class="input-group mb-3">
+                            <select
+							class="form-control"
+						>
+							<ng-container>
+								<option
+								></option>	
+						
+							</ng-container>
+                        </select>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            </div>
+                        </div>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Card Paid</label>
+					<div class="col-sm-4">
+						<input type="number" class="form-control" formControlName="cardPaid"/>
+					</div>
+
+					<label class="col-sm-2 col-form-label">Rec Bank</label>
+					<div class="col-sm-4">
+                        <div class="input-group mb-3">
+                            <select
+							class="form-control"
+						>
+							<ng-container>
+								<option
+								></option>	
+						
+							</ng-container>
+                        </select>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            </div>
+                        </div>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Advance Note</label>
+					<div class="col-sm-4">
+						<input type="number" class="form-control" formControlName="advPaid" />
+					</div>
+
+					<label class="col-sm-2 col-form-label">Adv Note no</label>
+					<div class="col-sm-4">
+                        <div class="input-group mb-3">
+                            <select
+							class="form-control"
+						>
+							<ng-container>
+								<option
+								></option>	
+						
+							</ng-container>
+                        </select>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            </div>
+                        </div>
+					</div>
+
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Return Note</label>
+					<div class="col-sm-4">
+						<input type="number" class="form-control"  formControlName="rtnpaid"/>
+					</div>
+
+					<label class="col-sm-2 col-form-label">Rtn Note no</label>
+					<div class="col-sm-4">
+                        <div class="input-group mb-3">
+                            <select
+							class="form-control"
+						>
+							<ng-container>
+								<option
+								></option>	
+						
+							</ng-container>
+                        </select>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            </div>
+                        </div>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<div class="col-sm-8"></div>
+                    <div class="col-sm-4">
+                        <button  
+                            type="submit" 
+                            class="btn btn-block w-100"
+                            style="background-color: #5f8286; color: white;"
+                        >Process To Above
+                        </button>
+                    </div>
+				</div>
+
+
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Remarks</label>
+					<div class="col-sm-10">
+                        <textarea 
+                            rows="2"
+                            class="form-control"
+                        ></textarea>
+					</div>
+				</div>
+
+
+                <div class="form-group row">
+                    <div class="col-sm-2"></div>
+
+                    <div class="col-sm-2">
+                        <button
+                            type="submit" 
+                            class="btn btn-block w-100"
+                            style="background-color: #5f8286; color: white;"
+                            >
+                            Save
+                        </button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button
+                            type="submit" 
+                            class="btn btn-block w-100"
+                            style="background-color: #5f8286; color: white;"
+                            >
+                            List
+                        </button>
+                    </div>
+
+                </div>
+			</form>
+		</div>
+	</div>
+</section>

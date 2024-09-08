@@ -1,0 +1,166 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Lead Info</h4>
+                <p class="text-muted font-13">Enter Leads Information</p>
+
+                <form [formGroup]="leadsFormControl" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="inputEmail4" class="form-label">Lead No</label>
+                            <input type="text" formControlName="leadno" readonly class="form-control" id="inputEmail4">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="inputCity" class="form-label">Lead Name</label>
+                            <input type="text" formControlName="name" class="form-control" id="inputCity" placeholder="Lead Name"
+                            [ngClass]="{ 'is-valid': submitted && form['name'].valid , 'is-invalid': submitted && form['name'].invalid }">
+
+                            <div *ngIf="submitted && form['name'].invalid" class="invalid-feedback">
+                                Please enter Lead Name.
+                            </div>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="inputState" class="form-label">Source</label>
+                            <select id="inputState" formControlName="sourceid" class="form-select"
+                            [ngClass]="{ 'is-valid': submitted && form['sourceid'].valid , 'is-invalid': submitted && form['sourceid'].invalid }">
+                                <ng-container *ngIf="sourceNos$ | async as data; else loadingSource">
+                                    <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                                </ng-container>
+                                
+                                <ng-template #loadingSource>
+                                    <option>Loading...</option>
+                                </ng-template>
+                                
+                            </select>
+
+                            <div *ngIf="submitted && form['sourceid'].invalid" class="invalid-feedback">
+                                Please enter Source.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="mb-3 col-md-6" *ngIf="isCampaign">
+                            <label for="inputState" class="form-label">Campaign</label>
+                            <select id="inputState" formControlName="campainid" class="form-select">
+                                <ng-container *ngIf="campaignNos$ | async as data; else loadingCampaign">
+                                    <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                                </ng-container>
+
+                                <ng-template #loadingCampaign>
+                                    <option>Loading...</option>
+                                </ng-template>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="inputEmail4" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="inputEmail4" formControlName="phone" placeholder="Phone Number" [ngClass]="{ 'is-valid': submitted && form['phone'].valid , 'is-invalid': submitted && form['phone'].invalid }">
+
+                            <div *ngIf="submitted && form['phone'].hasError('required')" class="invalid-feedback">
+                                Please enter phone number.
+                            </div>
+
+                            <div *ngIf="submitted && form['phone'].hasError('pattern')" class="invalid-feedback">
+                                Please valid phone number.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="inputEmail4" class="form-label">Other Phone Number</label>
+                            <input type="text" class="form-control" id="inputEmail4" formControlName="otherno" placeholder="Other Phone Number" [ngClass]="{ 'is-valid': submitted && form['otherno'].valid , 'is-invalid': submitted && form['otherno'].invalid }">
+    
+                            <div *ngIf="submitted && form['otherno'].hasError('required')" class="invalid-feedback">
+                                Please enter otherno number.
+                            </div>
+    
+                            <div *ngIf="submitted && form['otherno'].hasError('pattern')" class="invalid-feedback">
+                                Please valid otherno number.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="inputPassword4" class="form-label">Email</label>
+                            <input type="email" formControlName="email" [ngClass]="{ 'is-valid': submitted && form['email'].valid , 'is-invalid': submitted && form['email'].invalid }" class="form-control" id="inputPassword4" placeholder="Email">
+
+                            <div *ngIf="submitted && form['phone'].hasError('required')" class="invalid-feedback">
+                                Please enter email.
+                            </div>
+
+                            <div *ngIf="submitted && form['phone'].hasError('email')" class="invalid-feedback">
+                                Please valid a valid email.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="inputState" class="form-label">Assigned To</label>
+                            <select id="inputState" class="form-select" formControlName="assignedTo" [ngClass]="{ 'is-valid': submitted && form['assignedTo'].valid , 'is-invalid': submitted && form['assignedTo'].invalid }">
+                                <ng-container *ngIf="staffNos$ | async as data; else loadingSource">
+                                    <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                                </ng-container>
+                            </select>
+                            <div *ngIf="submitted && form['assignedTo'].invalid" class="invalid-feedback">
+                                Please select assigned person.
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3 col-md-6">
+                            <label for="inputState" class="form-label">Prefered Contact Method</label>
+                            <select id="inputState" [ngClass]="{ 'is-valid': submitted && form['contactMethod'].valid , 'is-invalid': submitted && form['contactMethod'].invalid }" formControlName="contactMethod" class="form-select">
+                                <ng-container *ngIf="PreferedContactMethod$ | async as data; else loadingSource">
+                                    <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                                </ng-container>
+                            </select>
+
+                            <div *ngIf="submitted && form['contactMethod'].invalid" class="invalid-feedback">
+                                Please select a Prefered Contact Method.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="inputState" class="form-label">Comment</label>
+                            <input type="text" formControlName="comment" [ngClass]="{ 'is-valid': submitted && form['comment'].valid , 'is-invalid': submitted && form['comment'].invalid }" class="form-control" id="inputPassword4" placeholder="comment">
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="isEditMode">
+                        <div class="mb-3 col-md-6">
+                            <label for="inputState" class="form-label">Lead Status</label>
+                            <select id="inputState" class="form-select" formControlName="leadStatus" [ngClass]="{ 'is-valid': submitted && form['leadStatus'].valid , 'is-invalid': submitted && form['leadStatus'].invalid }">
+                                <ng-container *ngIf="leadStatus$ | async as data; else loadingSource">
+                                    <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                                </ng-container>
+                            </select>
+
+                            <div *ngIf="submitted && form['leadStatus'].invalid" class="invalid-feedback">
+                                Please select lead status.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3" hidden>
+                            <label for="inputEmail4" class="form-label">Client Profile</label>
+                            <textarea type="text" rows="5" placeholder="Enter client profile"  formControlName="remark"
+                             class="form-control" id="inputEmail4"></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" [disabled]="!(isAddAllowed$ | async)" class="btn btn-primary waves-effect waves-light">{{ isEditMode ? "Edit Lead" : "Insert Lead" }}</button>
+
+                </form>
+
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>

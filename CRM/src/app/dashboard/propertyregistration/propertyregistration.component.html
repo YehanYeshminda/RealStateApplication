@@ -1,0 +1,417 @@
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Property Registration</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="form">
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Code</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" formControlName="id" type="text" readonly />
+                    </div>
+
+                    <label class="col-sm-2 col-form-label category-label" (click)="Navigateto(true)"
+                        style="color: blue;">Type</label>
+                    <div class="col-sm-4">
+                        <select class="form-control"
+                            [ngClass]="{'is-invalid': form.get('type')?.invalid && (form.get('type')?.dirty || form.get('type')?.touched)}"
+                            formControlName="type" *ngIf="propregtype$ | async as items">
+                            <option *ngFor="let item of items" [value]="item.value">
+                                {{ item.textValue }}
+                            </option>
+                        </select>
+                        <div *ngIf="form?.get('type')?.hasError('required') && form?.get('type')?.touched"
+                            class="text-danger">
+                            Type is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Property Name</label>
+                    <div class="col-sm-10">
+                        <input class="form-control"
+                            [ngClass]="{'is-invalid': form.get('propertname')?.invalid && (form.get('propertname')?.dirty || form.get('propertname')?.touched)}"
+                            formControlName="propertname" type="text" />
+                        <div *ngIf="form?.get('propertname')?.hasError('required') && form?.get('propertname')?.touched"
+                            class="text-danger">
+                            Property name is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label category-label" (click)="NavigateCatto(true)"
+                        style="color: blue;">Category</label>
+                    <div class="col-sm-4">
+                        <select class="form-control"
+                            [ngClass]="{'is-invalid': form.get('category')?.invalid && (form.get('category')?.dirty || form.get('category')?.touched)}"
+                            formControlName="category" *ngIf="propcattype$ | async as items">
+                            <option *ngFor="let item of items" [value]="item.value">
+                                {{ item.textValue }}
+                            </option>
+                        </select>
+                        <div *ngIf="form?.get('category')?.hasError('required') && form?.get('category')?.touched"
+                            class="text-danger">
+                            Category is required.
+                        </div>
+                    </div>
+
+                    <label class="col-sm-2 col-form-label category-label" (click)="NavigateSubto(true)"
+                        style="color: blue;">Sub Category</label>
+                    <div class="col-sm-4">
+                        <select class="form-control"
+                            [ngClass]="{'is-invalid': form.get('subcategory')?.invalid && (form.get('subcategory')?.dirty || form.get('subcategory')?.touched)}"
+                            formControlName="subcategory" *ngIf="propsubcat$ | async as items">
+                            <option *ngFor="let item of items" [value]="item.value">
+                                {{ item.textValue }}
+                            </option>
+                        </select>
+                        <div *ngIf="form?.get('subcategory')?.hasError('required') && form?.get('subcategory')?.touched"
+                            class="text-danger">
+                            Sub Category is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label category-label" (click)="NavigateCity(true)"
+                        style="color: blue;">City</label>
+                    <div class="col-sm-4">
+                        <select class="form-control"
+                            [ngClass]="{'is-invalid': form.get('city')?.invalid && (form.get('city')?.dirty || form.get('city')?.touched)}"
+                            formControlName="city" *ngIf="citytype$ | async as items">
+                            <option *ngFor="let item of items" [value]="item.value">
+                                {{ item.textValue }}
+                            </option>
+                        </select>
+                        <div *ngIf="form?.get('city')?.hasError('required') && form?.get('city')?.touched"
+                            class="text-danger">
+                            City is required.
+                        </div>
+                    </div>
+
+                    <label class="col-sm-2 col-form-label">Nationality</label>
+                    <div class="col-sm-4">
+                        <input class="form-control"
+                            [ngClass]="{'is-invalid': form.get('nationality')?.invalid && (form.get('nationality')?.dirty || form.get('nationality')?.touched)}"
+                            formControlName="nationality" type="text" />
+                        <div *ngIf="form?.get('nationality')?.hasError('required') && form?.get('nationality')?.touched"
+                            class="text-danger">
+                            Nationality is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Address</label>
+                    <div class="col-sm-4">
+                        <textarea class="form-control"
+                            [ngClass]="{'is-invalid': form.get('address')?.invalid && (form.get('address')?.dirty || form.get('address')?.touched)}"
+                            formControlName="address" rows="4"></textarea>
+                        <div *ngIf="form?.get('address')?.hasError('required') && form?.get('address')?.touched"
+                            class="text-danger">
+                            Address is required.
+                        </div>
+                    </div>
+
+                    <label class="col-sm-2 col-form-label">Geo Location</label>
+                    <div class="col-sm-4">
+                        <input class="form-control"
+                            [ngClass]="{'is-invalid': form.get('geolocation')?.invalid && (form.get('geolocation')?.dirty || form.get('geolocation')?.touched)}"
+                            formControlName="geolocation" type="text" />
+                        <div *ngIf="form?.get('geolocation')?.hasError('required') && form?.get('geolocation')?.touched"
+                            class="text-danger">
+                            Geo Location is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Cost Anually</label>
+                    <div class="col-sm-4">
+                        <input class="form-control"
+                            [ngClass]="{'is-invalid': form.get('costanually')?.invalid && (form.get('costanually')?.dirty || form.get('costanually')?.touched)}"
+                            formControlName="costanually" type="text" />
+                        <div *ngIf="form?.get('costanually')?.hasError('required') && form?.get('costanually')?.touched"
+                            class="text-danger">
+                            Cost Anually is required.
+                        </div>
+                    </div>
+
+                    <label class="col-sm-2 col-form-label">Other Cost Anually</label>
+                    <div class="col-sm-4">
+                        <input class="form-control"
+                            [ngClass]="{'is-invalid': form.get('othercost')?.invalid && (form.get('othercost')?.dirty || form.get('othercost')?.touched)}"
+                            formControlName="othercost" type="text" />
+                        <div *ngIf="form?.get('othercost')?.hasError('required') && form?.get('othercost')?.touched"
+                            class="text-danger">
+                            Other Cost Anually is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Rules and Regulations</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control"
+                            [ngClass]="{'is-invalid': form.get('rulesregulations')?.invalid && (form.get('rulesregulations')?.dirty || form.get('rulesregulations')?.touched)}"
+                            formControlName="rulesregulations" rows="4"></textarea>
+                        <div *ngIf="form?.get('rulesregulations')?.hasError('required') && form?.get('rulesregulations')?.touched"
+                            class="text-danger">
+                            Rules and Regulations is required.
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label category-label">Vender</label>
+                    <div class="col-sm-4">
+                        <select
+                            [ngClass]="{'is-invalid': form.get('vender')?.invalid && (form.get('vender')?.dirty || form.get('vender')?.touched)}"
+                            class="form-control" formControlName="vender" *ngIf="vendertype$ | async as items">
+                            <option *ngFor="let item of items" [value]="item.value">
+                                {{ item.textValue }}
+                            </option>
+                        </select>
+                        <div *ngIf="form?.get('vender')?.hasError('required') && form?.get('vender')?.touched"
+                            class="text-danger">
+                            Vender is required.
+                        </div>
+                    </div>
+
+                    <label class="col-sm-2 col-form-label">Contact Type</label>
+                    <div class="col-sm-4">
+                        <input class="form-control"
+                            [ngClass]="{'is-invalid': form.get('contacttype')?.invalid && (form.get('contacttype')?.dirty || form.get('contacttype')?.touched)}"
+                            formControlName="contacttype" type="text" />
+                        <div *ngIf="form?.get('contacttype')?.hasError('required') && form?.get('contacttype')?.touched"
+                            class="text-danger">
+                            Contact type is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Selling Rate</label>
+                    <div class="col-sm-4">
+                        <input
+                            [ngClass]="{'is-invalid': form.get('sellingprice')?.invalid && (form.get('sellingprice')?.dirty || form.get('sellingprice')?.touched)}"
+                            class="form-control" formControlName="sellingprice" type="text" />
+                        <div *ngIf="form?.get('sellingprice')?.hasError('required') && form?.get('sellingprice')?.touched"
+                            class="text-danger">
+                            Selling rate is required.
+                        </div>
+                    </div>
+
+                    <label class="col-sm-2 col-form-label">Min Selling Rate</label>
+                    <div class="col-sm-4">
+                        <input
+                            [ngClass]="{'is-invalid': form.get('minsellingprice')?.invalid && (form.get('minsellingprice')?.dirty || form.get('minsellingprice')?.touched)}"
+                            class="form-control" formControlName="minsellingprice" type="text" />
+                        <div *ngIf="form?.get('minsellingprice')?.hasError('required') && form?.get('minsellingprice')?.touched"
+                            class="text-danger">
+                            Min selling rate is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Anual Cost for Buyer</label>
+                    <div class="col-sm-4">
+                        <input
+                            [ngClass]="{'is-invalid': form.get('anualcostforbuyer')?.invalid && (form.get('anualcostforbuyer')?.dirty || form.get('anualcostforbuyer')?.touched)}"
+                            class="form-control" formControlName="anualcostforbuyer" type="text" />
+                        <div *ngIf="form?.get('anualcostforbuyer')?.hasError('required') && form?.get('anualcostforbuyer')?.touched"
+                            class="text-danger">
+                            Anual cost for buyer is required.
+                        </div>
+                    </div>
+
+                    <label class="col-sm-2 col-form-label">Deposit</label>
+                    <div class="col-sm-4">
+                        <input class="form-control"
+                            [ngClass]="{'is-invalid': form.get('deposit')?.invalid && (form.get('deposit')?.dirty || form.get('deposit')?.touched)}"
+                            formControlName="deposit" type="text" />
+                        <div *ngIf="form?.get('deposit')?.hasError('required') && form?.get('deposit')?.touched"
+                            class="text-danger">
+                            Deposit is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-4" style="margin-top: 10px;">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" #status
+                                (change)="updateCheckboxValue('status', status.checked)" formControlName="status" />
+                            <label class="form-check-label">Status</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-4" style="margin-top: 10px;">
+                        <div class="form-check">
+                            <input
+                                [ngClass]="{'is-invalid': form.get('socialmedia')?.invalid && (form.get('socialmedia')?.dirty || form.get('socialmedia')?.touched)}"
+                                class="form-check-input" type="checkbox" #socialmedia
+                                (change)="updateCheckboxValue('socialmedia', socialmedia.checked)"
+                                formControlName="socialmedia" />
+                            <label class="form-check-label">SocialMedia Visibility</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Main Images</label>
+                    <div class="col-sm-4">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-4">
+                            <input type="file" id="userLogo" formControlName="mainImg" #userLogo
+                                (change)="onFileChange($event)" />
+                            <div *ngIf="form?.get('mainImg')?.hasError('required') && form?.get('mainImg')?.touched"
+                                class="text-danger">
+                                Main images is required.
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <img [src]="imageUrl" width="100" height="100" alt="Logo Preview" class="preview-image"
+                                *ngIf="imageUrl" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-6 col-form-label">Other Images</label>
+                        <div class="col-sm-4">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-4">
+                                <input type="file" id="userLogo" formControlName="Otherimg" #userLogoOther
+                                    (change)="onFileChangeMulti($event)" multiple />
+                                <div *ngIf="form?.get('Otherimg')?.hasError('required') && form?.get('Otherimg')?.touched"
+                                    class="text-danger">
+                                    Other images is required.
+                                </div>
+                            </div>
+                            <div class="col-sm-6 apply-flex">
+                                <div *ngFor="let image of otherImages">
+                                    <img [src]="image.url" width="100" height="100" alt="Image Preview"
+                                        class="preview-image" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Date of Purchase or Rent</label>
+                    <div class="col-sm-4">
+                        <div class="input-group mb-3">
+                            <input type="date"
+                                [ngClass]="{'is-invalid': form.get('dateofpurchorrent')?.invalid && (form.get('dateofpurchorrent')?.dirty || form.get('dateofpurchorrent')?.touched)}"
+                                class="form-control" formControlName="dateofpurchorrent">
+                            <button class="input-group-text increase" style="background-color: #5f8286; color: white;"
+                                [dateTimeControls]="form" [controlName]="'dateofpurchorrent'">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                            <button class="input-group-text decrease" style="background-color: #5f8286; color: white;"
+                                [dateTimeControls]="form" [controlName]="'dateofpurchorrent'">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <div *ngIf="form?.get('dateofpurchorrent')?.hasError('required') && form?.get('dateofpurchorrent')?.touched"
+                                class="text-danger">
+                                Date of purchase or rent is required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <label class="col-sm-2 col-form-label">Renew Date</label>
+                    <div class="col-sm-4">
+                        <div class="input-group mb-3">
+                            <input type="date"
+                                [ngClass]="{'is-invalid': form.get('renewdate')?.invalid && (form.get('renewdate')?.dirty || form.get('renewdate')?.touched)}"
+                                class="form-control" formControlName="renewdate">
+                            <button class="input-group-text increase" style="background-color: #5f8286; color: white;"
+                                [dateTimeControls]="form" [controlName]="'renewdate'">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                            <button class="input-group-text decrease" style="background-color: #5f8286; color: white;"
+                                [dateTimeControls]="form" [controlName]="'renewdate'">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <div *ngIf="form?.get('renewdate')?.hasError('required') && form?.get('renewdate')?.touched"
+                                class="text-danger">
+                                Renew date or rent is required.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Vender Payment Date</label>
+                    <div class="col-sm-4">
+                        <div class="input-group mb-3">
+                            <input
+                                [ngClass]="{'is-invalid': form.get('venderpaymentdate')?.invalid && (form.get('venderpaymentdate')?.dirty || form.get('venderpaymentdate')?.touched)}"
+                                type="date" class="form-control" formControlName="venderpaymentdate">
+                            <button class="input-group-text increase" style="background-color: #5f8286; color: white;"
+                                [dateTimeControls]="form" [controlName]="'venderpaymentdate'">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                            <button class="input-group-text decrease" style="background-color: #5f8286; color: white;"
+                                [dateTimeControls]="form" [controlName]="'venderpaymentdate'">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <div *ngIf="form?.get('venderpaymentdate')?.hasError('required') && form?.get('venderpaymentdate')?.touched"
+                                class="text-danger">
+                                Vender payment date is required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <label class="col-sm-2 col-form-label">Payment Schedule No</label>
+                    <div class="col-sm-4">
+                        <input
+                            [ngClass]="{'is-invalid': form.get('paymentscheduleno')?.invalid && (form.get('paymentscheduleno')?.dirty || form.get('paymentscheduleno')?.touched)}"
+                            class="form-control" formControlName="paymentscheduleno" type="text" />
+                        <div *ngIf="form?.get('paymentscheduleno')?.hasError('required') && form?.get('paymentscheduleno')?.touched"
+                            class="text-danger">
+                            Payment schedule no is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row" style="margin-top: 20px;">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-block w-100"
+                            style="background-color: #5f8286; color: white;" [disabled]="!form.valid"
+                            (click)="addEditItems()">
+                            <i class="fa fa-save"></i> {{ isEditMode ? 'Update' : 'Save' }}
+                        </button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-block w-100" style="background-color: #5f8286; color: white;"
+                            routerLink="/dashboard/propertyregistrationlist">
+                            List
+                        </button>
+                    </div>
+                    <div class="col-sm-8"></div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,122 @@
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mt-0 header-title">Designation</h4>
+
+            <div class="d-flex w-100 justify-content-between">
+                <h6>
+                    <button (click)="tableRefresh()" type="button" class="btn btn-primary waves-effect waves-light"><i
+                        class="fe-refresh-ccw me-1"></i> Refresh Table</button>
+                </h6>
+
+                <h6>
+                    <button (click)="uploaddes(staticBackdropModal)" type="button" class="btn btn-primary waves-effect waves-light"><i
+                        class="fe-refresh-ccw me-1"></i> Add New Designation</button>
+                </h6>
+        </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Designation Name</th>
+                            <th>Remark</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <ng-container *ngIf="!isPaginating">
+                        <ng-container *ngIf="designationinfo$ | async as LeadData; else loadingTemplate">
+                            <tbody>
+                                <tr *ngFor="let item of LeadData.result.data; let i=index">
+                                    <th scope="row">{{ i + 1 }}</th>
+                                    <td>{{ item.typeName }}</td>
+                                    <td>{{ item.remark }}</td>
+                                </tr>
+                            </tbody>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-template #loadingTemplate>
+                        <tbody>
+                            <tr>
+                                <th scope="row" colspan="1">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </ng-template>
+
+                    <ng-container *ngIf="isPaginating">
+                        <tbody>
+                            <tr>
+                                <th scope="row" colspan="1">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </ng-container>
+                    
+                </table>
+
+                <ngb-pagination class="d-flex mt-3" style="overflow: auto;" [collectionSize]="totalPages" [(page)]="page" (pageChange)="onPageChange($event)">
+                    <ng-template ngbPaginationPrevious>Prev</ng-template>
+                    <ng-template ngbPaginationNext>Next</ng-template>
+                </ngb-pagination>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<ng-template #staticBackdropModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel">New Designation</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="designationForm">
+            <div class="mb-3 col-md-12">
+                <label for="inputCity" class="form-label">Designation Name</label>
+                <input type="text" formControlName="catergoryName" class="form-control" id="inputCity" placeholder="Enter new designation"
+                [ngClass]="{ 'is-valid': submitted2 && form1['catergoryName'].valid , 'is-invalid': submitted2 && form1['catergoryName'].invalid }">
+    
+                <div *ngIf="submitted2 && form1['catergoryName'].hasError('required')" class="invalid-feedback">
+                    Please enter Designation name.
+                </div>
+            </div>
+    
+            <div class="mb-3 col-md-12">
+                <label for="inputCity" class="form-label">Remark</label>
+                <input type="text" formControlName="remark" class="form-control" id="inputCity" placeholder="Enter a remark"
+                [ngClass]="{ 'is-valid': submitted2 && form1['remark'].valid , 'is-invalid': submitted2 && form1['remark'].invalid }">
+    
+                <div *ngIf="submitted2 && form1['remark'].hasError('required')" class="invalid-feedback">
+                    Please enter a remark.
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        <button type="button" (click)="addNewDesignation()" class="btn btn-primary">Insert</button>
+    </div>
+
+<ng-template #nowUploading>
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status"></div>
+    </div>
+</ng-template>
+
+</ng-template>

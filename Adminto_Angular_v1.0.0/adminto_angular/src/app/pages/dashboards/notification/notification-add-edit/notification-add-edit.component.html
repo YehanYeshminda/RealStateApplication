@@ -1,0 +1,161 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                {{ isEditMode ? "Edit Existing Notification" : "Add New Notification" }}
+            </div>
+            <div class="card-body">
+                <form [formGroup]="form" (ngSubmit)="addEditItems()">
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label  class="form-label">Notify</label>
+                            <select formControlName="notify" class="form-select"
+                            [ngClass]="{ 'is-valid': submitted && form1['notify'].valid , 'is-invalid': submitted && form1['notify'].invalid }">
+                                <ng-container *ngIf="staff$ | async as data; else loadingStaff">
+                                    <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                                </ng-container>
+                                
+                                <ng-template #loadingStaff>
+                                    <option>Loading...</option>
+                                </ng-template>
+                                
+                            </select>
+
+                            <div *ngIf="submitted && form1['notify'].invalid" class="invalid-feedback">
+                                Please select staff.
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3 col-md-6">
+                            <label for="inputCity" (click)="dynamicform(staticBackdropModal)" class="form-label text-blue">Priority</label>
+                            <select formControlName="priorityid" class="form-select"
+                            [ngClass]="{ 'is-valid': submitted && form1['priorityid'].valid , 'is-invalid': submitted && form1['priorityid'].invalid }">
+                                <ng-container *ngIf="prioritytype$ | async as data; else loadingPriority">
+                                    <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                                </ng-container>
+                                
+                                <ng-template #loadingPriority>
+                                    <option>Loading...</option>
+                                </ng-template>
+                                
+                            </select>
+
+                            <div *ngIf="submitted && form1['priorityid'].invalid" class="invalid-feedback">
+                                Please select priority.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="mb-3 col-md-12">
+                            <label  class="form-label">Message</label>
+                            <textarea rows="2" class="form-control" formControlName="message" placeholder="Message" 
+                            [ngClass]="{ 'is-valid': submitted && form1['message'].valid , 
+                            'is-invalid': submitted && form1['message'].invalid }"></textarea>
+
+                            <div *ngIf="submitted && form1['message'].hasError('required')" class="invalid-feedback">
+                                Please enter message.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label  class="form-label">Date</label>
+                            <input type="date" class="form-control" 
+                            formControlName="date" placeholder="Date" 
+                            [ngClass]="{ 'is-valid': submitted && form1['date'].valid , 
+                            'is-invalid': submitted && form1['date'].invalid }">
+                            <div *ngIf="submitted && form1['date'].hasError('required')" class="invalid-feedback">
+                                Please enter date.
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label  class="form-label">Time</label>
+                            <input type="time" class="form-control" formControlName="time" placeholder="Time" 
+                            [ngClass]="{ 'is-valid': submitted && form1['time'].valid , 
+                            'is-invalid': submitted && form1['time'].invalid }">
+
+                            <div *ngIf="submitted && form1['time'].hasError('required')" class="invalid-feedback">
+                                Please enter time.
+                            </div>
+                        </div>
+
+                                              
+                        <div class="col-md-4 mb-3">
+                            <label  class="form-label">Snooze On</label>
+                            <input type="date" class="form-control" formControlName="snoozeon" placeholder="Time" 
+                            [ngClass]="{ 'is-valid': submitted && form1['snoozeon'].valid , 
+                            'is-invalid': submitted && form1['snoozeon'].invalid }">
+
+                            <div *ngIf="submitted && form1['snoozeon'].hasError('required')" class="invalid-feedback">
+                                Please enter snoozeon date.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100 waves-effect waves-light" (click)="cancel()">Cancel</button>
+                        </div>
+
+                        <div class="col-md-8"></div>
+
+                                              
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100 waves-effect waves-light">Save</button>
+                        </div>
+                    </div>
+                    
+
+                </form>
+
+            </div> 
+        </div> 
+    </div> 
+</div>
+
+
+
+<ng-template #staticBackdropModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel">New Priority</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="priorityForm">
+            <div class="mb-3 col-md-12">
+                <label for="inputCity" class="form-label">Priority Name</label>
+                <input type="text" formControlName="catergoryName" class="form-control" id="inputCity" placeholder="Enter new Priority"
+                [ngClass]="{ 'is-valid': submitted2 && form2['catergoryName'].valid , 'is-invalid': submitted2 && form2['catergoryName'].invalid }">
+    
+                <div *ngIf="submitted2 && form2['catergoryName'].hasError('required')" class="invalid-feedback">
+                    Please enter priority name.
+                </div>
+            </div>
+    
+            <div class="mb-3 col-md-12">
+                <label for="inputCity" class="form-label">Remark</label>
+                <input type="text" formControlName="remark" class="form-control" id="inputCity" placeholder="Enter a remark"
+                [ngClass]="{ 'is-valid': submitted2 && form2['remark'].valid , 'is-invalid': submitted2 && form2['remark'].invalid }">
+    
+                <div *ngIf="submitted2 && form2['remark'].hasError('required')" class="invalid-feedback">
+                    Please enter a remark.
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        <button type="button" class="btn btn-primary" (click)="addNewPriority()">Insert</button>
+    </div>
+
+    <ng-template #nowUploading>
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status"></div>
+        </div>
+    </ng-template>
+
+</ng-template>

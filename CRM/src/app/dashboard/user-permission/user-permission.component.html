@@ -1,0 +1,106 @@
+<div class="container">
+    <form [formGroup]="form">
+        <label class="col-sm-2 col-form-label category-label">Designations</label>
+        <ng-container *ngIf="designationtype$ | async as data; else loadingComboTemplate">
+            <ng-container *ngIf="data.length > 0; else noBankTemplate">
+                <div class="col-sm-10">
+                    <select class="form-control" formControlName="userId">
+                        <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                    </select>
+                </div>
+            </ng-container>
+
+            <ng-template #noBankTemplate>
+                <div class="col-sm-10">
+                    <select class="form-control">
+                        <option>No Designations...</option>
+                    </select>
+                </div>
+            </ng-template>
+        </ng-container>
+
+        <ng-template #loadingComboTemplate>
+            <div class="col-sm-4">
+                <select class="form-control">
+                    <option>Loading...</option>
+                </select>
+            </div>
+        </ng-template>
+    </form>
+
+    <ng-container *ngIf="userSelected">
+
+        <div class="container my-3">
+            <div class="col-12 col-sm-3">
+                <label class="">Give Full Access</label>
+
+                <div class="form-check">
+                    <input (change)="changeStatusAll($event)" class="form-check-input" type="checkbox" value="">
+                </div>
+            </div>
+        </div>
+
+        <table class="table mt-2">
+            <thead>
+                <tr>
+                    <th scope="col" class="font-weight-bolder fs">Access Location</th>
+                    <th scope="col" class="font-weight-bolder">Add</th>
+                    <th scope="col" class="font-weight-bolder">Edit</th>
+                    <th scope="col" class="font-weight-bolder">Read</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="userPermissions$ | async as data; else loadingLeads">
+                    <ng-container *ngIf="data.result != null; else noPermissionsForUser">
+                        <ng-container *ngIf="data.result.length > 0;else noLeadsAssigned">
+                            <tr *ngFor="let location of data.result">
+                                <td>{{ location.accessLocation }}</td>
+                                <td *ngFor="let item of location.event">
+                                    <div class="form-check">
+                                        <input (change)="changeStatus(item, location.accessLocation, $event)"
+                                            [checked]="item.hasPermission == '1'" class="form-check-input"
+                                            type="checkbox" value="" id="flexCheckDefault">
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-container>
+
+                        <ng-template #noLeadsAssigned>
+                            <tr>
+                                <td colspan="4">No Permissions set for this designation...</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </ng-template>
+                    </ng-container>
+
+                    <ng-template #noPermissionsForUser>
+                        <tr>
+                            <td colspan="4">No Permissions set for this designation...</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </ng-template>
+
+                </ng-container>
+
+                <ng-template #loadingLeads>
+                    <tr>
+                        <td colspan="4">Loading...</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </ng-template>
+            </tbody>
+        </table>
+    </ng-container>
+</div>

@@ -1,0 +1,19 @@
+<section class="content">
+	<div class="card">
+		<div class="card-header">
+			<h2 class="card-title"> Add Designation</h2>
+			<div class="card-tools">
+				<button type="button" class="btn btn-tool bg-danger" (click)="bsModalRef.hide()" data-card-widget="remove" title="Remove">
+					<i class="fas fa-times"></i>
+				</button>
+			</div>
+		</div>
+		<div class="card-body">
+			<form>
+				<ng-container *ngIf="isType"> 
+					<app-dynamic-form [dynamicField]="'City'" [table]="'tblCitytype'"></app-dynamic-form>
+				</ng-container>
+			</form>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,89 @@
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="mt-0 header-title">Archived Leads (DND Leads)</h4>
+            <h6>
+                <button (click)="tableRefresh()" type="button" class="btn btn-primary waves-effect waves-light"><i
+                    class="fe-refresh-ccw me-1"></i> Refresh Table</button>
+            </h6>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>LeadNo</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Called</th>
+                            <th>Source</th>
+                            <th>Staff Name</th>
+                            <th>Contact Method</th>
+                            <th>Comment</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <ng-container *ngIf="!isPaginating">
+                        <ng-container *ngIf="archivedLeads$ | async as LeadData; else loadingTemplate">
+                            <tbody>
+                                <tr *ngFor="let item of LeadData.result.data; let i=index">
+                                    <th scope="row">{{ i + 1 }}</th>
+                                    <td>{{ item.leadNo }}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.phone }}</td>
+                                    <td>{{ item.email }}</td>
+                                    <ng-container *ngIf="item.called == 1; else notCalled">
+                                        <span class="badge bg-success" style="margin-top:14px">Called</span>
+                                    </ng-container>
+                                    
+                                    <ng-template #notCalled>
+                                        <span class="badge bg-danger" style="margin-top:14px">Not Called</span>
+                                    </ng-template> 
+                                    <td>{{ item.source }}</td>
+                                    <td>{{ item.staffName }}</td>
+                                    <td>{{ item.contactMethod }}</td>
+                                    <td>{{ item.comments }}</td>
+                                </tr>
+                            </tbody>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-template #loadingTemplate>
+                        <tbody>
+                            <tr>
+                                <th scope="row" colspan="1">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </ng-template>
+
+                    <ng-container *ngIf="isPaginating">
+                        <tbody>
+                            <tr>
+                                <th scope="row" colspan="1">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </ng-container>
+                    
+                </table>
+
+                <ngb-pagination class="d-flex mt-3" style="overflow: auto;" [collectionSize]="totalData" [pageSize]="pageSize" [(page)]="page" (pageChange)="onPageChange($event)">
+                    <ng-template ngbPaginationPrevious>Prev</ng-template>
+                    <ng-template ngbPaginationNext>Next</ng-template>
+                </ngb-pagination>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

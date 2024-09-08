@@ -1,0 +1,79 @@
+<section class="content">
+	<div class="card">
+		<div class="card-header">
+			<h2 class="card-title"> Add Dynamic Table Data</h2>
+			<div class="card-tools">
+				<button type="button" class="btn btn-tool bg-danger" (click)="bsModalRef.hide()"
+					data-card-widget="remove" title="Remove">
+					<i class="fas fa-times"></i>
+				</button>
+			</div>
+		</div>
+		<div class="card-body">
+			<form>
+				<ng-container *ngIf="isIssuedTo"> 
+					<app-dynamic-form [dynamicField]="'IssuedTo'" [table]="'tblIssuedTo'"></app-dynamic-form>
+				</ng-container>
+
+				
+				<ng-container *ngIf="isAgree"> 
+					<app-dynamic-form [dynamicField]="'AgreeRem'" [table]="'tblAgreementtype'"></app-dynamic-form>
+				</ng-container>
+
+
+				<ng-container *ngIf="isDesignation"> 
+					<app-dynamic-form [dynamicField]="'Designation'" [table]="'tblDesignationtype'"></app-dynamic-form>
+				</ng-container>
+
+				<ng-container *ngIf="isMedia"> 
+					<app-dynamic-form [dynamicField]="'Media'" [table]="'tblMedia'"></app-dynamic-form>
+				</ng-container>
+
+				<ng-container *ngIf="isExpense"> 
+					<app-dynamic-expenseaccount [dynamicField]="'ExpAccount'" [table]="'tblexpensesaccount'"></app-dynamic-expenseaccount>
+				</ng-container>
+
+				<ng-container *ngIf="isMain"> 
+					<app-dynamic-form [dynamicField]="'MainCat'" [table]="'tblemaincat'"></app-dynamic-form>
+				</ng-container>
+
+				<ng-container *ngIf="isSub"> 
+					<app-dynamic-form [dynamicField]="'SubCat'" [table]="'tblesubcat'"></app-dynamic-form>
+				</ng-container>
+				
+				<ng-container *ngIf="isType">
+					<app-dynamic-form [dynamicField]="'Service'" [table]="'tblServicetype'"></app-dynamic-form>
+				</ng-container>
+
+				<ng-container *ngIf="isSource">
+					<app-dynamic-form [dynamicField]="'Source'" [table]="'tblsource'"></app-dynamic-form>
+				</ng-container>
+
+				
+				<ng-container *ngIf="isSalesby"> 
+					<app-dynamic-form [dynamicField]="'Salesby'" [table]="'tblSales'"></app-dynamic-form>
+				</ng-container>
+
+				<ng-container *ngIf="isLeadStatus">
+					<app-dynamic-form [dynamicField]="'LeadStatus'" [table]="'tblLeadStatus'"></app-dynamic-form>
+				</ng-container>
+
+				<ng-container *ngIf="isPreffered">
+					<app-dynamic-form [dynamicField]="'ContactMethod'" [table]="'tblPreferedContactMethod'"></app-dynamic-form>
+				</ng-container>
+
+				<ng-container *ngIf="isProptype">
+					<app-dynamic-form [dynamicField]="'PropertyType'" [table]="'tblpropertytype'"></app-dynamic-form>
+				</ng-container>
+
+				<ng-container *ngIf="isPropcat">
+					<app-dynamic-form [dynamicField]="'PropertyCategory'" [table]="'tblpropertyCategory'"></app-dynamic-form>
+				</ng-container>
+
+				<ng-container *ngIf="isPropsubcat">
+					<app-dynamic-form [dynamicField]="'PropertySubcategory'" [table]="'tblpropertySubCategory'"></app-dynamic-form>
+				</ng-container>
+			</form>
+		</div>
+	</div>
+</section>

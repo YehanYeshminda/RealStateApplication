@@ -1,0 +1,221 @@
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{isEditMode ? 'Edit' : 'Add'}} {{isEditMode ? 'Existing' : 'New'}} Payment Schedule
+            </h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">No</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" readonly type="text" formControlName="id" />
+                    </div>
+
+                    <label class="col-sm-2 col-form-label">Date</label>
+                    <div class="col-sm-4">        
+                        <div class="input-group mb-3">
+                            <input type="date" class="form-control" formControlName="date">
+                            <button class="input-group-text increase" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'date'">
+                              <i class="fa fa-plus"></i>
+                            </button>
+                            <button class="input-group-text decrease" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'date'">
+                              <i class="fa fa-minus"></i>
+                            </button> 
+                            <div *ngIf="form?.get('date')?.hasError('required') && form?.get('date')?.touched" class="text-danger">
+                                Date is required.
+                            </div>  
+                        </div>  
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Vender</label>
+                    <ng-container *ngIf="supplierList$ | async as data; else supplierLoadingTemplate">
+                        <ng-container *ngIf="data.length > 0; else noSupplierTemplate">
+                            <div class="col-sm-10">
+                                <select class="form-control"
+                                    [ngClass]="{'is-invalid': form.get('venderid')?.invalid && (form.get('venderid')?.dirty || form.get('venderid')?.touched)}"
+                                    formControlName="venderid">
+                                    <option *ngFor="let item of data" [value]="item.value">{{
+                                        item.textValue }}</option>
+                                </select>
+
+                                <div *ngIf="form.get('venderid')?.invalid && (form.get('venderid')?.dirty || form.get('venderid')?.touched)"
+                                    class="invalid-feedback">
+                                    <div *ngIf="form.get('venderid')?.errors?.['required']">Vender is required.</div>
+                                    <div *ngIf="form.get('venderid')?.errors?.['maxlength']">Maximum Character count
+                                        passed!</div>
+                                    <div *ngIf="form.get('venderid')?.errors?.['pattern']">Only numbers are possible!
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <ng-template #noSupplierTemplate>
+                            <div class="col-sm-10">
+                                <select class="form-control">
+                                    <option>No Suppliers...</option>
+                                </select>
+                            </div>
+                        </ng-template>
+                    </ng-container>
+
+                    <ng-template #supplierLoadingTemplate>
+                        <div class="col-sm-10">
+                            <select class="form-control">
+                                <option>Loading...</option>
+                            </select>
+                        </div>
+                    </ng-template>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Amount</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" formControlName="amount"
+                            [ngClass]="{'is-invalid': form.get('amount')?.invalid && (form.get('amount')?.dirty || form.get('amount')?.touched)}"
+                            type="text" />
+
+                        <div *ngIf="form.get('amount')?.invalid && (form.get('amount')?.dirty || form.get('amount')?.touched)"
+                            class="invalid-feedback">
+                            <div *ngIf="form.get('amount')?.errors?.['required']">Amount required.</div>
+                            <div *ngIf="form.get('amount')?.errors?.['maxlength']">Maximum Character count
+                                passed!</div>
+                            <div *ngIf="form.get('amount')?.errors?.['pattern']">Only numbers are possible!
+                            </div>
+                        </div>
+                    </div>
+
+                    <label class="col-sm-2 col-form-label">Paid On</label>
+                    <div class="col-sm-4">        
+                        <div class="input-group mb-3">
+                            <input type="date" class="form-control" formControlName="paidon">
+                            <button class="input-group-text increase" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'paidon'">
+                              <i class="fa fa-plus"></i>
+                            </button>
+                            <button class="input-group-text decrease" style="background-color: #5f8286; color: white;" [dateTimeControls]="form" [controlName]="'paidon'">
+                              <i class="fa fa-minus"></i>
+                            </button> 
+                            <div *ngIf="form?.get('paidon')?.hasError('required') && form?.get('paidon')?.touched" class="text-danger">
+                                Paid on is required.
+                            </div>  
+                        </div>  
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Expense Account</label>
+                    <ng-container *ngIf="bankList$ | async as data; else supplierLoadingTemplate">
+                        <ng-container *ngIf="data.result.length > 0; else noBankTemplate">
+                            <div class="col-sm-10">
+                                <select class="form-control"
+                                    [ngClass]="{'is-invalid': form.get('rxpaccount')?.invalid && (form.get('rxpaccount')?.dirty || form.get('rxpaccount')?.touched)}"
+                                    formControlName="rxpaccount">
+                                    <option *ngFor="let item of data.result" [value]="item.ID">{{ item.MainCategory }}
+                                        {{
+                                        item.SubCategory }}</option>
+                                </select>
+
+                                <div *ngIf="form.get('rxpaccount')?.invalid && (form.get('rxpaccount')?.dirty || form.get('rxpaccount')?.touched)"
+                                    class="invalid-feedback">
+                                    <div *ngIf="form.get('rxpaccount')?.errors?.['required']">Rxp Account required.
+                                    </div>
+                                    <div *ngIf="form.get('rxpaccount')?.errors?.['maxlength']">Maximum Character count
+                                        passed!</div>
+                                    <div *ngIf="form.get('rxpaccount')?.errors?.['pattern']">Only numbers are possible!
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <ng-template #noBankTemplate>
+                            <div class="col-sm-10">
+                                <select class="form-control">
+                                    <option>No Banks...</option>
+                                </select>
+                            </div>
+                        </ng-template>
+                    </ng-container>
+
+                    <ng-template #supplierLoadingTemplate>
+                        <div class="col-sm-10">
+                            <select class="form-control">
+                                <option>Loading...</option>
+                            </select>
+                        </div>
+                    </ng-template>
+
+                    <label class="col-sm-2 col-form-label mt-3">Renew Every</label>
+                    <div class="col-sm-4 mt-3">
+                        <select class="form-control"
+                            [ngClass]="{'is-invalid': form.get('renewevery')?.invalid && (form.get('renewevery')?.dirty || form.get('renewevery')?.touched)}"
+                            formControlName="renewevery">
+                            <option>Monthly</option>
+                            <option>Anually</option>
+                        </select>
+
+                        <div *ngIf="form.get('renewevery')?.invalid && (form.get('renewevery')?.dirty || form.get('renewevery')?.touched)"
+                            class="invalid-feedback">
+                            <div *ngIf="form.get('renewevery')?.errors?.['required']">Renew Every required.
+                            </div>
+                            <div *ngIf="form.get('renewevery')?.errors?.['maxlength']">Maximum Character count
+                                passed!</div>
+                            <div *ngIf="form.get('renewevery')?.errors?.['pattern']">Only numbers are possible!
+                            </div>
+                        </div>
+                    </div>
+
+                    <label class="col-sm-1 col-form-label mt-3">Status</label>
+                    <div class="col-sm-2 align-start mt-4">
+                        <div class="form-check">
+                            <input class="form-check-input" formControlName="status"
+                                [checked]="editPaymentScheduleInfo?.status === 0" type="radio" name="status" value="0"
+                                id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Active
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" value="1" type="radio" formControlName="status"
+                                [checked]="editPaymentScheduleInfo?.status === 1" name="status" id="flexRadioDefault2">
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Not Active
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-2"></div>
+
+                    <div class="col-sm-2">
+                        <button type="submit" [disabled]="form.invalid" class="btn btn-block w-100"
+                            style="background-color: #5f8286; color: white;">
+                            {{isEditMode ? 'Edit Existing Payment' : 'Insert Payment Schedule'}}
+                        </button>
+                    </div>
+                    <div class="col-sm-2">
+                        <a routerLink="/dashboard/paymentschedule-list" type="submit" class="btn btn-block w-100"
+                            style="background-color: #5f8286; color: white;">
+                            List
+                        </a>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>

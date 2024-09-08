@@ -1,0 +1,252 @@
+<div class="card">
+	<div class="card-body">
+		<div class="row">
+
+			<div class="col-12 col-sm-12 col-md-12">
+				<div class="info-box">
+					<div class="info-box-content">
+						<span class="info-box-text text-center">ASSIGN DATA TO STAFF</span>
+					</div>
+				</div>
+			</div>
+        </div>
+        <div class="row">			
+			<div class="col-12 col-sm-12 col-md-12">
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <form [formGroup]="form" class="row align-items-center">
+                            <div class="col-sm-1 ">
+                                <label class="col-form-label">Assign To</label>
+                            </div>
+                            <ng-container *ngIf="staffNos$ | async as data; else loadingComboTemplate">
+                                <div class="col-sm-3">
+                                    <ng-container *ngIf="data.length > 0; else noBankTemplate">
+                                        <select class="form-control" formControlName="assignStaff">
+                                            <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                                        </select>
+                                    </ng-container>
+                                </div>
+            
+                                <ng-template #noBankTemplate>
+                                    <div class="col-sm-2">
+                                        <select class="form-control">
+                                            <option>No Staff...</option>
+                                        </select>
+                                    </div>
+                                </ng-template>
+                            </ng-container>
+                            
+                            <div class="col-sm-2">
+                                <button 
+                                    type="submit"
+                                    class="btn btn-block "
+                                    style="background-color: #5f8286; color: white;"
+                                    (click)="onSubmit()"
+                                >
+                                    Assign
+                                </button>
+                            </div>
+                            
+                            <div class="col-sm-2 text-right" >
+                                <label class="col-form-label">Bulk Assign</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <input
+                                    class="form-control"
+                                    type="number"
+                                    formControlName="counts"
+                                />
+                            </div>
+
+                            <div class="col-sm-2 ml-auto">
+                                <button 
+                                    type="button"
+                                    class="btn btn-block "
+                                    style="background-color: #5f8286; color: white;"
+                                    (click)="oncount()"
+                                >
+                                    Assign
+                                </button>
+                            </div>
+                        </form>
+
+                        <ng-template #loadingComboTemplate>
+                            <div class="col-sm-4">
+                                <select class="form-control">
+                                    <option>Loading...</option>
+                                </select>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div> 
+			
+		</div>
+
+		<div
+			id="data_table_wrapper"
+			class="dataTables_wrapper dt-bootstrap4"
+		>
+			<div class="row">
+				<div class="col-sm-12 table-responsive">
+					<table
+						id="example1"
+						class="table table-bordered table-striped dataTable dtr-inline"
+						aria-describedby="data_table_info"
+					>
+						<thead>
+							<tr>
+                                <th scope="col" class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Select
+                                </th>
+                                <th scope="col" class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Id
+                                </th>
+                                <th scope="col" class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    First Name
+                                </th>
+                                <th scope="col" class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Last Name
+                                </th>
+                                <th scope="col" class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Phone No
+                                </th>
+                                <th scope="col" class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Phone No2
+                                </th>
+                                <th scope="col" class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Assigned To
+                                </th>
+                                <th scope="col" class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Add On
+                                </th>
+                                <th scope="col" class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Status
+                                </th>				
+                            </tr>
+                        </thead>
+                            <ng-container *ngIf="callInsignt$ | async as data; else loadingData">
+                                <tbody>
+                                    <ng-container *ngIf="data.result.length > 0; else noDataLength">
+                                        <tr *ngFor="let item of data.result">
+                                            <th scope="row">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" (change)="changeStatus(item.id)" type="checkbox">
+                                                </div>
+                                            </th>
+                                            <td>{{ item.id }}</td>
+                                            <td>{{ item.firstName }}</td>
+                                            <td>{{ item.lastName }}</td>
+                                            <td>{{ item.phoneNo}}</td>
+                                            <td>{{ item.phoneNo2}}</td>
+                                            <td>{{ item.assignedTo}}</td>
+                                            <td>{{ item.addOn}}</td>
+                                            <td>{{ item.status }}</td>
+                                        </tr>
+                                    </ng-container>
+                        
+                                    <ng-template #noDataLength>
+                                        <tr>
+                                            <th scope="row"></th>
+                                            <td colspan="2">No Data to show</td>
+                                        </tr>
+                                    </ng-template>
+                                </tbody>
+                            </ng-container>
+
+                            <ng-template #loadingData>
+                                <ng-template #loadingTemplate>
+                                    <ngx-spinner type="line-scale"></ngx-spinner>
+                                </ng-template>
+                            </ng-template>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<!-- <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label class="col-sm-2 col-form-label">Assigned To</label>
+    <ng-container *ngIf="staffNos$ | async as data; else loadingComboTemplate">
+        <ng-container *ngIf="data.length > 0; else noBankTemplate">
+            <div class="col-sm-4">
+                <select class="form-control" formControlName="assignStaff">
+                    <option *ngFor="let item of data" [value]="item.value">{{ item.textValue }}</option>
+                </select>
+            </div>
+        </ng-container>
+
+        <ng-template #noBankTemplate>
+            <div class="col-sm-4">
+                <select class="form-control">
+                    <option>No Staff...</option>
+                </select>
+            </div>
+        </ng-template>
+    </ng-container>
+
+    <button class="btn btn-primary" type="submit">Assign to staff</button>
+</form>
+
+
+<ng-template #loadingComboTemplate>
+    <div class="col-sm-4">
+        <select class="form-control">
+            <option>Loading...</option>
+        </select>
+    </div>
+</ng-template> -->
+
+<!-- <table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">id</th>
+            <th scope="col">firstname</th>
+            <th scope="col">lastname</th>
+            <th scope="col">phone no</th>
+            <th scope="col">phone no2</th>
+            <th scope="col">assigned to</th>
+            <th scope="col">add on</th>
+            <th scope="col">status</th>
+        </tr>
+    </thead>
+    <ng-container *ngIf="callInsignt$ | async as data; else loadingData">
+        <tbody>
+            <ng-container *ngIf="data.result.length > 0; else noDataLength">
+                <tr *ngFor="let item of data.result">
+                    <th scope="row">
+                        <div class="form-check">
+                            <input class="form-check-input" (change)="changeStatus(item.id)" type="checkbox">
+                        </div>
+                    </th>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.firstName }}</td>
+                    <td>{{ item.lastName }}</td>
+                    <td>{{ item.phoneNo}}</td>
+                    <td>{{ item.phoneNo2}}</td>
+                    <td>{{ item.assignedTo}}</td>
+                    <td>{{ item.addOn}}</td>
+                    <td>{{ item.status }}</td>
+                </tr>
+            </ng-container>
+
+            <ng-template #noDataLength>
+                <tr>
+                    <th scope="row"></th>
+                    <td colspan="2">No Data to show</td>
+                </tr>
+            </ng-template>
+        </tbody>
+    </ng-container>
+
+    <ng-template #loadingData>
+        <ng-template #loadingTemplate>
+            <ngx-spinner type="line-scale"></ngx-spinner>
+        </ng-template>
+    </ng-template>
+</table>   -->

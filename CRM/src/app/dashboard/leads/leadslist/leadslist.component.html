@@ -1,0 +1,175 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="info-box">
+                    <button type="button" class="btn btn-block btn-info btn-flat" (click)="navigate()">
+                        <i class="fas fa-plus"> </i> &nbsp; Add Leads
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Leads</span>
+                        <span class="info-box-number">
+                            {{ (leadsListInfo$ | async)?.result?.length }}
+
+                            <small>Leads</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="data_table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+                <div class="col-sm-12 table-responsive">
+                    <table id="example1" class="table table-bordered table-striped dataTable dtr-inline"
+                        aria-describedby="data_table_info">
+                        <thead>
+                            <tr>
+                                <th></th>
+
+                                <th class="sorting sorting_asc" tabindex="0" aria-controls="data_table" rowspan="1"
+                                    colspan="1" aria-sort="ascending">
+                                    Leadno
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Source
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Campain
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Name
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Phone
+                                </th>
+
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Email
+                                </th>
+
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Client Profile
+                                </th>
+
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Staff
+                                </th>
+
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Recievedon
+                                </th>
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Assignon
+                                </th>
+
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Contact
+                                </th>
+
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Priority
+                                </th>
+
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                    Called
+                                </th>
+
+                                <th class="sorting" tabindex="0" aria-controls="data_table" rowspan="1" colspan="1">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngIf="leadsListInfo$ | async as paymentScheduleData; else loadingTemplate">
+                                <tr *ngFor="let grnH of paymentScheduleData.result; let i = index" #rowRef>
+                                    <td class="direct-chat-img-container">
+                                        <img src="assets/h.png" alt="" class="direct-chat-img" />
+                                    </td>
+                                    <td class="dtr-control sorting_1" tabindex="0">
+                                        {{ grnH.LeadNo }}
+                                    </td>
+                                    <td>{{ grnH.Source }}</td>
+                                    <td>{{ grnH.Campaign }}</td>
+                                    <td>{{ grnH.name }}</td>
+                                    <td>{{ grnH.phone }}</td>
+                                    <td>{{ grnH.email }}</td>
+                                    <td>{{ grnH.otherno }}</td>
+                                    <td>{{ grnH.staffName}}</td>
+                                    <td>{{ grnH.receivedOn | date: 'short'}}</td>
+                                    <td>{{ grnH.assignon | date: 'short'}}</td>
+                                    <td>{{ grnH.contactMethod}}</td>
+                                    <td>
+                                        <ng-container *ngIf="grnH.leadstatus == 'Contacted '">
+                                            <span class="badge badge-primary">{{ grnH.leadstatus }}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="grnH.leadstatus == 'Interested'">
+                                            <span class="badge badge-primary">{{ grnH.leadstatus }}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="grnH.leadstatus == 'Scheduled Viewing'">
+                                            <span class="badge badge-info">{{ grnH.leadstatus }}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="grnH.leadstatus == 'Property Viewed'">
+                                            <span class="badge badge-primary">{{ grnH.leadstatus }}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="grnH.leadstatus == 'Closed Sale'">
+                                            <span class="badge badge-success">{{ grnH.leadstatus }}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="grnH.leadstatus == 'Lost Lead'">
+                                            <span class="badge badge-danger">{{ grnH.leadstatus }}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="grnH.leadstatus == 'On Hold'">
+                                            <span class="badge badge-info">{{ grnH.leadstatus }}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="grnH.leadstatus == 'Not Qualified'">
+                                            <span class="badge badge-primary">{{ grnH.leadstatus }}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="grnH.leadstatus == 'Unresponsive'">
+                                            <span class="badge badge-primary">{{ grnH.leadstatus }}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="grnH.leadstatus == 'Canceled Transaction'">
+                                            <span class="badge badge-danger">{{ grnH.leadstatus }}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="grnH.leadstatus == 'Do Not Contact'">
+                                            <span class="badge badge-danger">{{ grnH.leadstatus }}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="grnH.leadstatus == 'Open'">
+                                            <span class="badge badge-warning">{{ grnH.leadstatus }}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="grnH.leadstatus == 'Hot Lead'">
+                                            <span class="badge badge-success">{{ grnH.leadstatus }}</span>
+                                        </ng-container>
+                                    </td>
+                                    <td>
+                                        <ng-container *ngIf="grnH.called == 1; else notCalledTemplate">
+                                            <span class="badge badge-success">Called</span>
+                                        </ng-container>
+
+                                        <ng-template #notCalledTemplate>
+                                            <span class="badge badge-danger">Not Called</span>
+                                        </ng-template>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-info input-response smaller-btn" (click)="editCrm(grnH)">
+                                            Edit
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+
+                            <ng-template #loadingTemplate>
+                                <ngx-spinner type="line-scale"></ngx-spinner>
+                            </ng-template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

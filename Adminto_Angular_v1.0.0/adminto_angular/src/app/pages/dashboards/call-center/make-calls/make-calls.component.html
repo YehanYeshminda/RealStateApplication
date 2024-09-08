@@ -1,0 +1,522 @@
+<div class="card">
+    <div class="card-body d-flex justify-content-between align-items-center">
+        <div class="">
+            Call List
+        </div>
+
+        <div>
+            <button class="btn btn-primary" (click)="hardRefresh()">Refresh Table</button>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="max-height: 800px; overflow: auto;">
+    <ng-container *ngIf="!isPaginating">
+        <ng-container *ngIf="callInsignts$ | async as data; else loadingTemplate">
+            <ng-container *ngIf="data.result.data.length > 0; else noCallsTemplate">
+                <div class="mb-3" *ngFor="let item of data.result.data">
+                    <div class="input-group">
+                        <input type="text" [value]="item.firstName + ' ' + item.lastName + ' :' +item.phoneNo| titlecase" class="form-control" readonly aria-label="Recipient's username">
+                        <!-- <a target="_self" href="tel:{{ item.phoneNo }}" (click)="open(standardModal, item.phoneNo, 'phone', item.email, item.firstName, item.lastName)" class="btn input-group-text btn-primary waves-effect waves-light ms-1 me-1" type="button">
+                            <i class="fe-phone-call me-1"></i>
+                        </a> -->
+                        <a target="_self" href="tel:{{ item.phoneNo }}" class="btn input-group-text btn-primary waves-effect waves-light ms-1 me-1" type="button">
+                            <i class="fe-phone-call me-1"></i>
+                        </a>
+                        <a target="_blank" [href]="'https://wa.me/' + item.phoneNo.split('-').join('')" class="btn input-group-text btn-primary waves-effect waves-light" type="button">
+                            <i class="mdi mdi-whatsapp me-1"></i>
+                        </a>
+                        <a target="_self" href="mailto:{{ item.email }}" class="btn input-group-text btn-primary waves-effect waves-light ms-1" type="button">
+                            <i class="mdi mdi-email me-1"></i>
+                        </a>
+                        <a target="_self" (click)="open(standardModal, item.phoneNo, 'phone', item.email, item.firstName, item.lastName)" class="btn input-group-text btn-primary waves-effect waves-light ms-1 me-1" 
+                            type="button">
+                            <i class="mdi mdi-dots-horizontal me-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </ng-container>
+    
+            <ng-template #noCallsTemplate>
+                <div class="card">
+                    <div class="card-body">
+                        <h5>No Calls have been assigned. Ask admin to assign calls.</h5>
+                    </div>
+                </div>
+            </ng-template>
+        </ng-container>
+    </ng-container>
+
+    <ng-template #loadingTemplate>
+        <tbody>
+            <tr>
+                <th scope="row" colspan="1">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status"></div>
+                    </div>
+                </th>
+            </tr>
+        </tbody>
+    </ng-template>
+
+    <ng-container *ngIf="isPaginating">
+        <tbody>
+            <tr>
+                <th scope="row" colspan="1">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status"></div>
+                    </div>
+                </th>
+            </tr>
+        </tbody>
+    </ng-container>
+
+    <ngb-pagination class="d-flex mt-3" style="overflow: auto;" [collectionSize]="totalPages" [pageSize]="pageSize" [(page)]="page" (pageChange)="onPageChange($event)">
+        <ng-template ngbPaginationPrevious>Prev</ng-template>
+        <ng-template ngbPaginationNext>Next</ng-template>
+    </ngb-pagination>
+    
+
+    <!-- <ng-container *ngIf="callInsignts$ | async as data; else loadingTemplate">
+        <ng-container *ngIf="data.result.length > 0; else noCallsTemplate">
+            <div class="mb-3" *ngFor="let item of data.result">
+                <div class="input-group">
+                    <input type="text" [value]="item.firstName + ' ' + item.lastName + ' :' +item.phoneNo| titlecase" class="form-control" readonly aria-label="Recipient's username">
+                    <a target="_self" href="tel:{{ item.phoneNo }}" (click)="open(standardModal, item.phoneNo, 'phone')" class="btn input-group-text btn-primary waves-effect waves-light ms-1 me-1" type="button">
+                        <i class="fe-phone-call me-1"></i>
+                    </a>
+                    <a target="_blank" [href]="'https://wa.me/' + item.phoneNo.split('-').join('')" (click)="open(standardModal, item.phoneNo, 'whatsapp')" class="btn input-group-text btn-primary waves-effect waves-light" type="button">
+                        <i class="mdi mdi-whatsapp me-1"></i>
+                    </a>
+                    <a target="_self" href="mailto:{{ item.email }}" class="btn input-group-text btn-primary waves-effect waves-light ms-1" type="button">
+                        <i class="mdi mdi-email me-1"></i>
+                    </a>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-template #noCallsTemplate>
+            <div class="card">
+                <div class="card-body">
+                    <h5>No Calls have been assigned. Ask admin to assign calls.</h5>
+                </div>
+            </div>
+        </ng-template>
+        
+    </ng-container>
+
+    <ng-template #loadingTemplate>
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status"></div>
+        </div>
+    </ng-template> -->
+    
+</div>
+
+<ng-template #rsvpTypeModal let-modal>
+
+</ng-template>
+
+<ng-template #standardModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel">{{ selectedPhone }}</h4>
+        <button type="button" class="btn-close" (click)="modalClose()">
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="form">
+            <div class="d-flex flex-column">
+                <div class="mb-3">
+                    <label for="inputEmail4" class="form-label">Name</label>
+    
+                    <input type="text" class="form-control" id="inputEmail4" formControlName="name" placeholder="Name" [ngClass]="{ 'is-valid': submitted && form1['name'].valid , 'is-invalid': submitted && form1['name'].invalid }">
+    
+                    <div *ngIf="submitted && form1['name'].hasError('required')" class="invalid-feedback">
+                        Please enter name.
+                    </div>
+                </div>
+    
+                <div class="mb-3">
+                    <label for="inputEmail4" class="form-label">Email</label>
+    
+                    <input type="text" class="form-control" id="inputEmail4" formControlName="email" placeholder="email" [ngClass]="{ 'is-valid': submitted && form1['email'].valid , 'is-invalid': submitted && form1['email'].invalid }">
+    
+                    <div *ngIf="submitted && form1['email'].hasError('required')" class="invalid-feedback">
+                        Please enter email.
+                    </div>
+    
+                    <div *ngIf="submitted && form1['email'].hasError('email')" class="invalid-feedback">
+                        Please enter valid email.
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <p>Client is</p>
+
+        <ul ngbNav #nav2="ngbNav" [(activeId)]="tabs1" class="nav-pills navtab-bg nav-justified">
+            <li [ngbNavItem]="1">
+                <a ngbNavLink>
+                    Interested
+                </a>
+                <ng-template ngbNavContent>
+                    <ng-container *ngTemplateOutlet="Tab1"></ng-container>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+                <a ngbNavLink>
+                    Not Looking Now
+                </a>
+                <ng-template ngbNavContent>
+                    <ng-container *ngTemplateOutlet="Tab2"></ng-container>
+                </ng-template>
+            </li>
+        </ul>
+
+        <div [ngbNavOutlet]="nav2"></div>
+    </div>
+    <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div> -->
+</ng-template>
+
+<ng-template #Tab1>
+    <div class="form-check">
+        <input type="radio" [checked]="isRsvp" name="customRadio" (change)="statusChange($event, 'RSVP')" class="form-check-input">
+        <label class="form-check-label">RSVP</label>
+    </div>
+    <div class="form-check">
+        <input type="radio"  [checked]="isLost" name="customRadio" (change)="statusChange($event, 'LOST')" class="form-check-input">
+        <label class="form-check-label">Lead</label>
+    </div>
+
+    <ng-container *ngIf="isRsvp">
+        <form [formGroup]="formRsvp">
+            <div class="mt-2">
+                <label for="inputState" class="form-label">Attending</label>
+                <input type="text" class="form-control" id="inputEmail4" formControlName="attending" placeholder="Attending" [ngClass]="{ 'is-valid': submitted && rsvpFormValidator['attending'].valid , 'is-invalid': submitted && rsvpFormValidator['attending'].invalid }">
+                <div *ngIf="submitted && rsvpFormValidator['attending'].hasError('required')" class="invalid-feedback">
+                    Please enter attending.
+                </div>
+            </div>
+    
+            <div class="mt-2">
+                <label (click)="openRfptModal(modelForRfptType)" for="inputState" class="form-label text-primary">RSVP Type</label>
+                <select formControlName="rsvpType" id="inputState" [ngClass]="{ 'is-valid': submitted && rsvpFormValidator['rsvpType'].valid , 'is-invalid': submitted && rsvpFormValidator['rsvpType'].invalid }" class="form-select">
+                    <ng-container *ngIf="rfpts$ | async as data; else loadingSource">
+                        <option *ngFor="let item of data" [value]="item.value">
+                            {{ item.textValue }}
+                        </option>
+                    </ng-container>
+
+                    <ng-template #loadingSource>
+                        <option>Loading...</option>
+                    </ng-template>
+                </select>
+
+                <div *ngIf="submitted && rsvpFormValidator['rsvpType'].hasError('required')" class="invalid-feedback">
+                    Please enter rsvp type.
+                </div>
+            </div>
+    
+            <div class="mt-2">
+                <label for="inputState" class="form-label">Cross Segment Leads</label>
+    
+                <div class="d-flex w-100 justify-content-around gap-2">
+                    <button class="btn btn-primary w-100" type="button" (click)="crossSegment('yes')">Yes</button>
+                    <button class="btn btn-primary w-100" type="button" (click)="crossSegment('no')">No</button>
+                </div>
+            </div>
+    
+            <div class="mt-2">
+                <label for="inputState" class="form-label">Please enter comments</label>
+                <textarea formControlName="comments" rows="4" placeholder="Comments" class="form-control" [ngClass]="{ 'is-valid': submitted && rsvpFormValidator['comments'].valid , 'is-invalid': submitted && rsvpFormValidator['comments'].invalid }"></textarea>
+
+                <div *ngIf="submitted && rsvpFormValidator['comments'].hasError('required')" class="invalid-feedback">
+                    Please enter comments.
+                </div>
+            </div>
+    
+            <div class="mt-2">
+                <ng-container *ngIf="isAddingRfpt">
+                    <button class="w-100 btn" [ngClass]="formRsvp.invalid ? 'btn-info': 'btn-info'" [disabled]="formRsvp.invalid" type="button">Submitting...</button>
+                </ng-container>
+
+                <ng-container *ngIf="!isAddingRfpt">
+                    <button class="w-100 btn" [ngClass]="formRsvp.invalid ? 'btn-info': 'btn-success'" [disabled]="formRsvp.invalid" type="button" (click)="submitRsvp()">Submit</button>
+                </ng-container>
+            </div>
+        </form>
+    </ng-container>
+
+    <ng-container *ngIf="isLost">
+        <form [formGroup]="formLost">
+            <div class="mt-2">
+                <label for="inputPassword4" class="form-label">Interested Projects</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="inputPassword4" 
+                    formControlName="project" 
+                    placeholder="Project/Micro market"
+                    [ngClass]="{ 'is-valid': submitted && IsLostValidator['project'].valid , 'is-invalid': submitted && IsLostValidator['project'].invalid }"     
+                >
+
+                <div *ngIf="submitted && IsLostValidator['project'].hasError('required')" class="invalid-feedback">
+                    Please enter project.
+                </div>
+            </div>
+    
+            <div class="mt-2">
+                <label for="inputState" class="form-label text-primary" (click)="openLeadModal(clientIdModal)">Client Is</label>
+                <select formControlName="clientIs" [ngClass]="{ 'is-valid': submitted && IsLostValidator['clientIs'].valid , 'is-invalid': submitted && IsLostValidator['clientIs'].invalid }"   id="inputState" class="form-select">
+                    <ng-container *ngIf="leadStatus$ | async as data; else loadingSource">
+                        <option *ngFor="let item of data" [value]="item.value">
+                            {{ item.textValue }}
+                        </option>
+                    </ng-container>
+
+                    <ng-template #loadingSource>
+                        <option>Loading...</option>
+                    </ng-template>
+                </select>
+
+                <div *ngIf="submitted && IsLostValidator['clientIs'].hasError('required')" class="invalid-feedback">
+                    Please select a client status.
+                </div>
+            </div>
+    
+            <div class="mt-2">
+                <label for="inputState" class="form-label text-primary" (click)="openPlanToDoModal(planToDoModal)">I Plan to do</label>
+                <select [ngClass]="{ 'is-valid': submitted && IsLostValidator['planToDo'].valid , 'is-invalid': submitted && IsLostValidator['planToDo'].invalid }" formControlName="planToDo" id="inputState" class="form-select">
+                    <ng-container *ngIf="planToDo$ | async as data; else loadingSource">
+                        <option *ngFor="let item of data" [value]="item.value">
+                            {{ item.textValue }}
+                        </option>
+                    </ng-container>
+
+                    <ng-template #loadingSource>
+                        <option>Loading...</option>
+                    </ng-template>
+                </select>
+
+                <div *ngIf="submitted && IsLostValidator['planToDo'].hasError('required')" class="invalid-feedback">
+                    Please select a plan to to with this client.
+                </div>
+            </div>
+    
+            <div class="mt-2">
+                <label for="inputPassword4" class="form-label">When</label>
+                <input formControlName="when" [ngClass]="{ 'is-valid': submitted && IsLostValidator['when'].valid , 'is-invalid': submitted && IsLostValidator['when'].invalid }" type="datetime-local" class="form-control" id="inputPassword4" placeholder="">
+
+                <div *ngIf="submitted && IsLostValidator['when'].hasError('required')" class="invalid-feedback">
+                    Please select a time.
+                </div>
+            </div>
+    
+            <div class="mt-2">
+                <label for="inputState" class="form-label">Cross Segment Leads</label>
+
+                <div class="d-flex w-100 justify-content-around gap-2">
+                    <button class="btn btn-primary w-100" type="button" (click)="crossSegmentLost('yes')">Yes</button>
+                    <button class="btn btn-primary w-100" type="button" (click)="crossSegmentLost('no')">No</button>
+                </div>
+            </div>
+    
+            <div class="mt-2">
+                <label for="inputState" class="form-label">Please enter comments</label>
+                <textarea [ngClass]="{ 'is-valid': submitted && IsLostValidator['comments'].valid , 'is-invalid': submitted && IsLostValidator['comments'].invalid }" formControlName="comments" rows="4" placeholder="Comments" class="form-control"></textarea>
+
+                <div *ngIf="submitted && IsLostValidator['comments'].hasError('required')" class="invalid-feedback">
+                    Please enter a comment.
+                </div>
+            </div>
+    
+            <div class="mt-2">
+                <ng-container *ngIf="isAddingLost">
+                    <button class="w-100 btn" [ngClass]="formLost.invalid ? 'btn-info': 'btn-info'" type="button" [disabled]="formLost.invalid">Submiting...</button>
+                </ng-container>
+
+                <ng-container *ngIf="!isAddingLost">
+                    <button class="w-100 btn" [ngClass]="formLost.invalid ? 'btn-info': 'btn-success'" type="button" [disabled]="formLost.invalid" (click)="submitLost()">Submit</button>
+                </ng-container>
+            </div>
+        </form>
+    </ng-container>
+</ng-template>
+
+<ng-template #Tab2>
+    <form [formGroup]="formNotInterested">
+        <div class="form-check mb-1">
+            <input type="radio" id="customRadio1" name="customRadio" [checked]="notInterested" (change)="statusChangeNotInterested($event, 'NotInterested')" class="form-check-input">
+            <label class="form-check-label" for="customRadio1">Not Interested</label>
+        </div>
+        <div class="form-check mb-1">
+            <input type="radio" id="customRadio2" name="customRadio" [checked]="callBack" (change)="statusChangeNotInterested($event, 'CallBack')" class="form-check-input">
+            <label class="form-check-label" for="customRadio2">Call Back / No answer</label>
+        </div>
+        <div class="form-check mb-1">
+            <input type="radio" id="customRadio2" name="customRadio" [checked]="dnd" (change)="statusChangeNotInterested($event, 'DND')" class="form-check-input">
+            <label class="form-check-label" for="customRadio2">DND</label>
+        </div>
+        <div class="form-check mb-1">
+            <input type="radio" id="customRadio2" name="customRadio" [checked]="voicemail" (change)="statusChangeNotInterested($event, 'Voicemail')" class="form-check-input">
+            <label class="form-check-label" for="customRadio2">Voicemail</label>
+        </div>
+        <div class="form-check">
+            <input type="radio" id="customRadio2" name="customRadio" [checked]="isInvalidNo" (change)="statusChangeNotInterested($event, 'InvalidNo')" class="form-check-input">
+            <label class="form-check-label" for="customRadio2">Invalid Number</label>
+        </div>
+
+        <div class="mt-2">
+            <label for="inputState" class="form-label">Cross Segment Leads</label>
+
+            <div class="d-flex w-100 justify-content-around gap-2">
+                <button class="btn btn-primary w-100" type="button" (click)="crossSegmentNotInterested('yes')">Yes</button>
+                <button class="btn btn-primary w-100" type="button" (click)="crossSegmentNotInterested('no')">No</button>
+            </div>
+        </div>
+
+        <div class="mt-2">
+            <label for="inputState" class="form-label">Please enter comments</label>
+            <textarea rows="4" placeholder="Comments" formControlName="comments" class="form-control"></textarea>
+        </div>
+
+        <div class="mt-2">
+            <ng-container *ngIf="isAddingNotInterested">
+                <button class="w-100 btn" [ngClass]="formNotInterested.invalid ? 'btn-info': 'btn-info'" [disabled]="formNotInterested.invalid" type="button">Submiting...</button>
+            </ng-container>
+
+            <ng-container *ngIf="!isAddingNotInterested">
+                <button class="w-100 btn" [ngClass]="formNotInterested.invalid ? 'btn-info': 'btn-success'" [disabled]="formNotInterested.invalid" type="button" (click)="submitNotInterested()">Submit</button>
+            </ng-container>
+        </div>
+
+    </form>
+</ng-template>
+
+<ng-template #modelForRfptType let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel">New RFPT Type</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formRfptAdd">
+            <div class="mb-3 col-md-12">
+                <label for="inputCity" class="form-label">RFPT Type Name</label>
+                <input type="text" formControlName="catergoryName" class="form-control" id="inputCity" placeholder="Enter new rfpt type"
+                [ngClass]="{ 'is-valid': submittedRfptAdd && rsptAddEditValidator['catergoryName'].valid , 'is-invalid': submittedRfptAdd && rsptAddEditValidator['catergoryName'].invalid }">
+    
+                <div *ngIf="submittedRfptAdd && rsptAddEditValidator['catergoryName'].hasError('required')" class="invalid-feedback">
+                    Please enter Designation name.
+                </div>
+            </div>
+    
+            <div class="mb-3 col-md-12">
+                <label for="inputCity" class="form-label">Remark</label>
+                <input type="text" formControlName="remark" class="form-control" id="inputCity" placeholder="Enter a remark"
+                [ngClass]="{ 'is-valid': submittedRfptAdd && rsptAddEditValidator['remark'].valid , 'is-invalid': submittedRfptAdd && rsptAddEditValidator['remark'].invalid }">
+    
+                <div *ngIf="submittedRfptAdd && rsptAddEditValidator['remark'].hasError('required')" class="invalid-feedback">
+                    Please enter a remark.
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        <button type="button" (click)="addNewDesignation()" [disabled]="formRfptAdd.invalid" class="btn btn-primary">Insert</button>
+    </div>
+
+<ng-template #nowUploading>
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status"></div>
+    </div>
+</ng-template>
+
+</ng-template>
+
+<ng-template #clientIdModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel">New Lead Status</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formLeadStatusAdd">
+            <div class="mb-3 col-md-12">
+                <label for="inputCity" class="form-label">Lead status Name</label>
+                <input type="text" formControlName="catergoryName" class="form-control" id="inputCity" placeholder="Enter new lead status"
+                [ngClass]="{ 'is-valid': submittedRfptAdd && leadStatusAddEditValidator['catergoryName'].valid , 'is-invalid': submittedRfptAdd && leadStatusAddEditValidator['catergoryName'].invalid }">
+    
+                <div *ngIf="submittedRfptAdd && leadStatusAddEditValidator['catergoryName'].hasError('required')" class="invalid-feedback">
+                    Please enter lead status name.
+                </div>
+            </div>
+    
+            <div class="mb-3 col-md-12">
+                <label for="inputCity" class="form-label">Remark</label>
+                <input type="text" formControlName="remark" class="form-control" id="inputCity" placeholder="Enter a remark"
+                [ngClass]="{ 'is-valid': submittedRfptAdd && leadStatusAddEditValidator['remark'].valid , 'is-invalid': submittedRfptAdd && leadStatusAddEditValidator['remark'].invalid }">
+    
+                <div *ngIf="submittedRfptAdd && leadStatusAddEditValidator['remark'].hasError('required')" class="invalid-feedback">
+                    Please enter a remark.
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        <button type="button" (click)="addNewLeadStatus()" [disabled]="formLeadStatusAdd.invalid" class="btn btn-primary">Insert</button>
+    </div>
+
+<ng-template #nowUploading>
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status"></div>
+    </div>
+</ng-template>
+
+</ng-template>
+
+<ng-template #planToDoModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel">New Plan To Do</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formPlanToDoAdd">
+            <div class="mb-3 col-md-12">
+                <label for="inputCity" class="form-label">New Plan To Do</label>
+                <input type="text" formControlName="catergoryName" class="form-control" id="inputCity" placeholder="Enter new plan to do type"
+                [ngClass]="{ 'is-valid': submittedRfptAdd && leadStatusAddEditValidator['catergoryName'].valid , 'is-invalid': submittedRfptAdd && leadStatusAddEditValidator['catergoryName'].invalid }">
+    
+                <div *ngIf="submittedRfptAdd && leadStatusAddEditValidator['catergoryName'].hasError('required')" class="invalid-feedback">
+                    Please enter plan to do.
+                </div>
+            </div>
+    
+            <div class="mb-3 col-md-12">
+                <label for="inputCity" class="form-label">Remark</label>
+                <input type="text" formControlName="remark" class="form-control" id="inputCity" placeholder="Enter a remark"
+                [ngClass]="{ 'is-valid': submittedRfptAdd && leadStatusAddEditValidator['remark'].valid , 'is-invalid': submittedRfptAdd && leadStatusAddEditValidator['remark'].invalid }">
+    
+                <div *ngIf="submittedRfptAdd && leadStatusAddEditValidator['remark'].hasError('required')" class="invalid-feedback">
+                    Please enter a remark.
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        <button type="button" (click)="addNewPlanToDo()" [disabled]="formLeadStatusAdd.invalid" class="btn btn-primary">Insert</button>
+    </div>
+
+<ng-template #nowUploading>
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status"></div>
+    </div>
+</ng-template>
+
+</ng-template>
